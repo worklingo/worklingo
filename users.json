@@ -1,0 +1,20 @@
+{
+  "credentials": {
+    "usernames": {
+      "user": {
+        "name": "Testanvändare",
+        "password": "$2b$12$EixZaYVK1fsbw1ZfbX3OXe.WI.s7j8c3Y3qY3qY3qY3qY3qY3qY3q"
+      },
+      "admin": {
+        "name": "Admin",
+        "password": "$2b$12$5rY3qY3qY3qY3qY3qY3qY3qY3qY3qY3qY3qY3qY3qY3qY3qY3qY3q"
+      }
+    }
+  },
+  "cookie": {
+    "expiry_days": 30,
+    "key": "worklingo_signature_key_2025",
+    "name": "worklingo_auth"
+  },
+  "preauthorized": []
+}
