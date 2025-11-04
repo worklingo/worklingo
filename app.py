@@ -52,4 +52,118 @@ with col_s:
     if st.button("9€/mån Premium"):
         st.markdown("[**Betala nu (test)**](https://buy.stripe.com/test_abc123)", unsafe_allow_html=True)
 
-ui_sprak = ["Українська", "Русский", "Polski", "Slovenčina", "Српски", "Б
+ui_sprak = ["Українська", "Русский", "Polski", "Slovenčina", "Српски", "Български", "Română", "Lietuvių", "English"]
+mal_sprak = ["Svenska", "Norsk", "Dansk", "Deutsch", "English", "Nederlands", "Español", "Français", "Italiano"]
+mal_codes = {"Svenska": "sv", "Norsk": "no", "Dansk": "da", "Deutsch": "de", "English": "en", "Nederlands": "nl", "Español": "es", "Français": "fr", "Italiano": "it"}
+branscher = ["Sjukvård (hemtjänst)", "Bygg", "Restaurang", "Lager-logistik", "Produktion", "Retail"]
+
+c1, c2, c3 = st.columns(3)
+with c1: ui_val = st.selectbox("Ditt språk", ui_sprak, key="ui")
+with c2: mal_val = st.selectbox("Lär dig", mal_sprak, key="mal")
+with c3: bransch_val = st.selectbox("Bransch", branscher, key="bransch")
+
+tab_chatt, tab_ovning = st.tabs(["Jobbchatt", "Övningar"])
+
+with tab_chatt:
+    prompt_text = f"Skriv på **{ui_val}** om ditt jobb i **{bransch_val}** – jag rättar till **{mal_val}**"
+    user_input = st.chat_input(prompt_text)
+
+    if user_input:
+        with st.chat_message("user", avatar="user"):
+            st.markdown(f'<div class="chat-user">{user_input}</div>', unsafe_allow_html=True)
+
+        client = openai.OpenAI(base_url="https://api.x.ai/v1", api_key=st.secrets["XAI_API_KEY"])
+        system_prompt = f"""
+        Användaren arbetar inom {bransch_val}.
+        Rätta/översätt meningen från {ui_val} till perfekt {mal_val}.
+        Svara EXAKT:
+        1. Korrekt mening på {mal_val}
+        2. Poäng: X/10
+        3. Förklaring: [kort]
+        BARA JOBBRELATERAT!
+        """
+        response = client.chat.completions.create(
+            model="grok-beta",
+            messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": user_input}]
+        )
+        bot_reply = response.choices[0].message.content.strip()
+
+        with st.chat_message("assistant", avatar="robot"):
+            st.markdown(f'<div class="chat-bot">{bot_reply}</div>', unsafe_allow_html=True)
+
+        poang_line = [line for line in bot_reply.split('\n') if "Poäng" in line]
+        if poang_line:
+            try:
+                poang = int(poang_line[0].split('/')[0].split()[-1])
+                st.session_state.poang += poang
+            except:
+                st.session_state.poang += 5
+        else:
+            st.session_state.poang += 5
+
+        if st.session_state.poang > 150: st.session_state.niva = "Proffs"
+        elif st.session_state.poang > 50: st.session_state.niva = "Medveten"
+
+        correct_sentence = bot_reply.split('\n')[0].strip()
+        if st.button("Hör uttal", key=f"tts_{len(st.session_state.historik)}"):
+            tts = gTTS(correct_sentence, lang=mal_codes[mal_val])
+            path = f"temp_{len(st.session_state.historik)}.mp3"
+            tts.save(path)
+            st.audio(path)
+
+        st.session_state.historik.append({"user": user_input, "bot": bot_reply})
+
+with tab_ovning:
+    st.header("Jobb-Övningar")
+
+    exercises = {
+        "Sjukvård (hemtjänst)": [
+            {"q": "Fyll i: 'Kan du ______ mig med ______?'", "a": ["hjälpa", "toaletten"], "type": "fill"},
+            {"q": "Vad säger du?", "options": ["Vill du äta?", "Ska jag diska?", "Är du trött?"], "a": 0, "type": "mc"}
+        ],
+        "Bygg": [{"q": "Fyll i: 'Vi behöver ______ och ______.'", "a": ["skruvar", "spik"], "type": "fill"}],
+        "Restaurang": [{"q": "Fyll i: 'Bord ______ är ______.'", "a": ["tre", "redo"], "type": "fill"}],
+        "Lager-logistik": [{"q": "Fyll i: 'Pall ______ går till ______.'", "a": ["A12", "zon B"], "type": "fill"}],
+        "Produktion": [{"q": "Fyll i: 'Maskin ______ är ______.'", "a": ["tre", "klar"], "type": "fill"}],
+        "Retail": [{"q": "Fyll i: 'Kunden vill ______ i ______.'", "a": ["betala", "kassan"], "type": "fill"}]
+    }
+
+    if st.button("Ny övning"):
+        ex = random.choice(exercises.get(bransch_val, [{"q": "Inga övningar", "a": [], "type": "text"}]))
+        st.session_state.current_exercise = ex
+        st.rerun()
+
+    if st.session_state.current_exercise:
+        ex = st.session_state.current_exercise
+        st.markdown(f"<div class='exercise-box'><b>Övning:</b> {ex['q']}</div>", unsafe_allow_html=True)
+
+        if ex["type"] == "fill":
+            ans1 = st.text_input("Första", key="fill1")
+            ans2 = st.text_input("Andra", key="fill2")
+            if st.button("Kontrollera"):
+                if [ans1.lower(), ans2.lower()] == [a.lower() for a in ex["a"]]:
+                    st.success("Rätt! +10 poäng")
+                    st.session_state.poang += 10
+                else:
+                    st.error(f"Fel. Rätt: {', '.join(ex['a'])}")
+
+        elif ex["type"] == "mc":
+            choice = st.radio("Välj:", ex["options"], key="mc")
+            if st.button("Svara"):
+                if ex["options"].index(choice) == ex["a"]:
+                    st.success("Rätt! +8 poäng")
+                    st.session_state.poang += 8
+                    if st.button("Hör rätt svar"):
+                        tts = gTTS(ex["options"][ex["a"]], lang=mal_codes[mal_val])
+                        tts.save("mc.mp3")
+                        st.audio("mc.mp3")
+                else:
+                    st.error("Fel. Försök igen.")
+
+with st.expander("Senaste 5"):
+    for h in st.session_state.historik[-5:]:
+        st.write(f"**Du:** {h['user']}")
+        st.write(f"**Worklingo:** {h['bot']}")
+        st.divider()
+
+st.success("KLART! Pusha → Reboot → Sälj för 9€/mån!")
