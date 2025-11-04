@@ -14,7 +14,7 @@ client = OpenAI(
 
 HISTORY_FILE = "sprak_historik.json"
 
-# Load history
+# Load/save history
 def load_history():
     if os.path.exists(HISTORY_FILE):
         with open(HISTORY_FILE, "r", encoding="utf-8") as f:
@@ -25,89 +25,80 @@ def save_history(history):
     with open(HISTORY_FILE, "w", encoding="utf-8") as f:
         json.dump(history, f, ensure_ascii=False, indent=2)
 
-# System prompt (dynamisk baserat på val)
-def get_system_prompt(ui_lang, target_lang, branch, difficulty):
+# System prompt – JOBBA I BRANSCHEN
+def get_system_prompt(ui_lang, target_lang, branch):
     branches = {
-        "IT": "tekniska termer inom IT och programmering",
-        "Medicin": "medicinska termer och vårdspråk",
-        "Business": "affärs- och marknadsföringstermer",
-        "Vardag": "vardagligt språk för konversationer",
-        "Kreativt": "kreativt skrivande och litteratur",
-        "Juridik": "juridiska termer och kontrakt"
+        "sjukvård": "jobba inom hemtjänst, som undersköterska eller vårdbiträde",
+        "bygg": "jobba inom bygg och konstruktion",
+        "restaurang": "jobba i restaurang och matlagning",
+        "lager-logistik": "jobba i lager och logistik",
+        "produktion": "jobba i produktion och tillverkning",
+        "retail": "jobba i butik, affär och försäljning"
     }
-    diffs = {
-        "Nybörjare": "enkla förklaringar med grundläggande tips",
-        "Medel": "medelavancerade förklaringar med exempel",
-        "Avancerad": "djupgående analys med nyanser"
-    }
-    branch_desc = branches.get(branch, "allmän svenska")
-    diff_desc = diffs.get(difficulty, "grundläggande")
+    branch_desc = branches.get(branch.lower(), "allmänt arbete")
 
     return f"""
 Du är en språklärare för {target_lang}. UI-språk: {ui_lang}.
-Användaren väljer bransch: {branch_desc}.
-Svårighetsgrad: {diff_desc}.
-Rätta/översätt meningar från annat språk till {target_lang}.
-1. Rätta stavfel, grammatik, stil.
-2. Ge bättre naturlig version.
-3. Förklara fel på UI-språket ({ui_lang}).
-4. Håll tonen uppmuntrande, rolig.
+Användaren arbetar inom {branch_desc}.
+Rätta/översätt arbetsrelaterade meningar till {target_lang}.
+1. Rätta stavfel, grammatik, fackspråk.
+2. Ge bättre, naturlig version för arbetsplatsen.
+3. Förklara på UI-språket ({ui_lang}).
+4. Håll tonen uppmuntrande, professionell.
 Svara på UI-språket. Kort och tydligt.
 """
 
-# UI-språk och målspråk
+# UI-språk
 UI_LANGUAGES = {
-    "English": "English",
-    "Svenska": "Svenska",
-    "Español": "Español",
-    "Français": "Français",
-    "Deutsch": "Deutsch",
-    "Italiano": "Italiano",
-    "Português": "Português",
-    "Nederlands": "Nederlands",
-    "Polski": "Polski"
+    "Українська": "ukrainska",
+    "Русский": "ryska",
+    "Polski": "polska",
+    "Slovenčina": "slovakiska",
+    "Српски": "serbiska",
+    "Български": "bulgariska",
+    "Română": "rumänska",
+    "Lietuvių": "litauiska",
+    "English": "engelska"
 }
 
+# Målspråk
 TARGET_LANGUAGES = {
-    "Svenska": "Svenska",
-    "English": "English",
-    "Español": "Español",
-    "Français": "Français",
-    "Deutsch": "Deutsch",
-    "Italiano": "Italiano"
+    "Svenska": "svenska",
+    "Norsk": "norska",
+    "Dansk": "danska",
+    "Deutsch": "tyska",
+    "English": "engelska",
+    "Nederlands": "holländska",
+    "Español": "spanska",
+    "Français": "franska",
+    "Italiano": "italienska"
 }
 
-BRANCHES = {
-    "Svenska": ["IT", "Medicin", "Business", "Vardag", "Kreativt", "Juridik"],
-    "English": ["IT", "Medicine", "Business", "Everyday", "Creative", "Legal"],
-    # Lägg till översättningar för andra språk om behövs
-}
+# Branscher
+BRANCHES = ["Sjukvård", "Bygg", "Restaurang", "Lager-logistik", "Produktion", "Retail"]
 
-DIFFICULTIES = ["Nybörjare", "Medel", "Avancerad"]
+# === APP ===
+st.set_page_config(page_title="Worklingo v3.0", page_icon="🏗️", layout="wide")
+st.title("🏗️ **WORKLINGO v3.0**")
+st.caption("AI-språklärare för arbetslivet – med Grok")
 
-# === STREAMLIT APP ===
-st.set_page_config(page_title="Worklingo v3.0", page_icon="🌍", layout="wide")
-st.title("🌍 **WORKLINGO v3.0**")
-st.caption("AI-språklärare med Grok – rätta, översätt och förbättra!")
+# Sidebar
+st.sidebar.header("⚙️ Inställningar")
+ui_lang_key = st.sidebar.selectbox("UI-språk", list(UI_LANGUAGES.keys()))
+ui_lang = UI_LANGUAGES[ui_lang_key]
 
-# Sidebar för val
-st.sidebar.header("🛠️ Inställningar")
-ui_lang = st.sidebar.selectbox("UI-språk", list(UI_LANGUAGES.keys()), index=1)  # Default Svenska
-target_lang = st.sidebar.selectbox("Målspråk", list(TARGET_LANGUAGES.keys()), index=0)  # Default Svenska
+target_lang_key = st.sidebar.selectbox("Målspråk", list(TARGET_LANGUAGES.keys()))
+target_lang = TARGET_LANGUAGES[target_lang_key]
 
-# Bransch – beroende på målspråk
-branches = BRANCHES.get(ui_lang, ["IT", "Medicin", "Business", "Vardag", "Kreativt", "Juridik"])
-branch = st.sidebar.selectbox("Bransch", branches)
+branch = st.sidebar.selectbox("Bransch", BRANCHES)
 
-difficulty = st.sidebar.selectbox("Svårighetsgrad", DIFFICULTIES)
-
-# Load history
+# Session state
 if "history" not in st.session_state:
     st.session_state.history = load_history()
 if "messages" not in st.session_state:
-    st.session_state.messages = [{"role": "system", "content": get_system_prompt(ui_lang, target_lang, branch, difficulty)}]
+    st.session_state.messages = [{"role": "system", "content": get_system_prompt(ui_lang, target_lang, branch)}]
 
-# Display chat
+# Chat
 for turn in st.session_state.history:
     with st.chat_message("user"):
         st.write(turn["user"])
@@ -115,16 +106,15 @@ for turn in st.session_state.history:
         st.write(turn["assistant"])
 
 # Input
-if prompt := st.chat_input(f"Skriv en mening på {target_lang} (eller annat språk)..."):
-    # Add user message
-    st.session_state.messages.append({"role": "user", "content": f"Översätt/rätta till {target_lang} i {branch}-kontext: {prompt}"})
+if prompt := st.chat_input(f"Skriv en arbetsrelaterad mening på {target_lang}..."):
+    st.session_state.messages.append({"role": "user", "content": f"Rätta/översätt till {target_lang} inom {branch}: {prompt}"})
     st.session_state.history.append({"user": prompt, "assistant": ""})
 
     with st.chat_message("user"):
         st.write(prompt)
 
     with st.chat_message("assistant"):
-        with st.spinner("Grok tänker..."):
+        with st.spinner("Grok rättar..."):
             try:
                 stream = client.chat.completions.create(
                     model="grok-beta",
@@ -140,28 +130,24 @@ if prompt := st.chat_input(f"Skriv en mening på {target_lang} (eller annat spr�
                         response += content
                         placeholder.write(response)
                 
-                # Save
                 st.session_state.messages.append({"role": "assistant", "content": response})
                 st.session_state.history[-1]["assistant"] = response
                 save_history(st.session_state.history)
 
             except Exception as e:
-                st.error(f"Fel: {e} – Kontrollera API-nyckel!")
+                st.error(f"Fel: {e}")
 
-# Sidebar controls
+# Kontroller
 with st.sidebar:
     st.header("Kontroller")
     if st.button("Rensa historik"):
         st.session_state.history = []
-        st.session_state.messages = [{"role": "system", "content": get_system_prompt(ui_lang, target_lang, branch, difficulty)}]
+        st.session_state.messages = [{"role": "system", "content": get_system_prompt(ui_lang, target_lang, branch)}]
         if os.path.exists(HISTORY_FILE):
             os.remove(HISTORY_FILE)
-        st.success("Historik rensad!")
+        st.success("Rensat!")
         st.rerun()
 
     if st.button("Spara historik"):
         save_history(st.session_state.history)
-        st.success(f"Sparad till {HISTORY_FILE}")
-
-    st.divider()
-    st.caption("Byggd med Grok API | v3.0 – Full version")
+        st.success("Sparat!")
