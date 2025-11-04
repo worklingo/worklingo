@@ -1,3 +1,7 @@
 streamlit
 openai
-python-dotenv
+gtts
+streamlit-authenticator
+pandas
+stripe
+pyyaml
