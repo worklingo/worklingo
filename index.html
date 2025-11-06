@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WORKLINGO Professional</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 30px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+        .back-button:hover { background: #5568d3; transform: scale(1.1); }
+        .back-button.visible { display: flex; }
+        .header { text-align: center; margin-bottom: 30px; margin-top: 30px; }
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .subtitle { color: #666; font-size: 14px; }
+        .section { display: none; }
+        .section.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section-title {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .option-btn {
+            padding: 16px 20px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+            text-align: center;
+        }
+        .option-btn:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateY(-2px);
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 18px;
+        }
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s;
+            width: 0%;
+        }
+        .points-display {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 10px 0;
+        }
+        .sentence-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .sentence-text {
+            font-size: 18px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .word-hover {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            color: #667eea;
+            font-weight: 500;
+            border-bottom: 2px dotted #667eea;
+        }
+        .translation-bubble {
+            visibility: hidden;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            white-space: nowrap;
+            margin-bottom: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+        .word-hover:hover .translation-bubble {
+            visibility: visible;
+            opacity: 1;
+        }
+        .audio-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .audio-btn:hover { background: #218838; }
+        .exercise-card {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .exercise-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        .match-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .match-item {
+            padding: 12px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .match-item:hover { border-color: #667eea; }
+        .match-item.selected { border-color: #667eea; background: #e7e9fc; }
+        .match-item.correct { border-color: #28a745; background: #d4edda; cursor: default; }
+        .match-item.wrong { border-color: #dc3545; background: #f8d7da; animation: shake 0.5s; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .word-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .word-option {
+            padding: 12px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .word-option:hover { border-color: #667eea; }
+        .word-option.correct { border-color: #28a745; background: #d4edda; }
+        .word-option.wrong { border-color: #dc3545; background: #f8d7da; }
+        .sentence-with-blank {
+            font-size: 18px;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        .blank {
+            display: inline-block;
+            min-width: 80px;
+            padding: 0 10px;
+            border-bottom: 2px solid #667eea;
+            color: #667eea;
+            font-weight: bold;
+        }
+        .action-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        .action-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102,126,234,0.4); }
+        .action-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-button" id="backBtn" onclick="goBack()">←</button>
+        
+        <div class="header">
+            <div class="logo">WORKLINGO</div>
+            <div class="subtitle">Professional Language Training</div>
+        </div>
+
+        <div id="pointsSection" style="display: none;">
+            <div class="points-display">🏆 <span id="pointsValue">0</span> points</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <!-- UI Language Selection -->
+        <div class="section active" id="uiLanguageSection">
+            <div class="section-title">Choose your interface language</div>
+            <div class="button-grid">
+                <button class="option-btn" onclick="selectUILanguage('sk')">🇸🇰 Slovenčina</button>
+                <button class="option-btn" onclick="selectUILanguage('uk')">🇺🇦 Українська</button>
+                <button class="option-btn" onclick="selectUILanguage('ru')">🇷🇺 Русский</button>
+                <button class="option-btn" onclick="selectUILanguage('pl')">🇵🇱 Polski</button>
+                <button class="option-btn" onclick="selectUILanguage('bg')">🇧🇬 Български</button>
+                <button class="option-btn" onclick="selectUILanguage('sr')">🇷🇸 Српски</button>
+                <button class="option-btn" onclick="selectUILanguage('ro')">🇷🇴 Română</button>
+                <button class="option-btn" onclick="selectUILanguage('lt')">🇱🇹 Lietuvių</button>
+                <button class="option-btn" onclick="selectUILanguage('en')">🇬🇧 English</button>
+            </div>
+        </div>
+
+        <!-- Target Language Selection -->
+        <div class="section" id="targetLanguageSection">
+            <div class="section-title" id="targetLangTitle">Choose language to learn</div>
+            <div class="button-grid">
+                <button class="option-btn" onclick="selectTargetLanguage('se')">🇸🇪 Svenska</button>
+                <button class="option-btn" onclick="selectTargetLanguage('no')">🇳🇴 Norsk</button>
+                <button class="option-btn" onclick="selectTargetLanguage('da')">🇩🇰 Dansk</button>
+                <button class="option-btn" onclick="selectTargetLanguage('de')">🇩🇪 Deutsch</button>
+                <button class="option-btn" onclick="selectTargetLanguage('nl')">🇳🇱 Nederlands</button>
+                <button class="option-btn" onclick="selectTargetLanguage('gb')">🇬🇧 English</button>
+            </div>
+        </div>
+
+        <!-- Industry Selection -->
+        <div class="section" id="industrySection">
+            <div class="section-title" id="industryTitle">Choose your industry</div>
+            <div class="button-grid">
+                <button class="option-btn" onclick="selectIndustry('construction')">🏗️ <span id="ind1">Construction</span></button>
+                <button class="option-btn" onclick="selectIndustry('healthcare')">🏥 <span id="ind2">Healthcare</span></button>
+                <button class="option-btn" onclick="selectIndustry('horeca')">🍽️ <span id="ind3">Horeca & Retail</span></button>
+                <button class="option-btn" onclick="selectIndustry('logistics')">🚚 <span id="ind4">Logistics</span></button>
+                <button class="option-btn" onclick="selectIndustry('manufacturing')">🏭 <span id="ind5">Manufacturing</span></button>
+            </div>
+        </div>
+
+        <!-- Lesson Content -->
+        <div class="section" id="lessonSection">
+            <div id="lessonContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // WORKLINGO Professional - Main Application
+        // State management
+        const state = {
+            uiLanguage: null,
+            targetLanguage: null,
+            industry: null,
+            phrasesData: null,
+            lessonData: null,
+            points: parseInt(localStorage.getItem('worklingoPoints')) || 0,
+            navigationStack: [],
+            usedPhraseIndices: new Set()
+        };
+
+        // UI Translations
+        const translations = {
+            sk: {
+                targetLangTitle: 'Vyberte jazyk, ktorý sa chcete učiť',
+                industryTitle: 'Vyberte odvetvie',
+                ind1: 'Stavebníctvo',
+                ind2: 'Zdravotníctvo',
+                ind3: 'Horeca & Retail',
+                ind4: 'Logistika',
+                ind5: 'Výroba',
+                loading: 'Načítava sa...',
+                listen: '🔊 Počúvať',
+                matchWords: 'Spojte slová',
+                fillBlank: 'Vyplňte medzeru',
+                check: 'Skontrolovať',
+                newLesson: '✨ Nová lekcia'
+            },
+            uk: {
+                targetLangTitle: 'Виберіть мову для вивчення',
+                industryTitle: 'Виберіть галузь',
+                ind1: 'Будівництво',
+                ind2: 'Охорона здоров\'я',
+                ind3: 'Horeca & Retail',
+                ind4: 'Логістика',
+                ind5: 'Виробництво',
+                loading: 'Завантаження...',
+                listen: '🔊 Слухати',
+                matchWords: 'Поєднайте слова',
+                fillBlank: 'Заповніть пропуск',
+                check: 'Перевірити',
+                newLesson: '✨ Новий урок'
+            },
+            ru: {
+                targetLangTitle: 'Выберите язык для изучения',
+                industryTitle: 'Выберите отрасль',
+                ind1: 'Строительство',
+                ind2: 'Здравоохранение',
+                ind3: 'Horeca & Retail',
+                ind4: 'Логистика',
+                ind5: 'Производство',
+                loading: 'Загрузка...',
+                listen: '🔊 Слушать',
+                matchWords: 'Сопоставьте слова',
+                fillBlank: 'Заполните пропуск',
+                check: 'Проверить',
+                newLesson: '✨ Новый урок'
+            },
+            pl: {
+                targetLangTitle: 'Wybierz język do nauki',
+                industryTitle: 'Wybierz branżę',
+                ind1: 'Budownictwo',
+                ind2: 'Opieka zdrowotna',
+                ind3: 'Horeca & Retail',
+                ind4: 'Logistyka',
+                ind5: 'Produkcja',
+                loading: 'Ładowanie...',
+                listen: '🔊 Słuchaj',
+                matchWords: 'Dopasuj słowa',
+                fillBlank: 'Wypełnij lukę',
+                check: 'Sprawdź',
+                newLesson: '✨ Nowa lekcja'
+            },
+            bg: {
+                targetLangTitle: 'Изберете език за учене',
+                industryTitle: 'Изберете индустрия',
+                ind1: 'Строителство',
+                ind2: 'Здравеопазване',
+                ind3: 'Horeca & Retail',
+                ind4: 'Логистика',
+                ind5: 'Производство',
+                loading: 'Зареждане...',
+                listen: '🔊 Слушай',
+                matchWords: 'Съпоставете думите',
+                fillBlank: 'Попълнете празното място',
+                check: 'Проверете',
+                newLesson: '✨ Нов урок'
+            },
+            sr: {
+                targetLangTitle: 'Izaberite jezik za učenje',
+                industryTitle: 'Izaberite industriju',
+                ind1: 'Građevinarstvo',
+                ind2: 'Zdravstvena zaštita',
+                ind3: 'Horeca & Retail',
+                ind4: 'Logistika',
+                ind5: 'Proizvodnja',
+                loading: 'Učitavanje...',
+                listen: '🔊 Slušaj',
+                matchWords: 'Poveži reči',
+                fillBlank: 'Popuni prazno mesto',
+                check: 'Proveri',
+                newLesson: '✨ Nova lekcija'
+            },
+            ro: {
+                targetLangTitle: 'Selectați limba de învățare',
+                industryTitle: 'Selectați industria',
+                ind1: 'Construcții',
+                ind2: 'Sănătate',
+                ind3: 'Horeca & Retail',
+                ind4: 'Logistică',
+                ind5: 'Producție',
+                loading: 'Se încarcă...',
+                listen: '🔊 Ascultă',
+                matchWords: 'Potriviți cuvintele',
+                fillBlank: 'Completați spațiul liber',
+                check: 'Verificați',
+                newLesson: '✨ Lecție nouă'
+            },
+            lt: {
+                targetLangTitle: 'Pasirinkite kalbą mokymuisi',
+                industryTitle: 'Pasirinkite pramonę',
+                ind1: 'Statyba',
+                ind2: 'Sveikatos priežiūra',
+                ind3: 'Horeca & Retail',
+                ind4: 'Logistika',
+                ind5: 'Gamyba',
+                loading: 'Kraunama...',
+                listen: '🔊 Klausyti',
+                matchWords: 'Suderinkite žodžius',
+                fillBlank: 'Užpildykite tuščią vietą',
+                check: 'Patikrinti',
+                newLesson: '✨ Nauja pamoka'
+            },
+            en: {
+                targetLangTitle: 'Choose language to learn',
+                industryTitle: 'Choose your industry',
+                ind1: 'Construction',
+                ind2: 'Healthcare',
+                ind3: 'Horeca & Retail',
+                ind4: 'Logistics',
+                ind5: 'Manufacturing',
+                loading: 'Loading...',
+                listen: '🔊 Listen',
+                matchWords: 'Match the words',
+                fillBlank: 'Fill in the blank',
+                check: 'Check',
+                newLesson: '✨ New Lesson'
+            }
+        };
+
+        // Initialize
+        document.getElementById('pointsValue').textContent = state.points;
+        updateProgress();
+
+        function selectUILanguage(lang) {
+            state.uiLanguage = lang;
+            updateUITexts();
+            showSection('targetLanguageSection');
+        }
+
+        function selectTargetLanguage(lang) {
+            state.targetLanguage = lang;
+            showSection('industrySection');
+        }
+
+        function selectIndustry(industry) {
+            state.industry = industry;
+            loadIndustryData(industry);
+        }
+
+        function loadIndustryData(industry) {
+            const lessonContent = document.getElementById('lessonContent');
+            const t = translations[state.uiLanguage] || translations.en;
+            
+            lessonContent.innerHTML = `<div class="loading">${t.loading}</div>`;
+            showSection('lessonSection');
+
+            // Dynamically load industry data
+            const script = document.createElement('script');
+            script.src = `${industry}.js`;
+            script.onload = () => {
+                console.log(`${industry} data loaded`);
+                state.phrasesData = window[`${industry}Data`];
+                generateLesson();
+            };
+            script.onerror = () => {
+                lessonContent.innerHTML = `<div class="error-message">ERROR: Could not load ${industry} data. Please refresh and try again.</div>`;
+            };
+            document.head.appendChild(script);
+        }
+
+        function generateLesson() {
+            const lessonContent = document.getElementById('lessonContent');
+            const t = translations[state.uiLanguage] || translations.en;
+
+            if (!state.phrasesData || !state.phrasesData[state.targetLanguage]) {
+                lessonContent.innerHTML = `<div class="error-message">ERROR: No phrases available for this language.</div>`;
+                return;
+            }
+
+            const phrases = state.phrasesData[state.targetLanguage];
+            const uiPhrases = state.phrasesData.sk || state.phrasesData.en || phrases;
+
+            // Select 5 random phrases
+            const selectedIndices = [];
+            const availableIndices = phrases.map((_, i) => i).filter(i => !state.usedPhraseIndices.has(i) && phrases[i]);
+            
+            if (availableIndices.length < 5) {
+                state.usedPhraseIndices.clear();
+            }
+            
+            while (selectedIndices.length < 5 && selectedIndices.length < phrases.length) {
+                const availablePool = phrases.map((_, i) => i).filter(i => 
+                    !state.usedPhraseIndices.has(i) && !selectedIndices.includes(i) && phrases[i]
+                );
+                if (availablePool.length === 0) break;
+                const rand = availablePool[Math.floor(Math.random() * availablePool.length)];
+                selectedIndices.push(rand);
+                state.usedPhraseIndices.add(rand);
+            }
+
+            state.lessonData = {
+                sentences: selectedIndices.map(i => ({
+                    text: phrases[i],
+                    translation: uiPhrases[i] || phrases[i],
+                    words: extractWords(phrases[i], uiPhrases[i] || phrases[i])
+                })),
+                matchPairs: createMatchPairs(selectedIndices, phrases, uiPhrases),
+                fillBlanks: createFillBlanks(selectedIndices, phrases, uiPhrases)
+            };
+
+            renderLesson();
+        }
+
+        function extractWords(targetPhrase, uiPhrase) {
+            const words = targetPhrase.split(' ').filter(w => w.length > 2).slice(0, 5);
+            const uiWords = uiPhrase.split(' ').filter(w => w.length > 2).slice(0, 5);
+            return words.map((w, i) => ({
+                word: w.replace(/[.,!?]/g, ''),
+                translation: uiWords[i] ? uiWords[i].replace(/[.,!?]/g, '') : w
+            }));
+        }
+
+        function createMatchPairs(indices, targetPhrases, uiPhrases) {
+            const pairs = [];
+            indices.forEach(i => {
+                const targetWords = targetPhrases[i].split(' ').filter(w => w.length > 3);
+                const uiWords = (uiPhrases[i] || targetPhrases[i]).split(' ').filter(w => w.length > 3);
+                if (targetWords.length > 0 && uiWords.length > 0) {
+                    pairs.push({
+                        target: targetWords[0].replace(/[.,!?]/g, ''),
+                        ui: uiWords[0].replace(/[.,!?]/g, '')
+                    });
+                }
+            });
+            return pairs.slice(0, 8);
+        }
+
+        function createFillBlanks(indices, targetPhrases, uiPhrases) {
+            return indices.slice(0, 5).map(i => {
+                const words = targetPhrases[i].split(' ').filter(w => w.length > 3);
+                if (words.length === 0) return null;
+                
+                const correctWord = words[Math.floor(Math.random() * words.length)].replace(/[.,!?]/g, '');
+                const wrongWords = ['och', 'en', 'är', 'den', 'som', 'att'].filter(w => w !== correctWord);
+                const options = [correctWord, ...wrongWords.slice(0, 3)].sort(() => Math.random() - 0.5);
+                
+                const sentence = targetPhrases[i].replace(new RegExp('\\b' + correctWord + '\\b', 'i'), '___');
+                
+                return {sentence, correctWord, options};
+            }).filter(fb => fb !== null);
+        }
+
+        function renderLesson() {
+            const lessonContent = document.getElementById('lessonContent');
+            const t = translations[state.uiLanguage] || translations.en;
+            let html = '';
+
+            // Render sentences
+            state.lessonData.sentences.forEach(sentence => {
+                const words = sentence.text.split(' ');
+                const hoveredText = words.map(word => {
+                    const cleanWord = word.replace(/[.,!?]/g, '');
+                    const wordData = sentence.words.find(w => w.word === cleanWord);
+                    if (wordData) {
+                        return `<span class="word-hover">${word}<span class="translation-bubble">${wordData.translation}</span></span>`;
+                    }
+                    return word;
+                }).join(' ');
+
+                html += `
+                    <div class="sentence-card">
+                        <div class="sentence-text">${hoveredText}</div>
+                        <button class="audio-btn" onclick="speakText('${sentence.text.replace(/'/g, "\\'")}', '${state.targetLanguage}')">
+                            ${t.listen}
+                        </button>
+                        <div style="margin-top: 10px; color: #666; font-size: 14px;">
+                            ${sentence.translation}
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Render matching exercise
+            html += `
+                <div class="exercise-card">
+                    <div class="exercise-title">${t.matchWords}</div>
+                    <div class="match-container" id="matchContainer"></div>
+                    <button class="action-btn" id="checkMatchBtn" onclick="checkMatch()" disabled>${t.check}</button>
+                </div>
+            `;
+
+            // Render fill-in-the-blank exercises
+            state.lessonData.fillBlanks.forEach((fb, index) => {
+                html += `
+                    <div class="exercise-card">
+                        <div class="exercise-title">${t.fillBlank}</div>
+                        <div class="fill-blank-container">
+                            <div class="sentence-with-blank">
+                                ${fb.sentence.replace('___', '<span class="blank" id="blank' + index + '">___</span>')}
+                            </div>
+                            <div class="word-options" id="options${index}">
+                                ${fb.options.map(opt => `
+                                    <div class="word-option" onclick="selectFillBlank(${index}, '${opt.replace(/'/g, "\\'")}', '${fb.correctWord.replace(/'/g, "\\'")}')">
+                                        ${opt}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `<button class="action-btn" onclick="generateLesson()">${t.newLesson}</button>`;
+            
+            lessonContent.innerHTML = html;
+            renderMatchExercise();
+        }
+
+        function renderMatchExercise() {
+            const container = document.getElementById('matchContainer');
+            const pairs = state.lessonData.matchPairs;
+            
+            const leftColumn = pairs.map(p => ({text: p.target, type: 'target', match: p.ui}));
+            const rightColumn = pairs.map(p => ({text: p.ui, type: 'ui', match: p.target}));
+            
+            leftColumn.sort(() => Math.random() - 0.5);
+            rightColumn.sort(() => Math.random() - 0.5);
+            
+            let html = '';
+            leftColumn.forEach(item => {
+                html += `<div class="match-item" data-text="${item.text}" data-match="${item.match}" onclick="selectMatch(this)">${item.text}</div>`;
+            });
+            rightColumn.forEach(item => {
+                html += `<div class="match-item" data-text="${item.text}" data-match="${item.match}" onclick="selectMatch(this)">${item.text}</div>`;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        let selectedMatch = [];
+
+        function selectMatch(element) {
+            if (element.classList.contains('correct') || element.classList.contains('wrong')) return;
+            
+            if (selectedMatch.length === 2) {
+                selectedMatch.forEach(el => el.classList.remove('selected'));
+                selectedMatch = [];
+            }
+            
+            element.classList.toggle('selected');
+            
+            if (element.classList.contains('selected')) {
+                selectedMatch.push(element);
+            } else {
+                selectedMatch = selectedMatch.filter(el => el !== element);
+            }
+            
+            document.getElementById('checkMatchBtn').disabled = selectedMatch.length !== 2;
+        }
+
+        function checkMatch() {
+            if (selectedMatch.length !== 2) return;
+            
+            const [first, second] = selectedMatch;
+            const isCorrect = first.dataset.match === second.dataset.text && second.dataset.match === first.dataset.text;
+            
+            if (isCorrect) {
+                first.classList.add('correct');
+                second.classList.add('correct');
+                first.classList.remove('selected');
+                second.classList.remove('selected');
+                addPoints(10);
+            } else {
+                first.classList.add('wrong');
+                second.classList.add('wrong');
+                setTimeout(() => {
+                    first.classList.remove('wrong', 'selected');
+                    second.classList.remove('wrong', 'selected');
+                }, 1000);
+            }
+            
+            selectedMatch = [];
+            document.getElementById('checkMatchBtn').disabled = true;
+        }
+
+        function selectFillBlank(index, selected, correct) {
+            const options = document.querySelectorAll(`#options${index} .word-option`);
+            const blank = document.getElementById(`blank${index}`);
+            
+            options.forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'wrong');
+                opt.style.pointerEvents = 'none';
+            });
+            
+            event.target.classList.add('selected');
+            
+            if (selected === correct) {
+                event.target.classList.add('correct');
+                blank.textContent = selected;
+                blank.style.color = '#4caf50';
+                addPoints(10);
+            } else {
+                event.target.classList.add('wrong');
+                setTimeout(() => {
+                    options.forEach(opt => {
+                        opt.classList.remove('selected', 'wrong');
+                        opt.style.pointerEvents = 'auto';
+                    });
+                }, 1000);
+            }
+        }
+
+        function addPoints(amount) {
+            state.points += amount;
+            document.getElementById('pointsValue').textContent = state.points;
+            localStorage.setItem('worklingoPoints', state.points);
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progress = Math.min((state.points % 100), 100);
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function speakText(text, lang) {
+            const langCodes = {
+                'se': 'sv-SE',
+                'no': 'nb-NO',
+                'da': 'da-DK',
+                'de': 'de-DE',
+                'nl': 'nl-NL',
+                'gb': 'en-GB'
+            };
+            
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = langCodes[lang] || 'en-US';
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function updateUITexts() {
+            const t = translations[state.uiLanguage] || translations.en;
+            document.getElementById('targetLangTitle').textContent = t.targetLangTitle;
+            document.getElementById('industryTitle').textContent = t.industryTitle;
+            document.getElementById('ind1').textContent = t.ind1;
+            document.getElementById('ind2').textContent = t.ind2;
+            document.getElementById('ind3').textContent = t.ind3;
+            document.getElementById('ind4').textContent = t.ind4;
+            document.getElementById('ind5').textContent = t.ind5;
+        }
+
+        function showSection(sectionId) {
+            state.navigationStack.push(document.querySelector('.section.active').id);
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            document.getElementById('backBtn').classList.add('visible');
+            document.getElementById('pointsSection').style.display = sectionId === 'lessonSection' ? 'block' : 'none';
+        }
+
+        function goBack() {
+            if (state.navigationStack.length > 0) {
+                const previousSection = state.navigationStack.pop();
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                document.getElementById(previousSection).classList.add('active');
+                
+                if (state.navigationStack.length === 0) {
+                    document.getElementById('backBtn').classList.remove('visible');
+                }
+                
+                document.getElementById('pointsSection').style.display = previousSection === 'lessonSection' ? 'block' : 'none';
+            }
+        }
+
+        console.log('WORKLINGO Professional loaded successfully');
+    </script>
+</body>
+</html>
