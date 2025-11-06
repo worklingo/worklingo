@@ -513,14 +513,14 @@
 
             // Dynamically load industry data
             const script = document.createElement('script');
-            script.src = `${industry}.js`;
+            script.src = `./${industry}.js`;
             script.onload = () => {
                 console.log(`${industry} data loaded`);
                 state.phrasesData = window[`${industry}Data`];
                 generateLesson();
             };
             script.onerror = () => {
-                lessonContent.innerHTML = `<div class="error-message">ERROR: Could not load ${industry} data. Please refresh and try again.</div>`;
+                lessonContent.innerHTML = `<div class="error-message">ERROR: Could not load ${industry} data. File: ${industry}.js not found. Check that all files are uploaded to GitHub.</div>`;
             };
             document.head.appendChild(script);
         }
