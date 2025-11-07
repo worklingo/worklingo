@@ -5,4494 +5,787 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WORKLINGO Professional</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 20px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-        h1 { text-align: center; color: #667eea; margin-bottom: 10px; font-size: 2.5em; }
-        .subtitle { text-align: center; color: #666; margin-bottom: 40px; font-size: 1.1em; }
-        .screen { display: none; }
-        .screen.active { display: block; animation: fadeIn 0.3s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .language-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin: 30px 0; }
-        .lang-button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 20px 15px; border-radius: 12px; font-size: 1em; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .lang-button:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4); }
-        .flag { font-size: 1.5em; }
-        .industry-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 30px 0; }
-        .industry-button { background: white; border: 3px solid #667eea; padding: 30px 20px; border-radius: 15px; font-size: 1.1em; cursor: pointer; transition: all 0.3s ease; text-align: center; }
-        .industry-button:hover { background: #667eea; color: white; transform: translateY(-5px); }
-        .level-tabs { display: flex; gap: 10px; margin: 30px 0; justify-content: center; flex-wrap: wrap; }
-        .level-tab { background: #f0f0f0; border: none; padding: 15px 25px; border-radius: 25px; font-size: 0.95em; cursor: pointer; transition: all 0.3s ease; }
-        .level-tab.active { background: #667eea; color: white; }
-        .exercise-tabs { display: flex; gap: 10px; margin: 20px 0; justify-content: center; flex-wrap: wrap; }
-        .exercise-tab { background: #f0f0f0; border: none; padding: 12px 20px; border-radius: 25px; cursor: pointer; transition: all 0.3s ease; font-size: 0.9em; }
-        .exercise-tab.active { background: #667eea; color: white; }
-        .exercise-container { background: #f9f9f9; padding: 30px; border-radius: 15px; margin: 20px 0; min-height: 300px; }
-        .phrase-item { background: white; padding: 20px; margin: 15px 0; border-radius: 10px; border-left: 5px solid #667eea; }
-        .phrase-text { font-size: 1.2em; color: #333; line-height: 1.8; margin-bottom: 10px; }
-        .audio-button { background: #28a745; color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.9em; transition: all 0.3s ease; }
-        .audio-button:hover { background: #218838; }
-        .pairing-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0; }
-        .pairing-column h3 { text-align: center; color: #667eea; margin-bottom: 15px; font-size: 1.1em; }
-        .pair-item { background: white; padding: 15px; margin: 10px 0; border-radius: 10px; cursor: pointer; transition: all 0.3s ease; border: 2px solid #ddd; text-align: center; }
-        .pair-item:hover { border-color: #667eea; transform: translateX(5px); }
-        .pair-item.selected { background: #667eea; color: white; border-color: #667eea; }
-        .pair-item.correct { background: #28a745; color: white; border-color: #28a745; }
-        .fillblank-sentence { font-size: 1.3em; line-height: 2.2; margin: 25px 0; text-align: center; }
-        .blank-input { display: inline-block; min-width: 150px; border: none; border-bottom: 3px solid #667eea; padding: 5px 10px; font-size: 1em; text-align: center; background: #f0f0f0; border-radius: 5px; margin: 0 5px; }
-        .blank-input:focus { outline: none; background: #e3f2fd; }
-        .back-button { background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 25px; font-size: 1em; cursor: pointer; margin-top: 20px; transition: all 0.3s ease; }
-        .back-button:hover { background: #5a6268; }
-        .check-button { background: #28a745; color: white; border: none; padding: 15px 40px; border-radius: 25px; font-size: 1.1em; cursor: pointer; margin: 20px auto; display: block; transition: all 0.3s ease; }
-        .check-button:hover { background: #218838; transform: scale(1.05); }
-        .next-button { background: #007bff; color: white; border: none; padding: 12px 30px; border-radius: 25px; font-size: 1em; cursor: pointer; margin: 20px 10px; transition: all 0.3s ease; }
-        .next-button:hover { background: #0056b3; }
-        .result-message { text-align: center; padding: 20px; margin: 20px 0; border-radius: 10px; font-size: 1.2em; font-weight: bold; }
-        .result-message.correct { background: #d4edda; color: #155724; }
-        .result-message.incorrect { background: #f8d7da; color: #721c24; }
-        @media (max-width: 768px) { .pairing-container { grid-template-columns: 1fr; } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            min-height: 600px;
+        }
+
+        .sidebar {
+            background: #f8f9fa;
+            padding: 30px;
+            border-right: 2px solid #e9ecef;
+        }
+
+        .main-content {
+            padding: 40px;
+        }
+
+        .language-selector {
+            margin-bottom: 30px;
+        }
+
+        .language-selector h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .language-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            padding: 12px 20px;
+            border: 2px solid #dee2e6;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+            text-align: left;
+        }
+
+        .lang-btn:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .course-selector {
+            margin-bottom: 30px;
+        }
+
+        .course-selector h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1em;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        select:hover {
+            border-color: #667eea;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .lesson-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .lesson-card {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .lesson-card.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .lesson-card h4 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .lesson-card p {
+            opacity: 0.8;
+            font-size: 0.9em;
+        }
+
+        .phrase-display {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .phrase-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .phrase-item .target {
+            font-size: 1.3em;
+            color: #212529;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .phrase-item .translation {
+            color: #6c757d;
+            font-size: 1.1em;
+        }
+
+        .exercise-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .exercise-section h3 {
+            color: #495057;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        .exercise-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .exercise-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .exercise-btn {
+            padding: 10px 20px;
+            border: 2px solid #dee2e6;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .exercise-btn:hover {
+            background: #e9ecef;
+        }
+
+        .exercise-btn.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .exercise-btn.correct {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+
+        .exercise-btn.incorrect {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+
+        .check-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #28a745;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #dc3545;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1.1em;
+            transition: all 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .word-pair-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .word-column {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .word-btn {
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .word-btn:hover {
+            background: #f8f9fa;
+            transform: translateX(5px);
+        }
+
+        .word-btn.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .word-btn.matched {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+            cursor: not-allowed;
+        }
+
+        .word-hint {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            color: #667eea;
+            font-weight: 600;
+            padding: 2px 4px;
+            border-radius: 3px;
+            transition: background 0.2s;
+        }
+
+        .word-hint:hover {
+            background: #f0f0f0;
+        }
+
+        .word-hint::after {
+            content: attr(data-translation);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            margin-bottom: 5px;
+            z-index: 1000;
+        }
+
+        .word-hint:hover::after {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 2px solid #e9ecef;
+            }
+
+            .lesson-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .word-pair-container {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🌍 WORKLINGO</h1>
-        <p class="subtitle">Professional Workplace Language Training</p>
-
-        <!-- Screen 1: Select UI Language -->
-        <div id="screen-ui-lang" class="screen active">
-            <h2 style="text-align: center; margin-bottom: 10px;" id="heading-ui-select">Select Your Native Language</h2>
-            <p style="text-align: center; color: #999; margin-bottom: 30px; font-size: 0.9em;">
-                English • Slovenčina • Українська • Русский • Polski • Български • Српски • Română • Lietuvių • Čeština
-            </p>
-            <div class="language-grid">
-                <button class="lang-button" onclick="selectUILanguage('en')">
-                    <span class="flag">🇬🇧</span> English
-                </button>
-                <button class="lang-button" onclick="selectUILanguage('sk')">
-                    <span class="flag">🇸🇰</span> Slovenčina
-                </button>
-                <button class="lang-button" onclick="selectUILanguage('uk')">
-                    <span class="flag">🇺🇦</span> Українська
-                </button>
-                <button class="lang-button" onclick="selectUILanguage('ru')">
-                    <span class="flag">🇷🇺</span> Русский
-                </button>
-                <button class="lang-button" onclick="selectUILanguage('pl')">
-                    <span class="flag">🇵🇱</span> Polski
-                </button>
-                <button class="lang-button" onclick="selectUILanguage('bg')">
-                    <span class="flag">🇧🇬</span> Български
-                </button>
-                <button class="lang-button" onclick="selectUILanguage('sr')">
-                    <span class="flag">🇷🇸</span> Српски
-                </button>
-                <button class="lang-button" onclick="selectUILanguage('ro')">
-                    <span class="flag">🇷🇴</span> Română
-                </button>
-                <button class="lang-button" onclick="selectUILanguage('lt')">
-                    <span class="flag">🇱🇹</span> Lietuvių
-                </button>
-                <button class="lang-button" onclick="selectUILanguage('cs')">
-                    <span class="flag">🇨🇿</span> Čeština
-                </button>
-            </div>
+        <div class="header">
+            <h1>🌍 WORKLINGO Professional</h1>
+            <p>Master workplace language skills for career success</p>
         </div>
 
-        <!-- Screen 2: Select Target Language -->
-        <div id="screen-target-lang" class="screen">
-            <h2 id="text-selectTargetLanguage" style="text-align: center; margin-bottom: 30px;">Select Language to Learn</h2>
-            <div class="language-grid">
-                <button class="lang-button" onclick="selectTargetLanguage('se')">
-                    <span class="flag">🇸🇪</span> Svenska
-                </button>
-                <button class="lang-button" onclick="selectTargetLanguage('no')">
-                    <span class="flag">🇳🇴</span> Norsk
-                </button>
-                <button class="lang-button" onclick="selectTargetLanguage('da')">
-                    <span class="flag">🇩🇰</span> Dansk
-                </button>
-                <button class="lang-button" onclick="selectTargetLanguage('en')">
-                    <span class="flag">🇬🇧</span> English
-                </button>
-                <button class="lang-button" onclick="selectTargetLanguage('de')">
-                    <span class="flag">🇩🇪</span> Deutsch
-                </button>
-                <button class="lang-button" onclick="selectTargetLanguage('nl')">
-                    <span class="flag">🇳🇱</span> Nederlands
-                </button>
-            </div>
-            <button class="back-button" onclick="showScreen('screen-ui-lang')" id="text-back-1">← Back</button>
-        </div>
+        <div class="content">
+            <div class="sidebar">
+                <div class="language-selector">
+                    <h3>📚 Your Native Language</h3>
+                    <div class="language-buttons" id="nativeLanguages"></div>
+                </div>
 
-        <!-- Screen 3: Select Industry -->
-        <div id="screen-industry" class="screen">
-            <h2 id="text-selectIndustry" style="text-align: center; margin-bottom: 30px;">Select Industry</h2>
-            <div class="industry-grid">
-                <button class="industry-button" onclick="selectIndustry('healthcare')">
-                    🏥<br><span id="text-industry-healthcare">Healthcare</span>
-                </button>
-                <button class="industry-button" onclick="selectIndustry('construction')">
-                    🏗️<br><span id="text-industry-construction">Construction</span>
-                </button>
-                <button class="industry-button" onclick="selectIndustry('hospitality')">
-                    🍽️<br><span id="text-industry-hospitality">Hospitality</span>
-                </button>
-                <button class="industry-button" onclick="selectIndustry('manufacturing')">
-                    ⚙️<br><span id="text-industry-manufacturing">Manufacturing</span>
-                </button>
-                <button class="industry-button" onclick="selectIndustry('logistics')">
-                    📦<br><span id="text-industry-logistics">Logistics</span>
-                </button>
-            </div>
-            <button class="back-button" onclick="showScreen('screen-target-lang')" id="text-back-2">← Back</button>
-        </div>
+                <div class="language-selector">
+                    <h3>🎯 Language to Learn</h3>
+                    <div class="language-buttons" id="targetLanguages"></div>
+                </div>
 
-        <!-- Screen 4: Select Level & Exercises -->
-        <div id="screen-exercises" class="screen">
-            <h2 style="text-align: center; margin-bottom: 20px;"><span id="current-industry-name"></span></h2>
-            
-            <div class="level-tabs">
-                <button class="level-tab active" onclick="selectLevel('novice')" id="text-level-novice">Novice</button>
-                <button class="level-tab" onclick="selectLevel('beginner')" id="text-level-beginner">Beginner</button>
-                <button class="level-tab" onclick="selectLevel('advanced')" id="text-level-advanced">Advanced</button>
+                <div class="course-selector">
+                    <h3>💼 Industry</h3>
+                    <select id="courseSelect">
+                        <option value="">Select industry...</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="exercise-tabs">
-                <button class="exercise-tab active" onclick="selectExercise(1)" id="text-exercise1">📖 Read</button>
-                <button class="exercise-tab" onclick="selectExercise(2)" id="text-exercise2">🔗 Match</button>
-                <button class="exercise-tab" onclick="selectExercise(3)" id="text-exercise3">✏️ Fill</button>
-            </div>
-
-            <div id="exercise-content"></div>
-
-            <div style="text-align: center; margin-top: 20px;">
-                <button class="back-button" onclick="showScreen('screen-industry')" id="text-back-3">← Back</button>
-                <button class="next-button" onclick="nextExercise()" id="text-next">Next Exercise →</button>
+            <div class="main-content">
+                <div id="lessonGrid" class="lesson-grid"></div>
+                <div id="phraseDisplay" class="phrase-display" style="display:none;"></div>
+                <div id="exerciseSection" style="display:none;">
+                    <div class="exercise-section" id="exercise1"></div>
+                    <div class="exercise-section" id="exercise2"></div>
+                    <div class="exercise-section" id="exercise3"></div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Load complete database
-        const DATA = 
-{
-  "database": {
-    "healthcare": {
-      "novice": [
-        {
-          "id": "hea_nov_042",
-          "se": "Har du hosta?",
-          "no": "Har du hoste?",
-          "da": "Jeg hjælper dig i seng.",
-          "nl": "Hoe is uw maag?",
-          "en": "How is your tummy?"
-        },
-        {
-          "id": "hea_nov_043",
-          "se": "Har du hosta?",
-          "no": "Har du hoste?",
-          "da": "Jeg hjælper dig i seng.",
-          "nl": "Hoe is uw maag?",
-          "en": "How is your tummy?"
-        },
-        {
-          "id": "hea_nov_032",
-          "se": "Har du kissat?",
-          "no": "Har du vært på do?",
-          "da": "Jeg tjekker blodtrykket.",
-          "nl": "Wilt u hulp bij het wassen?",
-          "en": "Would you like help with washing?"
-        },
-        {
-          "id": "hea_nov_091",
-          "se": "Tack för idag!",
-          "no": "Jeg lukker døren.",
-          "da": "Hvordan sover du om natten?",
-          "nl": "Goedemorgen, hoe voelt u zich vandaag?",
-          "en": "How did you sleep last night?"
-        },
-        {
-          "id": "hea_nov_044",
-          "se": "Hur känns magen?",
-          "no": "Hvordan er magen?",
-          "da": "Har du hoste?",
-          "nl": "Hoe is uw maag?",
-          "en": "How is your tummy?"
-        },
-        {
-          "id": "hea_nov_047",
-          "se": "Hur känns benen?",
-          "no": "Hvordan er beina?",
-          "da": "Hvordan er maven?",
-          "nl": "Ik leg de kleding klaar.",
-          "en": "I'll lay out your clothes."
-        },
-        {
-          "id": "hea_nov_000",
-          "se": "Vill du se på TV?",
-          "no": "Vil du ta en spasertur?",
-          "da": "Vil du se fjernsyn?",
-          "de": "Wollen wir einen Spaziergang machen?",
-          "nl": "Zullen we een wandeling maken?",
-          "en": "Shall we go for a walk?"
-        },
-        {
-          "id": "hea_nov_087",
-          "se": "Har du sovit bra?",
-          "no": "Hvordan sover du?",
-          "da": "Vil du have et tæppe?",
-          "nl": "Ik sluit de deur.",
-          "en": "I'll close the window."
-        },
-        {
-          "id": "hea_nov_024",
-          "se": "Hur känns hjärtat?",
-          "no": "Hvordan er hjertet?",
-          "da": "Hvordan er hovedet?",
-          "nl": "Hoe is uw hoofd?",
-          "en": "How is your head?"
-        },
-        {
-          "id": "hea_nov_053",
-          "se": "Har du ätit lunch?",
-          "no": "Har du spist middag?",
-          "da": "Jeg hjælper dig med tandbørsten.",
-          "nl": "Wilt u een wandeling in de tuin?",
-          "en": "Would you like a walk in the garden?"
-        },
-        {
-          "id": "hea_nov_058",
-          "se": "Har du ätit frukt?",
-          "no": "Har du spist frukt?",
-          "da": "Vil du have en tur i haven?",
-          "nl": "Ik help u met de sokken.",
-          "en": "Good morning, how are you feeling today?"
-        },
-        {
-          "id": "hea_nov_065",
-          "se": "Hur känns humöret?",
-          "no": "Jeg hjelper deg med sokkene.",
-          "da": "Jeg hjælper dig med sokkerne.",
-          "nl": "Hoe is het weer vandaag?",
-          "en": "Would you like the toilet first?"
-        },
-        {
-          "id": "hea_nov_068",
-          "se": "Hur är vädret ute?",
-          "no": "Vil du på do først?",
-          "da": "Vil du på toilettet først?",
-          "nl": "Hoe is uw rug?",
-          "en": "Are you in any pain?"
-        },
-        {
-          "id": "hea_nov_080",
-          "se": "Vill du ha en bok?",
-          "no": "Vil du ha noe å lese?",
-          "da": "Jeg er her for dig.",
-          "nl": "Ik help u met de bril.",
-          "en": "I'll help you with your glasses."
-        },
-        {
-          "id": "hea_nov_005",
-          "se": "Vill du ha en saga?",
-          "no": "Vil du ha en historie?",
-          "da": "Vil du have en historie?",
-          "de": "Möchten Sie einen Spaziergang drinnen?",
-          "nl": "Wilt u een wandeling binnenshuis?",
-          "en": "Would you like a walk indoors?"
-        },
-        {
-          "id": "hea_nov_006",
-          "se": "Vill du ha en saga?",
-          "no": "Vil du ha en historie?",
-          "da": "Vil du have en historie?",
-          "de": "Möchten Sie eine Geschichte hören?",
-          "nl": "Wilt u een verhaal horen?",
-          "en": "Would you like a story?"
-        },
-        {
-          "id": "hea_nov_018",
-          "se": "Vill du ha en kaka?",
-          "no": "Vil du ha en kake?",
-          "da": "Vil du have en is?",
-          "nl": "Wilt u een ijsje?",
-          "en": "Would you like an ice cream?"
-        },
-        {
-          "id": "hea_nov_039",
-          "se": "Vill du ha en filt?",
-          "no": "Vil du ha et pledd?",
-          "da": "Jeg hjælper dig med trøjen.",
-          "nl": "Ik help u naar bed.",
-          "en": "I'll help you to bed."
-        },
-        {
-          "id": "hea_nov_052",
-          "se": "Har du ätit middag?",
-          "no": "Jeg henter frokosten.",
-          "da": "Jeg hjælper dig med tandbørsten.",
-          "nl": "Heeft u lunch gehad?",
-          "en": "Have you had lunch?"
-        },
-        {
-          "id": "hea_nov_056",
-          "se": "Vill du ha en kram?",
-          "no": "Vil du ha en klem?",
-          "da": "Har du spist frokost?",
-          "nl": "Heeft u fruit gegeten?",
-          "en": "Have you eaten fruit?"
-        },
-        {
-          "id": "hea_nov_057",
-          "se": "Vill du ha en kram?",
-          "no": "Vil du ha en klem?",
-          "da": "Vil du gå en tur i haven?",
-          "nl": "Heeft u fruit gegeten?",
-          "en": "Have you eaten fruit?"
-        },
-        {
-          "id": "hea_nov_066",
-          "se": "Berätta om din dag.",
-          "no": "Hvordan er humøret?",
-          "da": "Jeg hjælper dig med skoene.",
-          "nl": "Wat kan ik vandaag doen?",
-          "en": "How's the weather today?"
-        },
-        {
-          "id": "hea_nov_088",
-          "se": "Vill du ha en filt?",
-          "no": "Har du sovet godt?",
-          "da": "Jeg lukker vinduet.",
-          "nl": "Ik help u met de jas.",
-          "en": "I'll close the door."
-        },
-        {
-          "id": "hea_nov_090",
-          "se": "Jag stänger dörren.",
-          "no": "Jeg lukker vinduet.",
-          "da": "Jeg hjælper dig med jakken.",
-          "nl": "Hoe slaapt u 's nachts?",
-          "en": "What would you like for lunch?"
-        },
-        {
-          "id": "hea_nov_017",
-          "se": "Jag öppnar fönstret.",
-          "no": "Jeg åpner vinduet.",
-          "da": "Vil du have en kage?",
-          "nl": "Wilt u een koekje?",
-          "en": "Would you like a biscuit?"
-        },
-        {
-          "id": "hea_nov_019",
-          "se": "Vill du ha en glass?",
-          "no": "Vil du ha en is?",
-          "da": "Vil du have en kop kakao?",
-          "nl": "Wilt u een kopje cacao?",
-          "en": "Would you like a cup of cocoa?"
-        },
-        {
-          "id": "hea_nov_021",
-          "se": "Vill du ha en glass?",
-          "no": "Vil du ha en is?",
-          "da": "Hvordan er brystet?",
-          "nl": "Hoe is uw borst?",
-          "en": "How is your chest?"
-        },
-        {
-          "id": "hea_nov_027",
-          "se": "Vill du ha en dusch?",
-          "no": "Vil du ha dusj?",
-          "da": "Vil du have en kop kaffe?",
-          "nl": "Ik help u met het haar.",
-          "en": "I'll help you with your hair."
-        },
-        {
-          "id": "hea_nov_054",
-          "se": "Har du ätit frukost?",
-          "no": "Har du spist lunsj?",
-          "da": "Jeg henter morgenmaden.",
-          "nl": "Wilt u een knuffel?",
-          "en": "Would you like a hug?"
-        },
-        {
-          "id": "hea_nov_001",
-          "se": "Ska vi gå till köket?",
-          "no": "Vil du se på TV?",
-          "da": "Skal vi gå ud i køkkenet?",
-          "de": "Möchten Sie fernsehen?",
-          "nl": "Wilt u televisie kijken?",
-          "en": "Would you like to watch TV?"
-        },
-        {
-          "id": "hea_nov_033",
-          "se": "Har du kissat på dig?",
-          "no": "Har du tisset på deg?",
-          "da": "Jeg tjekker pulsen.",
-          "nl": "Ik help u met de trui.",
-          "en": "I'll help you with your jumper."
-        },
-        {
-          "id": "hea_nov_089",
-          "se": "Jag stänger fönstret.",
-          "no": "Vil du ha et pledd?",
-          "da": "Jeg lukker døren.",
-          "nl": "Wat wilt u eten?",
-          "en": "I'll help you with your coat."
-        },
-        {
-          "id": "hea_nov_093",
-          "se": "Du är viktig för oss.",
-          "no": "Jeg hjelper deg med jakken.",
-          "da": "Vil du have en kop te?",
-          "nl": "Wilt u een kopje thee?",
-          "en": "Would you like a cup of tea?"
-        }
-      ],
-      "beginner": [
-        {
-          "id": "hea_beg_045",
-          "se": "Hur känns det i magen?",
-          "no": "Hvordan er magen?",
-          "da": "Har du hoste?",
-          "nl": "Ik help u uit de stoel.",
-          "en": "I'll help you out of the chair."
-        },
-        {
-          "id": "hea_beg_070",
-          "se": "Har du ont någonstans?",
-          "no": "La oss planlegge uka.",
-          "da": "Hvordan er vejret i dag?",
-          "nl": "Heeft u uw pijnstiller ingenomen?",
-          "en": "How is your neck?"
-        },
-        {
-          "id": "hea_beg_081",
-          "se": "Vill du ha en tidning?",
-          "no": "Vil du ha en bok?",
-          "da": "Jeg hjælper dig med brillerne.",
-          "nl": "Heeft u uw medicijnen ingenomen?",
-          "en": "I'll help you with your glasses."
-        },
-        {
-          "id": "hea_beg_094",
-          "se": "Vill du ha en kopp te?",
-          "no": "Vil du ha en kopp te?",
-          "da": "Vil du have et tæppe over knæene?",
-          "nl": "Wilt u een deken over de knieën?",
-          "en": "Would you like a blanket over your knees?"
-        },
-        {
-          "id": "hea_beg_098",
-          "se": "Har du druckit vatten?",
-          "no": "Har du drukket vann?",
-          "da": "Har du drukket vand?",
-          "nl": "Heeft u genoeg gedronken?",
-          "en": "Have you had enough to drink?"
-        },
-        {
-          "id": "hea_beg_004",
-          "se": "Vill du ta en promenad?",
-          "no": "Vil du ha en tur innendørs?",
-          "da": "Vil du have en tur indendørs?",
-          "de": "Möchten Sie einen Spaziergang drinnen?",
-          "nl": "Wilt u een wandeling binnenshuis?",
-          "en": "Would you like a walk indoors?"
-        },
-        {
-          "id": "hea_beg_051",
-          "se": "Jag tar fram frukosten.",
-          "no": "Har du spist frokost?",
-          "da": "Jeg lægger tøjet frem.",
-          "nl": "Heeft u avondeten gehad?",
-          "en": "Have you had dinner?"
-        },
-        {
-          "id": "hea_beg_071",
-          "se": "Hur känns det i ryggen?",
-          "no": "Har du vondt noe sted?",
-          "da": "Hvad kan jeg gøre for dig i dag?",
-          "nl": "Hoe zijn uw schouders?",
-          "en": "Have you taken your painkiller?"
-        },
-        {
-          "id": "hea_beg_072",
-          "se": "Hur känns det i nacken?",
-          "no": "Hvordan er ryggen?",
-          "da": "Har du ondt nogetsteds?",
-          "nl": "Wilt u koffie met mij drinken?",
-          "en": "How are your shoulders?"
-        },
-        {
-          "id": "hea_beg_016",
-          "se": "Behöver du mer tid idag?",
-          "no": "Trenger du mer tid i dag?",
-          "da": "Er du sulten? Lad os spise sammen.",
-          "nl": "Ik open het raam.",
-          "en": "I'll open the window."
-        },
-        {
-          "id": "hea_beg_022",
-          "se": "Hur känns det i kroppen?",
-          "no": "Hvordan føler du deg i dag?",
-          "da": "Hvordan er dit hjerte?",
-          "nl": "Hoe is uw hart?",
-          "en": "How is your heart?"
-        },
-        {
-          "id": "hea_beg_023",
-          "se": "Hur känns det i bröstet?",
-          "no": "Hvordan er brystet?",
-          "da": "Hvordan er hovedet?",
-          "nl": "Hoe is uw hoofd?",
-          "en": "How is your head?"
-        },
-        {
-          "id": "hea_beg_025",
-          "se": "Hur känns det i huvudet?",
-          "no": "Hvordan er hodet?",
-          "da": "Vil du have kaffe med mig?",
-          "nl": "Wilt u douchen?",
-          "en": "Would you like a shower?"
-        },
-        {
-          "id": "hea_beg_026",
-          "se": "Hur känns det i huvudet?",
-          "no": "Hvordan er hodet?",
-          "da": "Vil du have en kop kaffe?",
-          "nl": "Ik help u met het haar.",
-          "en": "I'll help you with your hair."
-        },
-        {
-          "id": "hea_beg_031",
-          "se": "Jag kontrollerar pulsen.",
-          "no": "Jeg måler pulsen.",
-          "da": "Jeg hjælper dig med håret.",
-          "nl": "Heeft u in de luier geplast?",
-          "en": "Have you wet yourself?"
-        },
-        {
-          "id": "hea_beg_074",
-          "se": "Hur känns det i axlarna?",
-          "no": "Har du tatt smertestillende?",
-          "da": "Hvordan er nakken?",
-          "nl": "Wilt u een kopje koffie?",
-          "en": "Would you like a cup of coffee?"
-        },
-        {
-          "id": "hea_beg_078",
-          "se": "Vill du lyssna på musik?",
-          "no": "Vil du ha en kopp kaffe?",
-          "da": "Vil du have en bog?",
-          "nl": "Ik ben er voor u.",
-          "en": "Would you like a newspaper?"
-        },
-        {
-          "id": "hea_beg_099",
-          "se": "Vill du ha en kopp saft?",
-          "no": "Vil du ha en kopp saft?",
-          "da": "Vil du have en kop saft?",
-          "nl": "Wilt u een glas sap?",
-          "en": "Would you like a glass of juice?"
-        },
-        {
-          "id": "hea_beg_008",
-          "se": "Hur känns det i fötterna?",
-          "no": "Hvordan er føttene?",
-          "da": "Hvordan er fødderne?",
-          "de": "Vielen Dank, dass ich heute bei Ihnen sein durfte.",
-          "nl": "Dank u wel dat ik vandaag bij u mocht zijn.",
-          "en": "Thank you for letting me be with you today."
-        },
-        {
-          "id": "hea_beg_009",
-          "se": "Hur känns det i fötterna?",
-          "no": "Hvordan er føttene?",
-          "da": "Hvordan er fødderne?",
-          "de": "Wie gehen die Füße?",
-          "nl": "Hoe zijn uw voeten?",
-          "en": "How are your feet?"
-        },
-        {
-          "id": "hea_beg_011",
-          "se": "Har du tagit din insulin?",
-          "no": "Jeg måler blodsukkeret.",
-          "da": "Jeg tjekker blodsukkeret.",
-          "de": "Haben Sie Ihr Insulin gespritzt?",
-          "nl": "Heeft u uw insuline gespoten?",
-          "en": "Have you had your insulin?"
-        },
-        {
-          "id": "hea_beg_020",
-          "se": "Vill du ha en kopp kakao?",
-          "no": "Vil du ha en kopp kakao?",
-          "da": "Vil du have en is?",
-          "nl": "Wilt u een ijsje?",
-          "en": "Would you like an ice cream?"
-        },
-        {
-          "id": "hea_beg_038",
-          "se": "Vill du ha en kudde till?",
-          "no": "Vil du ha en pute til?",
-          "da": "Jeg hjælper dig med bukserne.",
-          "nl": "Ik help u naar bed.",
-          "en": "I'll help you to bed."
-        },
-        {
-          "id": "hea_beg_048",
-          "se": "Jag lägger fram kläderna.",
-          "no": "Jeg legger frem klærne.",
-          "da": "Hvordan er maven?",
-          "nl": "Ik help u met de tandenborstel.",
-          "en": "I'll help you with your toothbrush."
-        },
-        {
-          "id": "hea_beg_076",
-          "se": "Vill du ha en kopp kaffe?",
-          "no": "Vil du ha kaffe med meg?",
-          "da": "Hvordan er skuldrene?",
-          "nl": "Wilt u een boek?",
-          "en": "Would you like something to read?"
-        },
-        {
-          "id": "hea_beg_077",
-          "se": "Vill du ha en kopp kaffe?",
-          "no": "Vil du ha en kopp kaffe?",
-          "da": "Vil du have noget at læse?",
-          "nl": "Wilt u een krant?",
-          "en": "Would you like a book?"
-        },
-        {
-          "id": "hea_beg_086",
-          "se": "Hur sover du på nätterna?",
-          "no": "Har du tatt hjertemedisinen?",
-          "da": "Har du sovet godt?",
-          "nl": "Ik sluit het raam.",
-          "en": "Would you like a blanket?"
-        },
-        {
-          "id": "hea_beg_028",
-          "se": "Jag hjälper dig med håret.",
-          "no": "Jeg hjelper deg med håret.",
-          "da": "God morgen, hvordan har du det i dag?",
-          "nl": "Ik meet de bloeddruk.",
-          "en": "I'll check your blood pressure."
-        },
-        {
-          "id": "hea_beg_029",
-          "se": "Jag hjälper dig med håret.",
-          "no": "Jeg hjelper deg med håret.",
-          "da": "Vil du have brusebad?",
-          "nl": "Ik meet de pols.",
-          "en": "I'll check your pulse."
-        },
-        {
-          "id": "hea_beg_079",
-          "se": "Vill du ha något att läsa?",
-          "no": "Vil du høre på musikk?",
-          "da": "Vil du have en avis?",
-          "nl": "Ik help u met de bril.",
-          "en": "I'm here to support you."
-        },
-        {
-          "id": "hea_beg_035",
-          "se": "Jag hjälper dig med tröjan.",
-          "no": "Jeg hjelper deg med genseren.",
-          "da": "Har du tisset på dig?",
-          "nl": "Ik help u met de trui.",
-          "en": "I'll help you with your jumper."
-        },
-        {
-          "id": "hea_beg_037",
-          "se": "Jag hjälper dig med tröjan.",
-          "no": "Jeg hjelper deg med genseren.",
-          "da": "Jeg hjælper dig med trøjen.",
-          "nl": "Wilt u een deken?",
-          "en": "Would you like a blanket?"
-        },
-        {
-          "id": "hea_beg_061",
-          "se": "Jag hjälper dig med skorna.",
-          "no": "Jeg hjelper deg med sokkene.",
-          "da": "Har du spist frugt?",
-          "nl": "Ik help u met de schoenen.",
-          "en": "I'll help you with your socks."
-        }
-      ],
-      "advanced": [
-        {
-          "id": "hea_adv_063",
-          "se": "Jag hjälper dig med skorna.",
-          "no": "Jeg hjelper deg med sokkene.",
-          "da": "Jeg hjælper dig med sokkerne.",
-          "nl": "Vertel me over uw dag.",
-          "en": "I'll help you with your socks."
-        },
-        {
-          "id": "hea_adv_092",
-          "se": "Jag hjälper dig med jackan.",
-          "no": "Takk for i dag!",
-          "da": "Du er vigtig for os.",
-          "nl": "U bent belangrijk voor ons.",
-          "en": "You are important to us."
-        },
-        {
-          "id": "hea_adv_010",
-          "se": "God morgon, hur mår du idag?",
-          "no": "Har du tatt insulinet?",
-          "da": "Har du taget din insulin?",
-          "de": "Wie gehen die Füße?",
-          "nl": "Hoe zijn uw voeten?",
-          "en": "How are your feet?"
-        },
-        {
-          "id": "hea_adv_036",
-          "se": "Jag hjälper dig med byxorna.",
-          "no": "Jeg hjelper deg med buksene.",
-          "da": "Vil du have hjælp til badet?",
-          "nl": "Wilt u een extra kussen?",
-          "en": "Would you like another pillow?"
-        },
-        {
-          "id": "hea_adv_040",
-          "se": "Jag hjälper dig till sängen.",
-          "no": "Jeg hjelper deg i seng.",
-          "da": "Vil du have en pude til?",
-          "nl": "Heeft u hoest?",
-          "en": "Do you have a cough?"
-        },
-        {
-          "id": "hea_adv_041",
-          "se": "Jag hjälper dig till sängen.",
-          "no": "Jeg hjelper deg i seng.",
-          "da": "Vil du have et tæppe?",
-          "nl": "Heeft u hoest?",
-          "en": "Do you have a cough?"
-        },
-        {
-          "id": "hea_adv_012",
-          "se": "Jag kontrollerar blodsockret.",
-          "no": "God morgen, hvordan går det?",
-          "da": "Skal vi ringe til din søn?",
-          "de": "Ich messe den Blutzucker.",
-          "nl": "Ik meet de bloedsuiker.",
-          "en": "I'll check your blood sugar."
-        },
-        {
-          "id": "hea_adv_013",
-          "se": "Ska vi ringa till din dotter?",
-          "no": "Skal vi ringe datteren din?",
-          "da": "Jeg tjekker temperaturen.",
-          "de": "Sollen wir Ihre Tochter anrufen?",
-          "nl": "Zullen we uw dochter bellen?",
-          "en": "Shall we call your daughter?"
-        },
-        {
-          "id": "hea_adv_030",
-          "se": "Jag kontrollerar blodtrycket.",
-          "no": "Jeg måler blodtrykket.",
-          "da": "Jeg hjælper dig med håret.",
-          "nl": "Bent u naar het toilet geweest?",
-          "en": "Have you been to the toilet?"
-        },
-        {
-          "id": "hea_adv_075",
-          "se": "Vill du dricka kaffe med mig?",
-          "no": "Hvordan er skuldrene?",
-          "da": "Har du taget din smertestillende?",
-          "nl": "Wilt u iets lezen?",
-          "en": "Would you like a cup of coffee?"
-        },
-        {
-          "id": "hea_adv_014",
-          "se": "Jag kontrollerar temperaturen.",
-          "no": "Jeg måler temperaturen.",
-          "da": "Jeg tjekker temperaturen.",
-          "de": "Ich messe die Temperatur.",
-          "nl": "Ik meet de temperatuur.",
-          "en": "I'll take your temperature."
-        },
-        {
-          "id": "hea_adv_015",
-          "se": "Jag kontrollerar temperaturen.",
-          "no": "Jeg måler temperaturen.",
-          "da": "Jeg åbner vinduet.",
-          "de": "Ich messe die Temperatur.",
-          "nl": "Ik meet de temperatuur.",
-          "en": "I'll take your temperature."
-        },
-        {
-          "id": "hea_adv_046",
-          "se": "Jag hjälper dig upp ur stolen.",
-          "no": "Jeg hjelper deg opp fra stolen.",
-          "da": "Hvordan har du det i maven?",
-          "nl": "Hoe zijn uw benen?",
-          "en": "How are your legs?"
-        },
-        {
-          "id": "hea_adv_059",
-          "se": "Jag är här för att stötta dig.",
-          "no": "Jeg er her for å støtte deg.",
-          "da": "Vil du have et knus?",
-          "nl": "Ik help u met de schoenen.",
-          "en": "I'll help you with your socks."
-        },
-        {
-          "id": "hea_adv_067",
-          "se": "Vill du gå på toaletten först?",
-          "no": "Fortell meg om dagen din.",
-          "da": "Jeg hjælper dig med sokkerne.",
-          "nl": "Heeft u pijn ergens?",
-          "en": "What can I do for you today?"
-        },
-        {
-          "id": "hea_adv_083",
-          "se": "Jag hjälper dig med medicinen.",
-          "no": "Jeg hjelper deg med brillene.",
-          "da": "Har du taget dine medicin?",
-          "nl": "Heeft u uw hartpil ingenomen?",
-          "en": "Have you taken your blood pressure tablet?"
-        },
-        {
-          "id": "hea_adv_085",
-          "se": "Har du tagit din hjärtmedicin?",
-          "no": "Har du tatt blodtrykksmedisinen?",
-          "da": "Har du taget din hjertemedicin?",
-          "nl": "Wilt u een deken?",
-          "en": "Did you sleep well?"
-        },
-        {
-          "id": "hea_adv_095",
-          "se": "Vill du ha en filt över knäna?",
-          "no": "Vil du ha et pledd over knærne?",
-          "da": "Vil du have te med honning?",
-          "nl": "Wilt u thee met honing?",
-          "en": "Would you like tea with honey?"
-        },
-        {
-          "id": "hea_adv_097",
-          "se": "Vill du ha en filt över knäna?",
-          "no": "Vil du ha et pledd over knærne?",
-          "da": "Vil du have te med honning?",
-          "nl": "Wilt u thee met honing?",
-          "en": "Would you like tea with honey?"
-        },
-        {
-          "id": "hea_adv_003",
-          "se": "Vill du ha en promenad inomhus?",
-          "no": "Vil du ha en tur i rullestol?",
-          "da": "Vil du have en tur indendørs?",
-          "de": "Möchten Sie einen Rollstuhlspaziergang?",
-          "nl": "Wilt u een rolstoelwandeling?",
-          "en": "Would you like a wheelchair walk?"
-        },
-        {
-          "id": "hea_adv_060",
-          "se": "Jag hjälper dig med strumporna.",
-          "no": "Trenger du hjelp med toalettet?",
-          "da": "Vil du have et knus?",
-          "nl": "Ik help u met de sokken.",
-          "en": "I'll help you with your shoes."
-        },
-        {
-          "id": "hea_adv_062",
-          "se": "Jag hjälper dig med strumporna.",
-          "no": "Jeg hjelper deg med skoene.",
-          "da": "Har du spist frugt?",
-          "nl": "Ik help u met de sokken.",
-          "en": "I'll help you with your shoes."
-        },
-        {
-          "id": "hea_adv_064",
-          "se": "Jag hjälper dig med strumporna.",
-          "no": "Jeg hjelper deg med skoene.",
-          "da": "Jeg hjælper dig med skoene.",
-          "nl": "Wilt u eerst naar het toilet?",
-          "en": "Tell me about your day."
-        },
-        {
-          "id": "hea_adv_082",
-          "se": "Jag hjälper dig med glasögonen.",
-          "no": "Vil du ha en avis?",
-          "da": "Jeg hjælper dig med brillerne.",
-          "nl": "Heeft u uw bloeddrukpil ingenomen?",
-          "en": "Have you taken your medication?"
-        },
-        {
-          "id": "hea_adv_049",
-          "se": "Jag hjälper dig med tandborsten.",
-          "no": "Jeg hjelper deg med tannbørsten.",
-          "da": "Jeg hjælper dig op af stolen.",
-          "nl": "Ik help u met de tandenborstel.",
-          "en": "I'll help you with your toothbrush."
-        },
-        {
-          "id": "hea_adv_050",
-          "se": "Jag hjälper dig med tandborsten.",
-          "no": "Jeg hjelper deg med tannbørsten.",
-          "da": "Hvordan er benene?",
-          "nl": "Ik haal het ontbijt.",
-          "en": "I'll get your breakfast."
-        },
-        {
-          "id": "hea_adv_073",
-          "se": "Har du tagit din smärtstillande?",
-          "no": "Hvordan er nakken?",
-          "da": "Hvordan er ryggen?",
-          "nl": "Wilt u een kopje koffie?",
-          "en": "Would you like a cup of tea with me?"
-        },
-        {
-          "id": "hea_adv_096",
-          "se": "Vill du ha en kopp te med honung?",
-          "no": "Vil du ha te med honning?",
-          "da": "Vil du have et tæppe over knæene?",
-          "nl": "Wilt u een deken over de knieën?",
-          "en": "Would you like a blanket over your knees?"
-        },
-        {
-          "id": "hea_adv_002",
-          "se": "Vill du ha en promenad i rullstol?",
-          "no": "Skal vi gå til kjøkkenet?",
-          "da": "Vil du have en tur i kørestol?",
-          "de": "Gehen wir in die Küche?",
-          "nl": "Gaan we naar de keuken?",
-          "en": "Shall we go to the kitchen?"
-        },
-        {
-          "id": "hea_adv_084",
-          "se": "Har du tagit din blodtrycksmedicin?",
-          "no": "Jeg hjelper deg med medisinene.",
-          "da": "Har du taget din blodtryksmedicin?",
-          "nl": "Heeft u goed geslapen?",
-          "en": "Have you taken your heart tablet?"
-        },
-        {
-          "id": "hea_adv_034",
-          "se": "Behöver du hjälp med toalettbesöket?",
-          "no": "Du er viktig for oss.",
-          "da": "Har du været på toilettet?",
-          "nl": "Ik help u met de broek.",
-          "en": "I'll help you with your trousers."
-        },
-        {
-          "id": "hea_adv_055",
-          "se": "Vill du ha en promenad i trädgården?",
-          "no": "Vil du ha en tur i hagen?",
-          "da": "Har du spist aftensmad?",
-          "nl": "Wilt u een knuffel?",
-          "en": "Would you like a hug?"
-        },
-        {
-          "id": "hea_adv_069",
-          "se": "Låt oss planera veckans aktiviteter.",
-          "no": "Hvordan er været ute?",
-          "da": "Fortæl mig om din dag.",
-          "nl": "Hoe is uw nek?",
-          "en": "How is your back?"
-        },
-        {
-          "id": "hea_adv_007",
-          "se": "Tack för att jag fick vara hos dig idag.",
-          "no": "Takk for at jeg fikk være hos deg i dag.",
-          "da": "Tak fordi jeg måtte være hos dig i dag.",
-          "de": "Möchten Sie eine Geschichte hören?",
-          "nl": "Wilt u een verhaal horen?",
-          "en": "Would you like a story?"
-        }
-      ]
-    },
-    "construction": {
-      "novice": [
-        {
-          "id": "con_nov_055",
-          "se": "Använd laser.",
-          "no": "Bruk laser.",
-          "da": "Brug laser.",
-          "de": "Verwenden Laser.",
-          "nl": "Gebruiken laser.",
-          "en": "Use laser."
-        },
-        {
-          "id": "con_nov_072",
-          "se": "Lägg takpapp.",
-          "no": "Legg takpapp.",
-          "da": "Læg tagpap.",
-          "de": "Legen Dachpappe.",
-          "nl": "Leggen dakbedekking.",
-          "en": "Lay roofing felt."
-        },
-        {
-          "id": "con_nov_095",
-          "se": "Använd laser.",
-          "no": "Bruk laser.",
-          "da": "Brug laser.",
-          "de": "Verwenden Laser.",
-          "nl": "Gebruiken laser.",
-          "en": "Use laser."
-        },
-        {
-          "id": "con_nov_086",
-          "se": "Lägg taktegel.",
-          "no": "Legg takstein.",
-          "da": "Læg tagsten.",
-          "de": "Legen Dachziegel.",
-          "nl": "Leggen dakpan.",
-          "en": "Lay roof tile."
-        },
-        {
-          "id": "con_nov_067",
-          "se": "Fäst med skruv.",
-          "no": "Fest med skru.",
-          "da": "Fastgør med skrue.",
-          "de": "Befestigen mit Schraube.",
-          "nl": "Bevestigen met schroef.",
-          "en": "Fix with screw."
-        },
-        {
-          "id": "con_nov_098",
-          "se": "Lägg vindskydd.",
-          "no": "Legg vindsperre.",
-          "da": "Læg vindspærre.",
-          "de": "Legen Windsperre.",
-          "nl": "Leggen winddichte folie.",
-          "en": "Lay breather membrane."
-        },
-        {
-          "id": "con_nov_065",
-          "se": "Dra kabel i rör.",
-          "no": "Trekk kabel i rør.",
-          "da": "Træk kabel i rør.",
-          "de": "Ziehen Kabel in Rohr.",
-          "nl": "Trekken kabel in buis.",
-          "en": "Pull cable in conduit."
-        },
-        {
-          "id": "con_nov_069",
-          "se": "Använd knäskydd.",
-          "no": "Bruk knebeskyttelse.",
-          "da": "Brug knæbeskyttelse.",
-          "de": "Verwenden Knieschoner.",
-          "nl": "Gebruiken kniebeschermers.",
-          "en": "Use knee pads."
-        },
-        {
-          "id": "con_nov_075",
-          "se": "Fäst med dykert.",
-          "no": "Fest med dykkert.",
-          "da": "Fastgør med dykker.",
-          "de": "Befestigen mit Stift.",
-          "nl": "Bevestigen met spijker.",
-          "en": "Fix with pins."
-        },
-        {
-          "id": "con_nov_081",
-          "se": "Dra kabel i rör.",
-          "no": "Trekk kabel i rør.",
-          "da": "Træk kabel i rør.",
-          "de": "Ziehen Kabel in Rohr.",
-          "nl": "Trekken kabel in buis.",
-          "en": "Pull cable in conduit."
-        },
-        {
-          "id": "con_nov_013",
-          "se": "Mät med lasersax.",
-          "no": "Mål med laser.",
-          "da": "Mål med laser.",
-          "de": "Messen mit Laser.",
-          "nl": "Meten met laser.",
-          "en": "Measure with laser."
-        },
-        {
-          "id": "con_nov_037",
-          "se": "Använd slipmaskin.",
-          "no": "Bruk slipemaskin.",
-          "da": "Brug slibemaskine.",
-          "de": "Verwenden Schleifmaschine.",
-          "nl": "Gebruiken schuurmachine.",
-          "en": "Use sander."
-        },
-        {
-          "id": "con_nov_062",
-          "se": "Montera dörrstopp.",
-          "no": "Monter dørstopper.",
-          "da": "Montér dørstopper.",
-          "de": "Montieren Türstopper.",
-          "nl": "Monteren deurstopper.",
-          "en": "Fit door stop."
-        },
-        {
-          "id": "con_nov_077",
-          "se": "Använd slipmaskin.",
-          "no": "Bruk slipemaskin.",
-          "da": "Brug slibemaskine.",
-          "de": "Verwenden Schleifmaschine.",
-          "nl": "Gebruiken schuurmachine.",
-          "en": "Use sander."
-        },
-        {
-          "id": "con_nov_082",
-          "se": "Montera branddörr.",
-          "no": "Monter branndør.",
-          "da": "Montér branddør.",
-          "de": "Montieren Brandschutztür.",
-          "nl": "Monteren branddeur.",
-          "en": "Fit fire door."
-        },
-        {
-          "id": "con_nov_010",
-          "se": "Dra på flytspackel.",
-          "no": "Hell flytsparkel.",
-          "da": "Hæld flydespartel.",
-          "de": "Gießen Estrich.",
-          "nl": "Giet vloeipleister.",
-          "en": "Pour screed."
-        },
-        {
-          "id": "con_nov_031",
-          "se": "Skär gips med kniv.",
-          "no": "Skjær gips med kniv.",
-          "da": "Skær gips med kniv.",
-          "de": "Schneiden Gips mit Messer.",
-          "nl": "Snijden gips met mes.",
-          "en": "Cut plasterboard with knife."
-        },
-        {
-          "id": "con_nov_033",
-          "se": "Dra kabel i VP-rör.",
-          "no": "Trekk kabel i VP-rør.",
-          "da": "Træk kabel i VP-rør.",
-          "de": "Ziehen Kabel in VP-Rohr.",
-          "nl": "Trekken kabel in VP-buis.",
-          "en": "Pull cable in conduit."
-        },
-        {
-          "id": "con_nov_043",
-          "se": "Använd hörselkåpor.",
-          "no": "Bruk hørselvern.",
-          "da": "Brug høreværn.",
-          "de": "Verwenden Gehörschutz.",
-          "nl": "Gebruiken gehoorbescherming.",
-          "en": "Use ear defenders."
-        },
-        {
-          "id": "con_nov_085",
-          "se": "Använd hörselskydd.",
-          "no": "Bruk hørselvern.",
-          "da": "Brug høreværn.",
-          "de": "Verwenden Gehörschutz.",
-          "nl": "Gebruiken gehoorbescherming.",
-          "en": "Use ear defenders."
-        },
-        {
-          "id": "con_nov_092",
-          "se": "Lägg dräneringsrör.",
-          "no": "Legg dreneringsrør.",
-          "da": "Læg drænrør.",
-          "de": "Legen Dränrohr.",
-          "nl": "Leggen drainbuis.",
-          "en": "Lay land drain."
-        },
-        {
-          "id": "con_nov_059",
-          "se": "Fäst med spikpistol.",
-          "no": "Fest med spikerpistol.",
-          "da": "Fastgør med spikerpistol.",
-          "de": "Befestigen mit Nagelpistole.",
-          "nl": "Bevestigen met spijkerpistool.",
-          "en": "Fix with nail gun."
-        },
-        {
-          "id": "con_nov_083",
-          "se": "Fäst med spikpistol.",
-          "no": "Fest med spikerpistol.",
-          "da": "Fastgør med spikerpistol.",
-          "de": "Befestigen mit Nagelpistole.",
-          "nl": "Bevestigen met spijkerpistool.",
-          "en": "Fix with nail gun."
-        },
-        {
-          "id": "con_nov_087",
-          "se": "Dra jordfelsbrytare.",
-          "no": "Trekk jordfeilbryter.",
-          "da": "Træk fejlstrømsafbryder.",
-          "de": "Ziehen FI-Schalter.",
-          "nl": "Trekken aardlekschakelaar.",
-          "en": "Pull RCD."
-        },
-        {
-          "id": "con_nov_001",
-          "se": "Regla med regelvirke.",
-          "no": "Regel med trykkimpregnert virke.",
-          "da": "Reglar med trykimprægneret træ.",
-          "de": "Ständer mit Kantholz.",
-          "nl": "Regels met geïmpregneerd hout.",
-          "en": "Stud with timber."
-        },
-        {
-          "id": "con_nov_004",
-          "se": "Fixa fika med termos.",
-          "no": "Fiks matpause med termos.",
-          "da": "Fik madpause med termokande.",
-          "de": "Pause mit Thermoskanne.",
-          "nl": "Pauze met thermoskan.",
-          "en": "Tea break with flask."
-        },
-        {
-          "id": "con_nov_012",
-          "se": "Betongen är för blöt.",
-          "no": "Betongen er for våt.",
-          "da": "Betonen er for våd.",
-          "de": "Beton ist zu nass.",
-          "nl": "Beton is te nat.",
-          "en": "Concrete is too wet."
-        },
-        {
-          "id": "con_nov_038",
-          "se": "Måla med akrylatfärg.",
-          "no": "Mal med akrylmaling.",
-          "da": "Mal med akrylmaling.",
-          "de": "Streichen mit Acrylfarbe.",
-          "nl": "Schilderen met acrylverf.",
-          "en": "Paint with acrylic paint."
-        },
-        {
-          "id": "con_nov_049",
-          "se": "Använd andningsskydd.",
-          "no": "Bruk åndedrettsvern.",
-          "da": "Brug åndedrætsværn.",
-          "de": "Verwenden Atemschutz.",
-          "nl": "Gebruiken ademhalingsbescherming.",
-          "en": "Use respirator."
-        },
-        {
-          "id": "con_nov_056",
-          "se": "Montera brandtätning.",
-          "no": "Monter branntetting.",
-          "da": "Montér brandtætning.",
-          "de": "Montieren Brandschutz.",
-          "nl": "Monteren brandwerende afdichting.",
-          "en": "Fit firestop."
-        },
-        {
-          "id": "con_nov_064",
-          "se": "Lägg dräneringsmatta.",
-          "no": "Legg dreneringsmatte.",
-          "da": "Læg drænmåtte.",
-          "de": "Legen Dränmatte.",
-          "nl": "Leggen dränmat.",
-          "en": "Lay drainage mat."
-        },
-        {
-          "id": "con_nov_090",
-          "se": "Montera FTX-aggregat.",
-          "no": "Monter FTX-aggregat.",
-          "da": "Montér FTX-aggregat.",
-          "de": "Montieren FTX-Aggregat.",
-          "nl": "Monteren WTW-unit.",
-          "en": "Fit HRV unit."
-        },
-        {
-          "id": "con_nov_096",
-          "se": "Montera brandtätning.",
-          "no": "Monter branntetting.",
-          "da": "Montér brandtætning.",
-          "de": "Montieren Brandschutz.",
-          "nl": "Monteren brandwerende afdichting.",
-          "en": "Fit firestop."
-        }
-      ],
-      "beginner": [
-        {
-          "id": "con_beg_005",
-          "se": "Bär hjälm med hakband.",
-          "no": "Bruk hjelm med hakestropp.",
-          "da": "Brug hjelm med hakestropp.",
-          "de": "Helm mit Kinnriemen tragen.",
-          "nl": "Helm met kinband dragen.",
-          "en": "Hard hat with chin strap."
-        },
-        {
-          "id": "con_beg_047",
-          "se": "Dra fiber med blåsrör.",
-          "no": "Trekk fiber med blåserør.",
-          "da": "Træk fiber med blæserør.",
-          "de": "Ziehen Glasfaser mit Blasrohr.",
-          "nl": "Trekken glasvezel met blaasbuis.",
-          "en": "Blow fibre with blowing tube."
-        },
-        {
-          "id": "con_beg_061",
-          "se": "Använd skyddsglasögon.",
-          "no": "Bruk vernebriller.",
-          "da": "Brug sikkerhedsbriller.",
-          "de": "Verwenden Schutzbrille.",
-          "nl": "Gebruiken veiligheidsbril.",
-          "en": "Use safety glasses."
-        },
-        {
-          "id": "con_beg_063",
-          "se": "Skär plåt med plåtsax.",
-          "no": "Skjær blikk med blikk saks.",
-          "da": "Skær blik med bliksaks.",
-          "de": "Schneiden Blech mit Blechschere.",
-          "nl": "Snijden blik met blikschaar.",
-          "en": "Cut sheet with tin snips."
-        },
-        {
-          "id": "con_beg_071",
-          "se": "Skär gips med gipssax.",
-          "no": "Skjær gips med gipssaks.",
-          "da": "Skær gips med gipssaks.",
-          "de": "Schneiden Gips mit Gipsscheere.",
-          "nl": "Snijden gips met gipsschaar.",
-          "en": "Cut plasterboard with board saw."
-        },
-        {
-          "id": "con_beg_078",
-          "se": "Gjut grund med betong.",
-          "no": "Støp grunnmur med betong.",
-          "da": "Støb fundament med beton.",
-          "de": "Gießen Fundament mit Beton.",
-          "nl": "Storten fundering met beton.",
-          "en": "Pour foundation with concrete."
-        },
-        {
-          "id": "con_beg_089",
-          "se": "Fäst med skruvdragare.",
-          "no": "Fest med skrutrekker.",
-          "da": "Fastgør med skruetrækker.",
-          "de": "Befestigen mit Akkuschrauber.",
-          "nl": "Bevestigen met accuschroefmachine.",
-          "en": "Fix with cordless drill."
-        },
-        {
-          "id": "con_beg_091",
-          "se": "Skär plåt med nibbler.",
-          "no": "Skjær blikk med nibbler.",
-          "da": "Skær blik med nibbler.",
-          "de": "Schneiden Blech mit Nibbler.",
-          "nl": "Snijden blik met knabbelschaar.",
-          "en": "Cut sheet with nibbler."
-        },
-        {
-          "id": "con_beg_097",
-          "se": "Fäst med popnitpistol.",
-          "no": "Fest med popnaglepistol.",
-          "da": "Fastgør med popnittepistol.",
-          "de": "Befestigen mit Blindnietpistole.",
-          "nl": "Bevestigen met popnagelpistool.",
-          "en": "Fix with rivet gun."
-        },
-        {
-          "id": "con_beg_003",
-          "se": "Spackla med finspackel.",
-          "no": "Sparkle med finsparkel.",
-          "da": "Spatle med finspartel.",
-          "de": "Spachtel mit Feinspachtel.",
-          "nl": "Stuc met fijnpleister.",
-          "en": "Skim with fine filler."
-        },
-        {
-          "id": "con_beg_018",
-          "se": "Vem har min vattenpass?",
-          "no": "Hvem har vateret mitt?",
-          "da": "Hvem har mit vaterpas?",
-          "de": "Wer hat meine Wasserwaage?",
-          "nl": "Wie heeft mijn waterpas?",
-          "en": "Who has my spirit level?"
-        },
-        {
-          "id": "con_beg_020",
-          "se": "Isolera med mineralull.",
-          "no": "Isoler med mineralull.",
-          "da": "Isoler med mineraluld.",
-          "de": "Dämmen mit Mineralwolle.",
-          "nl": "Isoleren met steenwol.",
-          "en": "Insulate with mineral wool."
-        },
-        {
-          "id": "con_beg_034",
-          "se": "Gjut sockel med betong.",
-          "no": "Støp sokkel med betong.",
-          "da": "Støb sokkel med beton.",
-          "de": "Gießen Sockel mit Beton.",
-          "nl": "Storten sokkel met beton.",
-          "en": "Pour footing with concrete."
-        },
-        {
-          "id": "con_beg_046",
-          "se": "Lägg taktegel på taket.",
-          "no": "Legg takstein på taket.",
-          "da": "Læg tagsten på taget.",
-          "de": "Legen Dachziegel auf Dach.",
-          "nl": "Leggen dakpan op dak.",
-          "en": "Lay roof tile on roof."
-        },
-        {
-          "id": "con_beg_052",
-          "se": "Lägg markvärme med rör.",
-          "no": "Legg gulvvarme med rør.",
-          "da": "Læg gulvvarme med rør.",
-          "de": "Legen Fußbodenheizung mit Rohren.",
-          "nl": "Leggen vloerverwarming met leidingen.",
-          "en": "Lay underfloor heating with pipes."
-        },
-        {
-          "id": "con_beg_054",
-          "se": "Gjut pelare med betong.",
-          "no": "Støp søyle med betong.",
-          "da": "Støb søjle med beton.",
-          "de": "Gießen Stütze mit Beton.",
-          "nl": "Storten kolom met beton.",
-          "en": "Pour column with concrete."
-        },
-        {
-          "id": "con_beg_094",
-          "se": "Gjut pelare med betong.",
-          "no": "Støp søyle med betong.",
-          "da": "Støb søjle med beton.",
-          "de": "Gießen Stütze mit Beton.",
-          "nl": "Storten kolom met beton.",
-          "en": "Pour column with concrete."
-        },
-        {
-          "id": "con_beg_041",
-          "se": "Skruva med skruvdragare.",
-          "no": "Skru med skrutrekker.",
-          "da": "Skru med skruetrækker.",
-          "de": "Schrauben mit Akkuschrauber.",
-          "nl": "Schroeven met accuschroefmachine.",
-          "en": "Screw with cordless drill."
-        },
-        {
-          "id": "con_beg_057",
-          "se": "Dra jordkabel i markrör.",
-          "no": "Trekk jordkabel i markrør.",
-          "da": "Træk jordkabel i markrør.",
-          "de": "Ziehen Erdkabel in Erdrohr.",
-          "nl": "Trekken aardkabel in grondbuis.",
-          "en": "Pull earth cable in duct."
-        },
-        {
-          "id": "con_beg_068",
-          "se": "Montera sprinklersystem.",
-          "no": "Monter sprinkleranlegg.",
-          "da": "Montér sprinkleranlæg.",
-          "de": "Montieren Sprinkleranlage.",
-          "nl": "Monteren sprinklerinstallatie.",
-          "en": "Fit sprinkler system."
-        },
-        {
-          "id": "con_beg_079",
-          "se": "Skär isolering med kniv.",
-          "no": "Skjær isolasjon med kniv.",
-          "da": "Skær isolering med kniv.",
-          "de": "Schneiden Dämmung mit Messer.",
-          "nl": "Snijden isolatie met mes.",
-          "en": "Cut insulation with knife."
-        },
-        {
-          "id": "con_beg_011",
-          "se": "Regla med regelvirke här.",
-          "no": "Regel med virke her.",
-          "da": "Reglar med træ her.",
-          "de": "Ständer mit Holz hier.",
-          "nl": "Regels met hout hier.",
-          "en": "Stud with timber here."
-        },
-        {
-          "id": "con_beg_017",
-          "se": "Vi tar lunch med matlåda.",
-          "no": "Vi tar lunsj med matboks.",
-          "da": "Vi tager frokost med madkasse.",
-          "de": "Wir machen Mittag mit Brotdose.",
-          "nl": "We nemen lunch met broodtrommel.",
-          "en": "We take lunch with lunchbox."
-        },
-        {
-          "id": "con_beg_044",
-          "se": "Gjut trappa med armering.",
-          "no": "Støp trapp med armering.",
-          "da": "Støb trappe med armering.",
-          "de": "Gießen Treppe mit Bewehrung.",
-          "nl": "Storten trap met wapening.",
-          "en": "Pour stairs with rebar."
-        },
-        {
-          "id": "con_beg_070",
-          "se": "Gjut kantbalk med betong.",
-          "no": "Støp kantbjelke med betong.",
-          "da": "Støb kantbjælke med beton.",
-          "de": "Gießen Randbalken mit Beton.",
-          "nl": "Storten randbalk met beton.",
-          "en": "Pour edge beam with concrete."
-        },
-        {
-          "id": "con_beg_073",
-          "se": "Dra fiber med blåsmaskin.",
-          "no": "Trekk fiber med blåsemaskin.",
-          "da": "Træk fiber med blæsemaskine.",
-          "de": "Ziehen Glasfaser mit Blasmachine.",
-          "nl": "Trekken glasvezel met blaasmachine.",
-          "en": "Blow fibre with blowing machine."
-        },
-        {
-          "id": "con_beg_084",
-          "se": "Gjut trappa med armering.",
-          "no": "Støp trapp med armering.",
-          "da": "Støb trappe med armering.",
-          "de": "Gießen Treppe mit Bewehrung.",
-          "nl": "Storten trap met wapening.",
-          "en": "Pour stairs with rebar."
-        },
-        {
-          "id": "con_beg_093",
-          "se": "Dra fiber med dragfjäder.",
-          "no": "Trekk fiber med trekkfjær.",
-          "da": "Træk fiber med trækfjedre.",
-          "de": "Ziehen Glasfaser mit Zugfeder.",
-          "nl": "Trekken glasvezel met trekveer.",
-          "en": "Pull fibre with fish tape."
-        },
-        {
-          "id": "con_beg_015",
-          "se": "Lägg glespanel bakom gips.",
-          "no": "Legg gips bak gips.",
-          "da": "Læg gips bag gips.",
-          "de": "Legen Lattung hinter Gips.",
-          "nl": "Leggen latten achter gips.",
-          "en": "Lay battens behind plasterboard."
-        },
-        {
-          "id": "con_beg_027",
-          "se": "Spruta fogskum med pistol.",
-          "no": "Spray fugeskum med pistol.",
-          "da": "Sprøjt fugeskum med pistol.",
-          "de": "Sprühen Montageschaum mit Pistole.",
-          "nl": "Spuiten purschuim met pistool.",
-          "en": "Spray foam with gun."
-        },
-        {
-          "id": "con_beg_028",
-          "se": "Lägg markduk under gruset.",
-          "no": "Legg markduk under grusen.",
-          "da": "Læg markdug under gruset.",
-          "de": "Legen Geotextil unter Kies.",
-          "nl": "Leggen worteldoek onder grind.",
-          "en": "Lay geotextile under gravel."
-        },
-        {
-          "id": "con_beg_035",
-          "se": "Montera dörr med gångjärn.",
-          "no": "Monter dør med hengsler.",
-          "da": "Montér dør med hængsler.",
-          "de": "Montieren Tür mit Scharnieren.",
-          "nl": "Monteren deur met scharnieren.",
-          "en": "Fit door with hinges."
-        },
-        {
-          "id": "con_beg_076",
-          "se": "Montera fönster med bleck.",
-          "no": "Monter vindu med beslag.",
-          "da": "Montér vindue med beslag.",
-          "de": "Montieren Fenster mit Blech.",
-          "nl": "Monteren raam met dorpel.",
-          "en": "Fit window with cill."
-        }
-      ],
-      "advanced": [
-        {
-          "id": "con_adv_002",
-          "se": "Vi väntar på armeringsjärn.",
-          "no": "Vi venter på armeringsjern.",
-          "da": "Vi venter på armeringsjern.",
-          "de": "Wir warten auf Bewehrung.",
-          "nl": "We wachten op wapeningsstaal.",
-          "en": "We're waiting on rebar."
-        },
-        {
-          "id": "con_adv_029",
-          "se": "Rensa formen med tryckluft.",
-          "no": "Rengjør form med trykkluft.",
-          "da": "Rens form med trykluft.",
-          "de": "Reinigen Schalung mit Druckluft.",
-          "nl": "Reinigen bekisting met perslucht.",
-          "en": "Clean formwork with air line."
-        },
-        {
-          "id": "con_adv_039",
-          "se": "Fäst plåtbeslag med popnit.",
-          "no": "Fest blikkbeslag med popnagle.",
-          "da": "Fastgør blikbeslag med popnitte.",
-          "de": "Befestigen Blechbesatz mit Blindniete.",
-          "nl": "Bevestigen blikbeslag met popnagel.",
-          "en": "Fix flashing with rivet."
-        },
-        {
-          "id": "con_adv_045",
-          "se": "Fäst list med dykertpistol.",
-          "no": "Fest list med dykkertpistol.",
-          "da": "Fastgør liste med dykkerpistol.",
-          "de": "Befestigen Leiste mit Stiftpistole.",
-          "nl": "Bevestigen lat met spijkerpistool.",
-          "en": "Fix trim with pin gun."
-        },
-        {
-          "id": "con_adv_053",
-          "se": "Fäst takfotsplåt med skruv.",
-          "no": "Fest takfotsblikk med skru.",
-          "da": "Fastgør tagfodsblik med skrue.",
-          "de": "Befestigen Traufblech mit Schraube.",
-          "nl": "Bevestigen dakgootblik met schroef.",
-          "en": "Fix eaves sheet with screw."
-        },
-        {
-          "id": "con_adv_060",
-          "se": "Gjut bjälklag med armering.",
-          "no": "Støp bjelkelag med armering.",
-          "da": "Støb bjælkelag med armering.",
-          "de": "Gießen Decke mit Bewehrung.",
-          "nl": "Storten vloer met wapening.",
-          "en": "Pour floor with rebar."
-        },
-        {
-          "id": "con_adv_074",
-          "se": "Isolera golv med cellplast.",
-          "no": "Isoler gulv med isopor.",
-          "da": "Isoler gulv med flamingo.",
-          "de": "Dämmen Boden mit Dämmplatten.",
-          "nl": "Isoleren vloer met isolatieplaten.",
-          "en": "Insulate floor with insulation boards."
-        },
-        {
-          "id": "con_adv_080",
-          "se": "Lägg markduk under makadam.",
-          "no": "Legg markduk under singel.",
-          "da": "Læg markdug under singel.",
-          "de": "Legen Geotextil unter Schotter.",
-          "nl": "Leggen worteldoek onder split.",
-          "en": "Lay geotextile under aggregate."
-        },
-        {
-          "id": "con_adv_008",
-          "se": "Pass på ställningen med rör.",
-          "no": "Pass på stillaset med rør.",
-          "da": "Pas på stilladset med rør.",
-          "de": "Pass auf Gerüst mit Rohren auf.",
-          "nl": "Let op steiger met buizen.",
-          "en": "Mind the scaffold with tubes."
-        },
-        {
-          "id": "con_adv_009",
-          "se": "Lägg råspont på takstolarna.",
-          "no": "Legg råspont på takstoler.",
-          "da": "Læg råspont på tagspær.",
-          "de": "Legen Rohspanplatten auf Dachstuhl.",
-          "nl": "Leggen ruwe platen op dakspanten.",
-          "en": "Lay OSB on roof trusses."
-        },
-        {
-          "id": "con_adv_024",
-          "se": "Lägg underlagspapp på taket.",
-          "no": "Legg undertakspapp på taket.",
-          "da": "Læg undertagspapir på taget.",
-          "de": "Legen Unterdeckbahn auf Dach.",
-          "nl": "Leggen onderdakfolie op dak.",
-          "en": "Lay underlay on roof."
-        },
-        {
-          "id": "con_adv_066",
-          "se": "Isolera vind med mineralull.",
-          "no": "Isoler loft med mineralull.",
-          "da": "Isoler loft med mineraluld.",
-          "de": "Dämmen Dach mit Mineralwolle.",
-          "nl": "Isoleren zolder met steenwol.",
-          "en": "Insulate attic with mineral wool."
-        },
-        {
-          "id": "con_adv_088",
-          "se": "Isolera vägg med mineralull.",
-          "no": "Isoler vegg med mineralull.",
-          "da": "Isoler væg med mineraluld.",
-          "de": "Dämmen Wand mit Mineralwolle.",
-          "nl": "Isoleren muur met steenwol.",
-          "en": "Insulate wall with mineral wool."
-        },
-        {
-          "id": "con_adv_006",
-          "se": "Släck motorn på grävmaskinen.",
-          "no": "Slå av motoren på gravemaskinen.",
-          "da": "Sluk motoren på gravemaskinen.",
-          "de": "Motor aus beim Bagger.",
-          "nl": "Motor uit bij de graafmachine.",
-          "en": "Kill the engine on the digger."
-        },
-        {
-          "id": "con_adv_025",
-          "se": "Skruva fast plåten med skruv.",
-          "no": "Skru platen med skru.",
-          "da": "Skru pladen med skrue.",
-          "de": "Schrauben Blech mit Schraube.",
-          "nl": "Schroeven plaat met schroef.",
-          "en": "Screw sheet with screw."
-        },
-        {
-          "id": "con_adv_032",
-          "se": "Fäst takpannor med stormkrok.",
-          "no": "Fest takstein med stormkrok.",
-          "da": "Fastgør tagsten med stormkrog.",
-          "de": "Befestigen Dachziegel mit Sturmhaken.",
-          "nl": "Bevestigen dakpan met stormhaak.",
-          "en": "Fix roof tile with storm clip."
-        },
-        {
-          "id": "con_adv_040",
-          "se": "Lägg cellplast under plattan.",
-          "no": "Legg isopor under sålen.",
-          "da": "Læg flamingo under sålen.",
-          "de": "Legen Dämmplatten unter Platte.",
-          "nl": "Leggen isolatieplaten onder vloer.",
-          "en": "Lay insulation under slab."
-        },
-        {
-          "id": "con_adv_048",
-          "se": "Isolera rör med rörisolering.",
-          "no": "Isoler rør med rørisolasjon.",
-          "da": "Isoler rør med rørisolering.",
-          "de": "Dämmen Rohre mit Rohrisolierung.",
-          "nl": "Isoleren leidingen met leidingisolatie.",
-          "en": "Insulate pipes with pipe insulation."
-        },
-        {
-          "id": "con_adv_050",
-          "se": "Montera fönsterbleck av plåt.",
-          "no": "Monter vindusbeslag av blikk.",
-          "da": "Montér vinduesbeslag af blik.",
-          "de": "Montieren Fensterblech aus Blech.",
-          "nl": "Monteren raamdorpel van blik.",
-          "en": "Fit window cill with sheet metal."
-        },
-        {
-          "id": "con_adv_022",
-          "se": "Vänta på provtryckning av rör.",
-          "no": "Vent på trykktesting av rør.",
-          "da": "Vent på trykprøve af rør.",
-          "de": "Warten auf Druckprüfung von Rohren.",
-          "nl": "Wachten op druktest van leidingen.",
-          "en": "Wait for pressure test on pipes."
-        },
-        {
-          "id": "con_adv_023",
-          "se": "Stäng av strömmen med brytare.",
-          "no": "Slå av strømmen med bryter.",
-          "da": "Sluk strømmen med afbryder.",
-          "de": "Strom abschalten mit Schalter.",
-          "nl": "Stroom uitschakelen met schakelaar.",
-          "en": "Switch off power with breaker."
-        },
-        {
-          "id": "con_adv_030",
-          "se": "Använd armeringsnät i plattan.",
-          "no": "Bruk armeringsnett i sålen.",
-          "da": "Brug armeringsnet i sålen.",
-          "de": "Verwenden Bewehrungsmatte in Platte.",
-          "nl": "Gebruiken wapeningsnet in vloer.",
-          "en": "Use mesh in slab."
-        },
-        {
-          "id": "con_adv_051",
-          "se": "Skär isolering med isolerkniv.",
-          "no": "Skjær isolasjon med isolasjonskniv.",
-          "da": "Skær isolering med isoleringskniv.",
-          "de": "Schneiden Dämmung mit Dämmstoffmesser.",
-          "nl": "Snijden isolatie met isolatiemes.",
-          "en": "Cut insulation with insulation knife."
-        },
-        {
-          "id": "con_adv_058",
-          "se": "Lägg diffusionsspärr på taket.",
-          "no": "Legg diffusjonssperre på taket.",
-          "da": "Læg diffusionsspærre på taget.",
-          "de": "Legen Dampfsperre auf Dach.",
-          "nl": "Leggen dampremmende folie op dak.",
-          "en": "Lay vapour barrier on roof."
-        },
-        {
-          "id": "con_adv_014",
-          "se": "Fäst OSB-skivor med spikpistol.",
-          "no": "Fest OSB med spikerpistol.",
-          "da": "Fastgør OSB med spikerpistol.",
-          "de": "Befestigen OSB mit Nagelpistole.",
-          "nl": "Bevestigen OSB met spijkerpistool.",
-          "en": "Fix OSB with nail gun."
-        },
-        {
-          "id": "con_adv_026",
-          "se": "Montera fönster med karmhylsor.",
-          "no": "Monter vindu med karmhylser.",
-          "da": "Montér vindue med karmhylster.",
-          "de": "Montieren Fenster mit Karmschrauben.",
-          "nl": "Monteren raam met kozijnhuls.",
-          "en": "Fit window with frame fixings."
-        },
-        {
-          "id": "con_adv_007",
-          "se": "Hissa upp gipsskivor med kranen.",
-          "no": "Heis opp gipsplater med kran.",
-          "da": "Hejs op gipsplader med kran.",
-          "de": "Hängen Gipskartonplatten mit Kran hoch.",
-          "nl": "Hijs gipsplaten met kraan.",
-          "en": "Crane up plasterboard with crane."
-        },
-        {
-          "id": "con_adv_021",
-          "se": "Dra åt bultarna med momentnyckel.",
-          "no": "Stram boltene med momentnøkkel.",
-          "da": "Spænd boltene med momentnøgle.",
-          "de": "Anziehen Schrauben mit Drehmomentschlüssel.",
-          "nl": "Aantrekken bouten met momentsleutel.",
-          "en": "Torque bolts with torque wrench."
-        },
-        {
-          "id": "con_adv_036",
-          "se": "Lägg dräneringsrör med filterduk.",
-          "no": "Legg dreneringsrør med filterduk.",
-          "da": "Læg drænrør med filterdug.",
-          "de": "Legen Dränrohr mit Filtervlies.",
-          "nl": "Leggen drainbuis met filterdoek.",
-          "en": "Lay land drain with filter fabric."
-        },
-        {
-          "id": "con_adv_042",
-          "se": "Montera ventilation med FTX-system.",
-          "no": "Monter ventilasjon med FTX-system.",
-          "da": "Montér ventilation med FTX-system.",
-          "de": "Montieren Lüftung mit FTX-System.",
-          "nl": "Monteren ventilatie met WTW-systeem.",
-          "en": "Fit ventilation with HRV system."
-        },
-        {
-          "id": "con_adv_016",
-          "se": "Dra inte hårt i förlängningssladden.",
-          "no": "Ikke dra hardt i skjøteledningen.",
-          "da": "Træk ikke hårdt i forlængerkablet.",
-          "de": "Nicht hart an Verlängerungskabel ziehen.",
-          "nl": "Niet hard trekken aan verlengkabel.",
-          "en": "Don't pull hard on extension lead."
-        },
-        {
-          "id": "con_adv_099",
-          "se": "Kontrollera moment med momentnyckel.",
-          "no": "Kontroller moment med momentnøkkel.",
-          "da": "Kontrollér moment med momentnøgle.",
-          "de": "Kontrollieren Drehmoment mit Drehmomentschlüssel.",
-          "nl": "Controleren moment met momentsleutel.",
-          "en": "Check torque with torque wrench."
-        },
-        {
-          "id": "con_adv_000",
-          "se": "Vi gjuter plattan med betong imorgon.",
-          "no": "Vi støper sålen med betong i morgen.",
-          "da": "Vi støber sålen med beton i morgen.",
-          "de": "Wir gießen die Bodenplatte mit Beton morgen.",
-          "nl": "We storten de fundering met beton morgen.",
-          "en": "We're pouring the slab with concrete tomorrow."
-        },
-        {
-          "id": "con_adv_019",
-          "se": "Kontrollera fallskyddet innan du klättrar.",
-          "no": "Sjekk fallsikringen før klatring.",
-          "da": "Tjek faldsikring før klatring.",
-          "de": "Kontrolliere Absturzsicherung vor Klettern.",
-          "nl": "Controleer valbeveiliging voor klimmen.",
-          "en": "Check fall arrest before climbing."
-        }
-      ]
-    },
-    "hospitality": {
-      "novice": [
-        {
-          "id": "hos_nov_000",
-          "se": "Hej!",
-          "no": "Hei!",
-          "da": "Hej!",
-          "de": "Hallo!",
-          "nl": "Hallo!",
-          "en": "Hello!"
-        },
-        {
-          "id": "hos_nov_023",
-          "se": "Glas",
-          "no": "Meny",
-          "da": "Glas",
-          "de": "Glas",
-          "nl": "Glas",
-          "en": "Glass"
-        },
-        {
-          "id": "hos_nov_024",
-          "se": "Meny",
-          "no": "Kasse",
-          "da": "Menu",
-          "de": "Speisekarte",
-          "nl": "Menu",
-          "en": "Menu"
-        },
-        {
-          "id": "hos_nov_087",
-          "se": "Korg",
-          "no": "Kjølebox",
-          "da": "Vægt",
-          "de": "Waage",
-          "nl": "Koelbox",
-          "en": "Scales"
-        },
-        {
-          "id": "hos_nov_094",
-          "se": "Håll",
-          "no": "Nyheter i sortimentet.",
-          "da": "Kampagne",
-          "de": "Aktion",
-          "nl": "Nieuw in het assortiment.",
-          "en": "Promotion"
-        },
-        {
-          "id": "hos_nov_025",
-          "se": "Kassa",
-          "no": "Kortterminal",
-          "da": "Kasse",
-          "de": "Kasse",
-          "nl": "Kassa",
-          "en": "Till"
-        },
-        {
-          "id": "hos_nov_028",
-          "se": "Hylla",
-          "no": "Handlekurv",
-          "da": "Hylde",
-          "de": "Regal",
-          "nl": "Plank",
-          "en": "Shelf"
-        },
-        {
-          "id": "hos_nov_051",
-          "se": "Mixer",
-          "no": "Ovnen",
-          "da": "Køleskab",
-          "de": "Kühlschrank",
-          "nl": "Koelkast",
-          "en": "Fridge"
-        },
-        {
-          "id": "hos_nov_081",
-          "se": "Lager",
-          "no": "Garanti",
-          "da": "Returpolitik",
-          "de": "Rückgabebedingungen",
-          "nl": "Garantie",
-          "en": "Returns policy"
-        },
-        {
-          "id": "hos_nov_086",
-          "se": "Kylbox",
-          "no": "Vekt",
-          "da": "Scanner",
-          "de": "Scanner",
-          "nl": "Weegschaal",
-          "en": "Scanner"
-        },
-        {
-          "id": "hos_nov_020",
-          "se": "Bestick",
-          "no": "Bestikk",
-          "da": "Bestik",
-          "de": "Besteck",
-          "nl": "Bestek",
-          "en": "Cutlery"
-        },
-        {
-          "id": "hos_nov_021",
-          "se": "Servett",
-          "no": "Serviett",
-          "da": "Serviet",
-          "de": "Serviette",
-          "nl": "Servet",
-          "en": "Napkin"
-        },
-        {
-          "id": "hos_nov_022",
-          "se": "Tallrik",
-          "no": "Glass",
-          "da": "Tallerken",
-          "de": "Teller",
-          "nl": "Bord",
-          "en": "Plate"
-        },
-        {
-          "id": "hos_nov_027",
-          "se": "Etikett",
-          "no": "Hylle",
-          "da": "Prismetke",
-          "de": "Preisschild",
-          "nl": "Prijssticker",
-          "en": "Price tag"
-        },
-        {
-          "id": "hos_nov_050",
-          "se": "Kylskåp",
-          "no": "Kjøleskap",
-          "da": "Opvaskemaskine",
-          "de": "Spülmaschine",
-          "nl": "Afwasmachine",
-          "en": "Dishwasher"
-        },
-        {
-          "id": "hos_nov_071",
-          "se": "Handduk",
-          "no": "Nøkkelkort",
-          "da": "Værelse for natten.",
-          "de": "Zimmer für die Nacht.",
-          "nl": "Sleutelkaart",
-          "en": "Room for the night."
-        },
-        {
-          "id": "hos_nov_080",
-          "se": "Garanti",
-          "no": "Returpolicy",
-          "da": "Kundeservice",
-          "de": "Kundenservice",
-          "nl": "Retourbeleid",
-          "en": "Customer service"
-        },
-        {
-          "id": "hos_nov_084",
-          "se": "Scanner",
-          "no": "Etikettmaskin",
-          "da": "Emballage",
-          "de": "Verpackung",
-          "nl": "Etikettenmachine",
-          "en": "Packaging"
-        },
-        {
-          "id": "hos_nov_085",
-          "se": "Vägskål",
-          "no": "Skanner",
-          "da": "Etikettemaskine",
-          "de": "Etikettiermaschine",
-          "nl": "Scanner",
-          "en": "Label machine"
-        },
-        {
-          "id": "hos_nov_092",
-          "se": "Kampanj",
-          "no": "Kundekort",
-          "da": "Feedback, tak.",
-          "de": "Feedback, bitte.",
-          "nl": "Klantenkaart",
-          "en": "Feedback, please."
-        },
-        {
-          "id": "hos_nov_029",
-          "se": "Varukorg",
-          "no": "Hei, velkommen inn!",
-          "da": "Indkøbskurv",
-          "de": "Einkaufskorb",
-          "nl": "Winkelmandje",
-          "en": "Shopping basket"
-        },
-        {
-          "id": "hos_nov_056",
-          "se": "Prislapp",
-          "no": "Kvittering",
-          "da": "Tøjstativ",
-          "de": "Kleiderständer",
-          "nl": "Kledingrek",
-          "en": "Clothes rail"
-        },
-        {
-          "id": "hos_nov_057",
-          "se": "Kundvagn",
-          "no": "Prislabel",
-          "da": "Kvitto",
-          "de": "Beleg",
-          "nl": "Prijskaartje",
-          "en": "Receipt"
-        },
-        {
-          "id": "hos_nov_053",
-          "se": "Plastpåse",
-          "no": "Fuktige kluter",
-          "da": "Blender",
-          "de": "Mixer",
-          "nl": "Blender",
-          "en": "Blender"
-        },
-        {
-          "id": "hos_nov_066",
-          "se": "Prova på!",
-          "no": "Dette er populært.",
-          "da": "Hvad leder du efter?",
-          "de": "Was suchen Sie?",
-          "nl": "Dit is populair.",
-          "en": "What are you looking for?"
-        },
-        {
-          "id": "hos_nov_074",
-          "se": "Concierge",
-          "no": "Frokostbuffé",
-          "da": "Sengetøj",
-          "de": "Bettwäsche",
-          "nl": "Ontbijtbuffet",
-          "en": "Bed linen"
-        },
-        {
-          "id": "hos_nov_075",
-          "se": "Parkering",
-          "no": "Portner",
-          "da": "Morgenmadsbuffet",
-          "de": "Frühstücksbuffet",
-          "nl": "Conciërge",
-          "en": "Breakfast buffet"
-        },
-        {
-          "id": "hos_nov_088",
-          "se": "Hej igen!",
-          "no": "Kurv",
-          "da": "Kølebox",
-          "de": "Kühlbox",
-          "nl": "Mand",
-          "en": "Cooler box"
-        },
-        {
-          "id": "hos_nov_002",
-          "se": "Välkommen!",
-          "no": "Velkommen!",
-          "da": "Velkommen!",
-          "de": "Willkommen!",
-          "nl": "Welkom!",
-          "en": "Welcome!"
-        },
-        {
-          "id": "hos_nov_041",
-          "se": "Fika-paus?",
-          "no": "Dagens spesial: smørbrød.",
-          "da": "Hygge-pause?",
-          "de": "Kaffeepause?",
-          "nl": "Koffiepauze?",
-          "en": "Tea break?"
-        },
-        {
-          "id": "hos_nov_049",
-          "se": "Diskmaskin",
-          "no": "Oppvaskmaskin",
-          "da": "Køkken",
-          "de": "Küche",
-          "nl": "Keuken",
-          "en": "Kitchen"
-        }
-      ],
-      "beginner": [
-        {
-          "id": "hos_beg_070",
-          "se": "Nyckelkort",
-          "no": "Rom for natten.",
-          "da": "Hotel-check-in.",
-          "de": "Hotel-Check-in.",
-          "nl": "Kamer voor de nacht.",
-          "en": "Hotel check-in."
-        },
-        {
-          "id": "hos_beg_072",
-          "se": "Sängkläder",
-          "no": "Håndkle",
-          "da": "Nøglekort",
-          "de": "Schlüsselkarte",
-          "nl": "Handdoek",
-          "en": "Key card"
-        },
-        {
-          "id": "hos_beg_077",
-          "se": "Städtjänst",
-          "no": "WiFi-passord",
-          "da": "Parkering",
-          "de": "Parkplatz",
-          "nl": "WiFi-wachtwoord",
-          "en": "Parking"
-        },
-        {
-          "id": "hos_beg_089",
-          "se": "Nöjd kund?",
-          "no": "Hei igjen!",
-          "da": "Kurv",
-          "de": "Korb",
-          "nl": "Hallo weer!",
-          "en": "Basket"
-        },
-        {
-          "id": "hos_beg_001",
-          "se": "God morgon!",
-          "no": "God morgen!",
-          "da": "God morgen!",
-          "de": "Guten Morgen!",
-          "nl": "Goedemorgen!",
-          "en": "Good morning!"
-        },
-        {
-          "id": "hos_beg_019",
-          "se": "Kaffemaskin",
-          "no": "Kaffemaskin",
-          "da": "Kaffemaskine",
-          "de": "Kaffeemaschine",
-          "nl": "Koffiemachine",
-          "en": "Coffee machine"
-        },
-        {
-          "id": "hos_beg_054",
-          "se": "Kläderställ",
-          "no": "Plastpose",
-          "da": "Fugtige servietter",
-          "de": "Feuchttücher",
-          "nl": "Natte doekjes",
-          "en": "Wet wipes"
-        },
-        {
-          "id": "hos_beg_055",
-          "se": "Kassakvitto",
-          "no": "Klærstativ",
-          "da": "Plastpose",
-          "de": "Plastiktüte",
-          "nl": "Plastic tas",
-          "en": "Plastic bag"
-        },
-        {
-          "id": "hos_beg_078",
-          "se": "Kundservice",
-          "no": "Rengjøringstjeneste",
-          "da": "WiFi-kode",
-          "de": "WiFi-Passwort",
-          "nl": "Schoonmaakdienst",
-          "en": "WiFi password"
-        },
-        {
-          "id": "hos_beg_079",
-          "se": "Returpolicy",
-          "no": "Kundeservice",
-          "da": "Rengøringsservice",
-          "de": "Reinigungsservice",
-          "nl": "Klantenservice",
-          "en": "Cleaning service"
-        },
-        {
-          "id": "hos_beg_082",
-          "se": "Förpackning",
-          "no": "Lager",
-          "da": "Garanti",
-          "de": "Garantie",
-          "nl": "Magazijn",
-          "en": "Warranty"
-        },
-        {
-          "id": "hos_beg_026",
-          "se": "Kortterminal",
-          "no": "Prismerking",
-          "da": "Kortterminal",
-          "de": "Kartenterminal",
-          "nl": "Pinapparaat",
-          "en": "Card machine"
-        },
-        {
-          "id": "hos_beg_052",
-          "se": "Våtservetter",
-          "no": "Mikser",
-          "da": "Ovnen",
-          "de": "Ofen",
-          "nl": "Oven",
-          "en": "Oven"
-        },
-        {
-          "id": "hos_beg_060",
-          "se": "Rabattkupon?",
-          "no": "Kan jeg bytte varen?",
-          "da": "Undskyld, det passer ikke.",
-          "de": "Entschuldigung, es passt nicht.",
-          "nl": "Kan ik ruilen?",
-          "en": "Excuse me, it doesn't fit."
-        },
-        {
-          "id": "hos_beg_073",
-          "se": "Frukostbuffé",
-          "no": "Sengetøy",
-          "da": "Håndklæde",
-          "de": "Handtuch",
-          "nl": "Beddengoed",
-          "en": "Towel"
-        },
-        {
-          "id": "hos_beg_076",
-          "se": "WiFi-lösenord",
-          "no": "Parkering",
-          "da": "Portier",
-          "de": "Concierge",
-          "nl": "Parkeerplaats",
-          "en": "Concierge"
-        },
-        {
-          "id": "hos_beg_083",
-          "se": "Etikettmaskin",
-          "no": "Emballasje",
-          "da": "Lager",
-          "de": "Lager",
-          "nl": "Verpakking",
-          "en": "Warehouse"
-        },
-        {
-          "id": "hos_beg_012",
-          "se": "Faktura, tack.",
-          "no": "Regningen, takk.",
-          "da": "Regningen, tak.",
-          "de": "Die Rechnung, bitte.",
-          "nl": "De rekening, alstublieft.",
-          "en": "The bill, please."
-        },
-        {
-          "id": "hos_beg_068",
-          "se": "Hotelcheck-in.",
-          "no": "Passer perfekt.",
-          "da": "Prøv det på!",
-          "de": "Probieren Sie es an!",
-          "nl": "Past perfect.",
-          "en": "Try it on!"
-        },
-        {
-          "id": "hos_beg_090",
-          "se": "Feedback tack.",
-          "no": "Fornøyd kunde?",
-          "da": "Hej igen!",
-          "de": "Hallo nochmal!",
-          "nl": "Tevreden klant?",
-          "en": "Hello again!"
-        },
-        {
-          "id": "hos_beg_091",
-          "se": "Lojalitetskort",
-          "no": "Tilbakemelding, takk.",
-          "da": "Tilfreds kunde?",
-          "de": "Zufriedener Kunde?",
-          "nl": "Feedback, alstublieft.",
-          "en": "Happy customer?"
-        },
-        {
-          "id": "hos_beg_007",
-          "se": "Smaklig måltid!",
-          "no": "Vel bekomme!",
-          "da": "Velbekomme!",
-          "de": "Guten Appetit!",
-          "nl": "Eet smakelijk!",
-          "en": "Enjoy your meal!"
-        },
-        {
-          "id": "hos_beg_013",
-          "se": "Tack så mycket!",
-          "no": "Tusen takk!",
-          "da": "Mange tak!",
-          "de": "Vielen Dank!",
-          "nl": "Hartelijk dank!",
-          "en": "Thank you very much!"
-        },
-        {
-          "id": "hos_beg_048",
-          "se": "Nybryggt kaffe.",
-          "no": "Kjøkken",
-          "da": "Nybrygget kaffe.",
-          "de": "Frischer Kaffee.",
-          "nl": "Verse koffie.",
-          "en": "Fresh brew."
-        },
-        {
-          "id": "hos_beg_067",
-          "se": "Passar perfekt.",
-          "no": "Prøv det på!",
-          "da": "Det her er populært.",
-          "de": "Das ist beliebt.",
-          "nl": "Probeer het eens!",
-          "en": "This is popular."
-        },
-        {
-          "id": "hos_beg_069",
-          "se": "Rum för natten.",
-          "no": "Hotell-innsjekking.",
-          "da": "Passer perfekt.",
-          "de": "Passt perfekt.",
-          "nl": "Hotel-check-in.",
-          "en": "Perfect fit."
-        },
-        {
-          "id": "hos_beg_034",
-          "se": "Det är rea idag.",
-          "no": "Takk for kjøpet!",
-          "da": "Det er tilbud i dag.",
-          "de": "Heute ist Sale.",
-          "nl": "Vandaag in de uitverkoop.",
-          "en": "It's on sale today."
-        },
-        {
-          "id": "hos_beg_045",
-          "se": "Räkning, snälla.",
-          "no": "Hyggelig å møte deg!",
-          "da": "Regning, venligst.",
-          "de": "Rechnung, bitte.",
-          "nl": "Rekening, alsjeblieft.",
-          "en": "Check, please."
-        },
-        {
-          "id": "hos_beg_008",
-          "se": "Tack för besöket!",
-          "no": "Takk for besøket!",
-          "da": "Tak for i dag!",
-          "de": "Danke für Ihren Besuch!",
-          "nl": "Dank voor uw bezoek!",
-          "en": "Thank you for visiting!"
-        },
-        {
-          "id": "hos_beg_046",
-          "se": "Trevligt att ses!",
-          "no": "Kan du varme det?",
-          "da": "Hyggeligt at møde dig!",
-          "de": "Schön, Sie zu treffen!",
-          "nl": "Leuk u te ontmoeten!",
-          "en": "Nice to meet you!"
-        },
-        {
-          "id": "hos_beg_061",
-          "se": "Öppet till 20:00.",
-          "no": "Rabattkupong?",
-          "da": "Kan jeg bytte varen?",
-          "de": "Kann ich umtauschen?",
-          "nl": "Kortingbon?",
-          "en": "Can I exchange it?"
-        }
-      ],
-      "advanced": [
-        {
-          "id": "hos_adv_014",
-          "se": "Ha en trevlig dag!",
-          "no": "Ha en fin dag!",
-          "da": "Hav en hyggelig dag!",
-          "de": "Einen schönen Tag!",
-          "nl": "Fijne dag!",
-          "en": "Have a great day!"
-        },
-        {
-          "id": "hos_adv_018",
-          "se": "Bullar till fikan?",
-          "no": "Koselig med boller?",
-          "da": "Hygge med boller?",
-          "de": "Mit Brezen zum Kaffee?",
-          "nl": "Met stroopwafels?",
-          "en": "Scones for tea?"
-        },
-        {
-          "id": "hos_adv_030",
-          "se": "Hej, välkommen in!",
-          "no": "Hvor mye koster det?",
-          "da": "Hej, kom ind!",
-          "de": "Hallo, kommen Sie herein!",
-          "nl": "Hallo, kom binnen!",
-          "en": "Hi, come in!"
-        },
-        {
-          "id": "hos_adv_035",
-          "se": "Tack för ditt köp!",
-          "no": "Trenger du hjelp?",
-          "da": "Tak for købet!",
-          "de": "Danke für den Einkauf!",
-          "nl": "Dank voor uw aankoop!",
-          "en": "Thank you for shopping!"
-        },
-        {
-          "id": "hos_adv_004",
-          "se": "Har du bestämt dig?",
-          "no": "Har du bestemt deg?",
-          "da": "Har du valgt?",
-          "de": "Haben Sie sich entschieden?",
-          "nl": "Hebt u gekozen?",
-          "en": "Have you decided?"
-        },
-        {
-          "id": "hos_adv_033",
-          "se": "Kan jag få en påse?",
-          "no": "Det er salg i dag.",
-          "da": "Kan jeg få en pose?",
-          "de": "Kann ich eine Tüte haben?",
-          "nl": "Kan ik een tas hebben?",
-          "en": "Can I have a bag?"
-        },
-        {
-          "id": "hos_adv_039",
-          "se": "Välkommen tillbaka!",
-          "no": "Koselige porsjoner, takk.",
-          "da": "Velkommen tilbage!",
-          "de": "Auf Wiedersehen!",
-          "nl": "Tot ziens!",
-          "en": "Cheerio!"
-        },
-        {
-          "id": "hos_adv_043",
-          "se": "Allergivänlig meny?",
-          "no": "Bord for to, takk.",
-          "da": "Allergivenlig menu?",
-          "de": "Allergikerfreundliche Karte?",
-          "nl": "Allergievriendelijk menu?",
-          "en": "Allergy-friendly menu?"
-        },
-        {
-          "id": "hos_adv_044",
-          "se": "Bord för två, tack.",
-          "no": "Regning, vær så snill.",
-          "da": "Bord til to, tak.",
-          "de": "Tisch für zwei, bitte.",
-          "nl": "Tafel voor twee, alstublieft.",
-          "en": "Table for two, please."
-        },
-        {
-          "id": "hos_adv_059",
-          "se": "Kan jag byta varan?",
-          "no": "Unnskyld, det passer ikke.",
-          "da": "Indkøbsvogn",
-          "de": "Einkaufswagen",
-          "nl": "Pardon, het past niet.",
-          "en": "Shopping trolley"
-        },
-        {
-          "id": "hos_adv_064",
-          "se": "Vad letar du efter?",
-          "no": "Velkommen til butikken!",
-          "da": "Lukket for lageroprydning.",
-          "de": "Geschlossen wegen Inventur.",
-          "nl": "Welkom in de winkel!",
-          "en": "Closed for stocktake."
-        },
-        {
-          "id": "hos_adv_006",
-          "se": "En kopp kaffe, tack.",
-          "no": "En kopp kaffe, takk.",
-          "da": "En kop kaffe, tak.",
-          "de": "Eine Tasse Kaffee, bitte.",
-          "nl": "Een kop koffie, alstublieft.",
-          "en": "One cup of tea, please."
-        },
-        {
-          "id": "hos_adv_065",
-          "se": "Det här är populärt.",
-          "no": "Hva leter du etter?",
-          "da": "Velkommen til butikken!",
-          "de": "Willkommen im Laden!",
-          "nl": "Wat zoekt u?",
-          "en": "Welcome to the shop!"
-        },
-        {
-          "id": "hos_adv_005",
-          "se": "Vad vill du beställa?",
-          "no": "Hva vil du bestille?",
-          "da": "Hvad vil du bestille?",
-          "de": "Was möchten Sie bestellen?",
-          "nl": "Wat wilt u bestellen?",
-          "en": "What would you like to order?"
-        },
-        {
-          "id": "hos_adv_047",
-          "se": "Kan du värma upp det?",
-          "no": "Nybrent kaffe.",
-          "da": "Kan du varme det op?",
-          "de": "Können Sie es aufwärmen?",
-          "nl": "Kunt u het opwarmen?",
-          "en": "Can you warm it up?"
-        },
-        {
-          "id": "hos_adv_031",
-          "se": "Hur mycket kostar det?",
-          "no": "Har dere det i størrelse M?",
-          "da": "Hvor meget koster det?",
-          "de": "Wie viel kostet das?",
-          "nl": "Hoeveel kost het?",
-          "en": "How much is it?"
-        },
-        {
-          "id": "hos_adv_040",
-          "se": "Lagom portioner, tack.",
-          "no": "Kos-pause?",
-          "da": "Hygge-portioner, tak.",
-          "de": "Ausgewogene Portionen, bitte.",
-          "nl": "Matige porties, alstublieft.",
-          "en": "Balanced portions, please."
-        },
-        {
-          "id": "hos_adv_093",
-          "se": "Nyheter i sortimentet.",
-          "no": "Kampanje",
-          "da": "Loyalitetskort",
-          "de": "Kundenkarte",
-          "nl": "Actie",
-          "en": "Loyalty card"
-        },
-        {
-          "id": "hos_adv_010",
-          "se": "Varsågod, här är menyn.",
-          "no": "Her er menyen.",
-          "da": "Her er menuen.",
-          "de": "Hier ist die Karte.",
-          "nl": "Hier is de menukaart.",
-          "en": "Here's the menu."
-        },
-        {
-          "id": "hos_adv_032",
-          "se": "Har ni det i storlek M?",
-          "no": "Kan jeg få en pose?",
-          "da": "Har I det i størrelse M?",
-          "de": "Haben Sie das in Größe M?",
-          "nl": "Hebt u het in maat M?",
-          "en": "Do you have it in size M?"
-        },
-        {
-          "id": "hos_adv_037",
-          "se": "Var hittar jag mjölken?",
-          "no": "Det blir 150 kr totalt.",
-          "da": "Hvor finder jeg mælken?",
-          "de": "Wo finde ich die Milch?",
-          "nl": "Waar vind ik de melk?",
-          "en": "Where's the milk?"
-        },
-        {
-          "id": "hos_adv_062",
-          "se": "Stängt för inventering.",
-          "no": "Åpent til 20:00.",
-          "da": "Rabatkupon?",
-          "de": "Rabattgutschein?",
-          "nl": "Open tot 20:00.",
-          "en": "Discount voucher?"
-        },
-        {
-          "id": "hos_adv_063",
-          "se": "Välkommen till butiken!",
-          "no": "Stengt for inventar.",
-          "da": "Åbent til 20:00.",
-          "de": "Geöffnet bis 20:00.",
-          "nl": "Gesloten voor voorraad.",
-          "en": "Open until 8 PM."
-        },
-        {
-          "id": "hos_adv_042",
-          "se": "Dagens special: smörgås.",
-          "no": "Allergivennlig meny?",
-          "da": "Dagens special: smørrebrød.",
-          "de": "Tagesgericht: Schnitzel.",
-          "nl": "Dag special: erwtensoep.",
-          "en": "Today's special: fish and chips."
-        },
-        {
-          "id": "hos_adv_015",
-          "se": "Ursäkta, var är toaletten?",
-          "no": "Unnskyld, hvor er toalettet?",
-          "da": "Undskyld, hvor er toilettet?",
-          "de": "Entschuldigung, wo ist die Toilette?",
-          "nl": "Pardon, waar is de wc?",
-          "en": "Excuse me, where's the loo?"
-        },
-        {
-          "id": "hos_adv_003",
-          "se": "Vad kan jag hjälpa dig med?",
-          "no": "Hva kan jeg hjelpe deg med?",
-          "da": "Hvad kan jeg hjælpe dig med?",
-          "de": "Womit kann ich Ihnen helfen?",
-          "nl": "Waarmee kan ik u helpen?",
-          "en": "How can I help you?"
-        },
-        {
-          "id": "hos_adv_009",
-          "se": "Får jag ta din beställning?",
-          "no": "Kan jeg ta bestillingen deres?",
-          "da": "Må jeg tage jeres bestilling?",
-          "de": "Darf ich Ihre Bestellung aufnehmen?",
-          "nl": "Mag ik uw bestelling opnemen?",
-          "en": "May I take your order?"
-        },
-        {
-          "id": "hos_adv_036",
-          "se": "Behöver du hjälp med något?",
-          "no": "Hvor finner jeg melken?",
-          "da": "Har du brug for hjælp?",
-          "de": "Brauchen Sie Hilfe?",
-          "nl": "Heeft u hulp nodig?",
-          "en": "Need any help?"
-        },
-        {
-          "id": "hos_adv_038",
-          "se": "Det blir 150 kronor totalt.",
-          "no": "Velkommen tilbake!",
-          "da": "Det bliver 150 kr. totalt.",
-          "de": "Insgesamt 15 €.",
-          "nl": "Totaal 15 €.",
-          "en": "That's £15 total."
-        },
-        {
-          "id": "hos_adv_011",
-          "se": "Vill du ha något att dricka?",
-          "no": "Vil du ha noe å drikke?",
-          "da": "Vil du have noget at drikke?",
-          "de": "Möchten Sie etwas trinken?",
-          "nl": "Wilt u iets drinken?",
-          "en": "Would you like something to drink?"
-        },
-        {
-          "id": "hos_adv_058",
-          "se": "Ursäkta, det här passar inte.",
-          "no": "Handlekurv",
-          "da": "Prislabel",
-          "de": "Preisetikett",
-          "nl": "Winkelwagen",
-          "en": "Price label"
-        },
-        {
-          "id": "hos_adv_016",
-          "se": "Kan jag få en bordsreservning?",
-          "no": "Kan jeg reservere bord?",
-          "da": "Kan jeg reservere et bord?",
-          "de": "Kann ich einen Tisch reservieren?",
-          "nl": "Kan ik een tafel reserveren?",
-          "en": "Can I book a table?"
-        },
-        {
-          "id": "hos_adv_017",
-          "se": "Vi har dagens lunch för 99 kronor.",
-          "no": "Dagens lunsj er 99 kr.",
-          "da": "Dagens frokost er 99 kr.",
-          "de": "Das Tagesmenü kostet 9,90 €.",
-          "nl": "Het dagmenu kost 9,90 €.",
-          "en": "Today's special is £9.90."
-        }
-      ]
-    },
-    "manufacturing": {
-      "novice": [
-        {
-          "id": "man_nov_026",
-          "se": "Betong",
-          "no": "Epoxyharpiks",
-          "de": "Epoxidharz",
-          "nl": "Beton",
-          "en": "Concrete"
-        },
-        {
-          "id": "man_nov_007",
-          "se": "Mätband",
-          "no": "Vaterpas",
-          "da": "Vaterpass",
-          "de": "Wasserwaage",
-          "nl": "Rolmaat",
-          "en": "Tape measure"
-        },
-        {
-          "id": "man_nov_022",
-          "se": "Kolstål",
-          "no": "Aluminiumlegering",
-          "de": "Aluminiumlegierung",
-          "nl": "Koolstofstaal",
-          "en": "Carbon steel"
-        },
-        {
-          "id": "man_nov_034",
-          "se": "PVC-rör",
-          "no": "Slibepapir",
-          "de": "Schleifpapier",
-          "nl": "PVC-buis",
-          "en": "PVC pipe"
-        },
-        {
-          "id": "man_nov_006",
-          "se": "CNC-fräs",
-          "no": "Målebånd",
-          "da": "Målebånd",
-          "de": "Maßband",
-          "nl": "CNC-frees",
-          "en": "CNC mill"
-        },
-        {
-          "id": "man_nov_013",
-          "se": "Lyftkran",
-          "no": "Palleløfter",
-          "da": "Jekketralle",
-          "de": "Hubwagen",
-          "nl": "Hallenkraan",
-          "en": "Overhead crane"
-        },
-        {
-          "id": "man_nov_014",
-          "se": "Pallvagn",
-          "no": "Skiftenøgle",
-          "da": "Skiftenøkkel",
-          "de": "Schraubenschlüssel",
-          "nl": "Palletwagen",
-          "en": "Pallet truck"
-        },
-        {
-          "id": "man_nov_021",
-          "se": "Material",
-          "no": "Rustfrit stål",
-          "de": "Edelstahl",
-          "nl": "Materialen",
-          "en": "Materials"
-        },
-        {
-          "id": "man_nov_029",
-          "se": "Polyeten",
-          "no": "Glasfiber",
-          "de": "Glasfaser",
-          "nl": "Polyethyleen",
-          "en": "Polyethylene"
-        },
-        {
-          "id": "man_nov_032",
-          "se": "Ståltråd",
-          "no": "PVC-rør",
-          "de": "PVC-Rohr",
-          "nl": "Staaldraad",
-          "en": "Steel wire"
-        },
-        {
-          "id": "man_nov_039",
-          "se": "Skruv M8",
-          "no": "Bolt M12",
-          "de": "Bolzen M12",
-          "nl": "Schroef M8",
-          "en": "M8 screw"
-        },
-        {
-          "id": "man_nov_041",
-          "se": "Bult M12",
-          "no": "Bor hullet",
-          "de": "Bohre das Loch",
-          "nl": "Bout M12",
-          "en": "M12 bolt"
-        },
-        {
-          "id": "man_nov_011",
-          "se": "Kapmaskin",
-          "no": "Slibemaskine",
-          "da": "Slipemaskin",
-          "de": "Schleifmaschine",
-          "nl": "Afkortzaag",
-          "en": "Cut-off saw"
-        },
-        {
-          "id": "man_nov_031",
-          "se": "Glasfiber",
-          "no": "Galvaniseret plade",
-          "de": "Verzinktes Blech",
-          "nl": "Glasvezel",
-          "en": "Glass fibre"
-        },
-        {
-          "id": "man_nov_037",
-          "se": "Smörjolja",
-          "no": "Skrue M8",
-          "de": "Schraube M8",
-          "nl": "Smeerolie",
-          "en": "Lubricating oil"
-        },
-        {
-          "id": "man_nov_038",
-          "se": "Svetswire",
-          "no": "Møtrik M10",
-          "de": "Mutter M10",
-          "nl": "Lasdraad",
-          "en": "Filler wire"
-        },
-        {
-          "id": "man_nov_004",
-          "se": "Borrmaskin",
-          "no": "Svejseapparat",
-          "da": "Sveiseapparat",
-          "de": "Schweißgerät",
-          "nl": "Boormachine",
-          "en": "Drill"
-        },
-        {
-          "id": "man_nov_008",
-          "se": "Vattenpass",
-          "no": "Hydraulikpresse",
-          "da": "Hydraulikkpresse",
-          "de": "Hydraulikpresse",
-          "nl": "Waterpas",
-          "en": "Spirit level"
-        },
-        {
-          "id": "man_nov_010",
-          "se": "Multimeter",
-          "no": "Kapskærer",
-          "da": "Kappesag",
-          "de": "Trennschleifer",
-          "nl": "Multimeter",
-          "en": "Multimeter"
-        },
-        {
-          "id": "man_nov_012",
-          "se": "Slipmaskin",
-          "no": "Traverskran",
-          "da": "Traverskran",
-          "de": "Hallenkran",
-          "nl": "Slijpmachine",
-          "en": "Bench grinder"
-        },
-        {
-          "id": "man_nov_016",
-          "se": "Hylsnyckel",
-          "no": "Laserskærer",
-          "da": "Laserskjærer",
-          "de": "Laserschneider",
-          "nl": "Dopsleutel",
-          "en": "Socket set"
-        },
-        {
-          "id": "man_nov_025",
-          "se": "Kopparplåt",
-          "no": "Træfiberplade",
-          "de": "Holzfaserplatte",
-          "nl": "Koperplaat",
-          "en": "Copper sheet"
-        },
-        {
-          "id": "man_nov_028",
-          "se": "Epoxiharts",
-          "no": "Gummipakning",
-          "de": "Gummidichtung",
-          "nl": "Epoxyhars",
-          "en": "Epoxy resin"
-        },
-        {
-          "id": "man_nov_036",
-          "se": "Sandpapper",
-          "no": "Svejsetråd",
-          "de": "Schweißdraht",
-          "nl": "Schuurpapier",
-          "en": "Abrasive paper"
-        },
-        {
-          "id": "man_nov_040",
-          "se": "Mutter M10",
-          "no": "Svær samlingerne",
-          "de": "Schweiße die Nähte",
-          "nl": "Moer M10",
-          "en": "M10 nut"
-        },
-        {
-          "id": "man_nov_055",
-          "se": "Limma ihop",
-          "no": "Pres formen",
-          "de": "Presse die Form",
-          "nl": "Lijm de delen",
-          "en": "Bond the panels"
-        },
-        {
-          "id": "man_nov_060",
-          "se": "Böja röret",
-          "no": "Kontroller tolerancerne",
-          "de": "Prüfe die Toleranzen",
-          "nl": "Buig de buis",
-          "en": "Bend the pipe"
-        },
-        {
-          "id": "man_nov_093",
-          "se": "Byt filter",
-          "no": "Kontroller brandslukker",
-          "de": "Prüfe den Feuerlöscher",
-          "nl": "Vervang het filter",
-          "en": "Replace air filter"
-        },
-        {
-          "id": "man_nov_005",
-          "se": "Svetsmaskin",
-          "no": "CNC-fræser",
-          "da": "CNC-fres",
-          "de": "CNC-Fräse",
-          "nl": "Lasapparaat",
-          "en": "Welding machine"
-        },
-        {
-          "id": "man_nov_015",
-          "se": "Skiftnyckel",
-          "no": "Topnøgle",
-          "da": "Pipe",
-          "de": "Steckschlüssel",
-          "nl": "Steeksleutel",
-          "en": "Adjustable spanner"
-        },
-        {
-          "id": "man_nov_044",
-          "se": "Borra hålet",
-          "no": "Påfør fugemasse",
-          "de": "Trage Dichtmasse auf",
-          "nl": "Boor het gat",
-          "en": "Drill the hole"
-        },
-        {
-          "id": "man_nov_054",
-          "se": "Skruva fast",
-          "no": "Polér overfladen",
-          "de": "Poliere die Oberfläche",
-          "nl": "Draai vast",
-          "en": "Tighten the screw"
-        },
-        {
-          "id": "man_nov_057",
-          "se": "Polera ytan",
-          "no": "Bøj røret",
-          "de": "Biege das Rohr",
-          "nl": "Polijst het oppervlak",
-          "en": "Polish the surface"
-        }
-      ],
-      "beginner": [
-        {
-          "id": "man_beg_092",
-          "se": "Smörj lager",
-          "no": "Lås udstyr",
-          "de": "Verriegele die Anlage",
-          "nl": "Smeer het lager",
-          "en": "Lubricate bearings"
-        },
-        {
-          "id": "man_beg_001",
-          "se": "Skruvdragare",
-          "no": "Vinkelsliber",
-          "da": "Vinkelsliper",
-          "de": "Winkelschleifer",
-          "nl": "Schroevendraaier",
-          "en": "Screwdriver"
-        },
-        {
-          "id": "man_beg_003",
-          "se": "Momentnyckel",
-          "no": "Boremaskine",
-          "da": "Bormaskin",
-          "de": "Bohrmaschine",
-          "nl": "Momentsleutel",
-          "en": "Torque wrench"
-        },
-        {
-          "id": "man_beg_009",
-          "se": "Hydraulpress",
-          "no": "Multimeter",
-          "da": "Multimeter",
-          "de": "Multimeter",
-          "nl": "Hydraulische pers",
-          "en": "Hydraulic press"
-        },
-        {
-          "id": "man_beg_017",
-          "se": "Laserskärare",
-          "no": "Trykluftsmuttertrækker",
-          "da": "Trykkluftmuttertrekker",
-          "de": "Druckluftschrauber",
-          "nl": "Lasersnijder",
-          "en": "Laser cutter"
-        },
-        {
-          "id": "man_beg_030",
-          "se": "Gummitätning",
-          "no": "Ståltråd",
-          "de": "Stahldraht",
-          "nl": "Rubberafdichting",
-          "en": "Rubber gasket"
-        },
-        {
-          "id": "man_beg_045",
-          "se": "Fräsa spåret",
-          "no": "Juster niveauet",
-          "de": "Richte das Niveau aus",
-          "nl": "Frees de groef",
-          "en": "Mill the slot"
-        },
-        {
-          "id": "man_beg_052",
-          "se": "Rengöra ytan",
-          "no": "Lim sammen",
-          "de": "Verklebe die Teile",
-          "nl": "Reinig het oppervlak",
-          "en": "Clean the surface"
-        },
-        {
-          "id": "man_beg_059",
-          "se": "Stansa hålet",
-          "no": "Kontroller målene",
-          "de": "Kontrolliere die Maße",
-          "nl": "Pons het gat",
-          "en": "Punch the hole"
-        },
-        {
-          "id": "man_beg_061",
-          "se": "Slipa kanten",
-          "no": "Inspicer svejsningen",
-          "de": "Inspiziere die Schweißnaht",
-          "nl": "Slijp de rand",
-          "en": "Grind the edge"
-        },
-        {
-          "id": "man_beg_073",
-          "se": "Mäta hårdhet",
-          "no": "Mål spænding",
-          "de": "Miss die Spannung",
-          "nl": "Meet de hardheid",
-          "en": "Test hardness"
-        },
-        {
-          "id": "man_beg_027",
-          "se": "Träfiberskiva",
-          "no": "Polyethylen",
-          "de": "Polyethylen",
-          "nl": "Houtvezelplaat",
-          "en": "Fibreboard"
-        },
-        {
-          "id": "man_beg_046",
-          "se": "Montera ramen",
-          "no": "Indlæs materialet",
-          "de": "Belade das Material",
-          "nl": "Monteer het frame",
-          "en": "Assemble the frame"
-        },
-        {
-          "id": "man_beg_048",
-          "se": "Justera nivån",
-          "no": "Test trykket",
-          "de": "Teste den Druck",
-          "nl": "Stel het niveau in",
-          "en": "Level the base"
-        },
-        {
-          "id": "man_beg_051",
-          "se": "Testa trycket",
-          "no": "Skru fast",
-          "de": "Schraube fest",
-          "nl": "Test de druk",
-          "en": "Pressure test the system"
-        },
-        {
-          "id": "man_beg_056",
-          "se": "Värmebehandla",
-          "no": "Stans hullet",
-          "de": "Stanze das Loch",
-          "nl": "Warmtebehandel",
-          "en": "Heat treat the part"
-        },
-        {
-          "id": "man_beg_058",
-          "se": "Pressa formen",
-          "no": "Slib kanten",
-          "de": "Schleife die Kante",
-          "nl": "Pers de mal",
-          "en": "Press the form"
-        },
-        {
-          "id": "man_beg_077",
-          "se": "Mäta spänning",
-          "no": "Send prøve",
-          "de": "Sende Muster",
-          "nl": "Meet de spanning",
-          "en": "Measure voltage"
-        },
-        {
-          "id": "man_beg_020",
-          "se": "Skyddsglasögon",
-          "no": "Kulstofstål",
-          "de": "Kohlenstoffstahl",
-          "nl": "Veiligheidsbril",
-          "en": "Safety goggles"
-        },
-        {
-          "id": "man_beg_023",
-          "se": "Rostfritt stål",
-          "no": "Kobberplade",
-          "de": "Kupferblech",
-          "nl": "Roestvast staal",
-          "en": "Stainless steel"
-        },
-        {
-          "id": "man_beg_035",
-          "se": "Isolermaterial",
-          "no": "Smøreolie",
-          "de": "Schmieröl",
-          "nl": "Isolatiemateriaal",
-          "en": "Insulation material"
-        },
-        {
-          "id": "man_beg_043",
-          "se": "Svetsa fogarna",
-          "no": "Montér rammen",
-          "de": "Montiere den Rahmen",
-          "nl": "Las de naden",
-          "en": "Weld the joints"
-        },
-        {
-          "id": "man_beg_066",
-          "se": "Mät tjockleken",
-          "no": "Godkend leverancen",
-          "de": "Genehmige die Lieferung",
-          "nl": "Meet de dikte",
-          "en": "Measure thickness"
-        },
-        {
-          "id": "man_beg_068",
-          "se": "Utföra provning",
-          "no": "Udfør visuel kontrol",
-          "de": "Führe Sichtprüfung durch",
-          "nl": "Voer beproeving uit",
-          "en": "Carry out testing"
-        },
-        {
-          "id": "man_beg_002",
-          "se": "Vinkelslipmaskin",
-          "no": "Momentnøgle",
-          "da": "Momentnøkkel",
-          "de": "Drehmomentschlüssel",
-          "nl": "Haakse slijper",
-          "en": "Angle grinder"
-        },
-        {
-          "id": "man_beg_049",
-          "se": "Lasta materialet",
-          "no": "Rengør overfladen",
-          "de": "Reinige die Oberfläche",
-          "nl": "Laad het materiaal",
-          "en": "Load the material"
-        },
-        {
-          "id": "man_beg_053",
-          "se": "Måla komponenten",
-          "no": "Varmbehandle",
-          "de": "Wärmebehandle",
-          "nl": "Verf de component",
-          "en": "Paint the component"
-        },
-        {
-          "id": "man_beg_080",
-          "se": "Märk komponenten",
-          "no": "Bær beskyttelsesudstyr",
-          "de": "Trage Schutzausrüstung",
-          "nl": "Markeer de component",
-          "en": "Label the part"
-        },
-        {
-          "id": "man_beg_097",
-          "se": "Lås utrustningen",
-          "no": "Skift sliddele",
-          "de": "Wechsle Verschleißteile",
-          "nl": "Vergrendel de installatie",
-          "en": "Lock off energy sources"
-        },
-        {
-          "id": "man_beg_024",
-          "se": "Aluminiumlegering",
-          "no": "Beton",
-          "de": "Beton",
-          "nl": "Aluminiumlegering",
-          "en": "Aluminium alloy"
-        },
-        {
-          "id": "man_beg_033",
-          "se": "Galvaniserad plåt",
-          "no": "Isolationsmateriale",
-          "de": "Dämmmaterial",
-          "nl": "Gegalvaniseerde plaat",
-          "en": "Galvanised sheet"
-        },
-        {
-          "id": "man_beg_086",
-          "se": "Stäng av maskinen",
-          "no": "Kontroller trykbeholder",
-          "de": "Prüfe den Druckbehälter",
-          "nl": "Zet de machine uit",
-          "en": "Isolate the machine"
-        },
-        {
-          "id": "man_beg_050",
-          "se": "Kalibrera maskinen",
-          "no": "Mal komponenten",
-          "de": "Lackiere das Bauteil",
-          "nl": "Kalibreer de machine",
-          "en": "Calibrate the machine"
-        }
-      ],
-      "advanced": [
-        {
-          "id": "man_adv_062",
-          "se": "Kontrollera måtten",
-          "no": "Mål tykkelsen",
-          "de": "Miss die Dicke",
-          "nl": "Controleer de afmetingen",
-          "en": "Check the dimensions"
-        },
-        {
-          "id": "man_adv_078",
-          "se": "Kontrollera täthet",
-          "no": "Opdater kvalitetsplan",
-          "de": "Aktualisiere den Qualitätsplan",
-          "nl": "Controleer de dichtheid",
-          "en": "Check for leaks"
-        },
-        {
-          "id": "man_adv_090",
-          "se": "Använd lyftredskap",
-          "no": "Mærk fareområde",
-          "de": "Markiere den Gefahrenbereich",
-          "nl": "Gebruik hijsmiddel",
-          "en": "Use lifting equipment"
-        },
-        {
-          "id": "man_adv_099",
-          "se": "Använd hörselskydd",
-          "no": "Sluk strømmen",
-          "de": "Schalte den Strom aus",
-          "nl": "Draag gehoorbescherming",
-          "en": "Wear hearing protection"
-        },
-        {
-          "id": "man_adv_063",
-          "se": "Kvalitet & Kontroll",
-          "no": "Dokumentér afvigelsen",
-          "de": "Dokumentiere die Abweichung",
-          "nl": "Kwaliteit & Controle",
-          "en": "Quality & Control"
-        },
-        {
-          "id": "man_adv_070",
-          "se": "Godkänna leveransen",
-          "no": "Kontroller ruhed",
-          "de": "Prüfe die Rauheit",
-          "nl": "Keur de levering goed",
-          "en": "Approve the delivery"
-        },
-        {
-          "id": "man_adv_079",
-          "se": "Jämföra med ritning",
-          "no": "Rapporter defekter",
-          "de": "Melde Mängel",
-          "nl": "Vergelijk met tekening",
-          "en": "Compare to drawing"
-        },
-        {
-          "id": "man_adv_081",
-          "se": "Skicka provexemplar",
-          "no": "Sluk maskinen",
-          "de": "Schalte die Maschine ab",
-          "nl": "Stuur monster",
-          "en": "Send sample for approval"
-        },
-        {
-          "id": "man_adv_083",
-          "se": "Rapportera defekter",
-          "no": "Rengør arbejdspladsen",
-          "de": "Reinige den Arbeitsplatz",
-          "nl": "Meld defecten",
-          "en": "Report non-conformance"
-        },
-        {
-          "id": "man_adv_089",
-          "se": "Utför riskbedömning",
-          "no": "Kontroller nødstop",
-          "de": "Prüfe den Not-Aus",
-          "nl": "Voer risicoanalyse uit",
-          "en": "Complete risk assessment"
-        },
-        {
-          "id": "man_adv_095",
-          "se": "Märk farligt område",
-          "no": "Rapporter ulykke",
-          "de": "Melde den Unfall",
-          "nl": "Markeer het gevaarlijke gebied",
-          "en": "Mark hazard zone"
-        },
-        {
-          "id": "man_adv_000",
-          "se": "Verktyg & Utrustning",
-          "no": "Skruetrækker",
-          "da": "Skrutrekker",
-          "de": "Schraubendreher",
-          "nl": "Gereedschap & Uitrusting",
-          "en": "Tools & Equipment"
-        },
-        {
-          "id": "man_adv_076",
-          "se": "Utföra funktionsprov",
-          "no": "Mærk komponenten",
-          "de": "Kennzeichne das Bauteil",
-          "nl": "Voer functietest uit",
-          "en": "Run function test"
-        },
-        {
-          "id": "man_adv_084",
-          "se": "Säkerhet & Underhåll",
-          "no": "Udfør risikovurdering",
-          "de": "Führe Gefährdungsbeurteilung durch",
-          "nl": "Veiligheid & Onderhoud",
-          "en": "Safety & Maintenance"
-        },
-        {
-          "id": "man_adv_085",
-          "se": "Bär skyddsutrustning",
-          "no": "Brug løfteudstyr",
-          "de": "Verwende Hebezeug",
-          "nl": "Draag persoonlijke beschermingsmiddelen",
-          "en": "Wear PPE"
-        },
-        {
-          "id": "man_adv_087",
-          "se": "Kontrollera jordning",
-          "no": "Smør lejet",
-          "de": "Schmiere das Lager",
-          "nl": "Controleer de aarding",
-          "en": "Check earth bonding"
-        },
-        {
-          "id": "man_adv_088",
-          "se": "Rengör arbetsplatsen",
-          "no": "Skift filter",
-          "de": "Wechsle den Filter",
-          "nl": "Reinig de werkplek",
-          "en": "Clear the work area"
-        },
-        {
-          "id": "man_adv_074",
-          "se": "Kontrollera ytjämnhet",
-          "no": "Kontroller tæthed",
-          "de": "Prüfe die Dichtheit",
-          "nl": "Controleer de ruwheid",
-          "en": "Check surface finish"
-        },
-        {
-          "id": "man_adv_091",
-          "se": "Kontrollera tryckkärl",
-          "no": "Udfør daglig inspektion",
-          "de": "Führe tägliche Inspektion durch",
-          "nl": "Controleer drukvat",
-          "en": "Inspect pressure vessel"
-        },
-        {
-          "id": "man_adv_019",
-          "se": "Kalibreringsinstrument",
-          "no": "Beskyttelsesbriller",
-          "da": "Vernebriller",
-          "de": "Schutzbrille",
-          "nl": "Kalibratie-instrument",
-          "en": "Calibration gauge"
-        },
-        {
-          "id": "man_adv_065",
-          "se": "Inspektera svetsningen",
-          "no": "Kalibrér måleinstrument",
-          "de": "Kalibriere das Messgerät",
-          "nl": "Inspecteer de las",
-          "en": "Inspect the weld"
-        },
-        {
-          "id": "man_adv_067",
-          "se": "Dokumentera avvikelsen",
-          "no": "Registrer batch-nummer",
-          "de": "Registriere die Chargennummer",
-          "nl": "Documenteer de afwijking",
-          "en": "Record the deviation"
-        },
-        {
-          "id": "man_adv_071",
-          "se": "Registrera batchnummer",
-          "no": "Belast strukturen",
-          "de": "Belaste die Struktur",
-          "nl": "Registreer het batchnummer",
-          "en": "Log the batch number"
-        },
-        {
-          "id": "man_adv_075",
-          "se": "Provbelasta strukturen",
-          "no": "Sammenlign med tegning",
-          "de": "Vergleiche mit Zeichnung",
-          "nl": "Belast de constructie",
-          "en": "Load test the structure"
-        },
-        {
-          "id": "man_adv_094",
-          "se": "Kontrollera nödbromsen",
-          "no": "Brug høreværn",
-          "de": "Trage Gehörschutz",
-          "nl": "Controleer de noodstop",
-          "en": "Test emergency stop"
-        },
-        {
-          "id": "man_adv_042",
-          "se": "Processer & Operationer",
-          "no": "Fræs sporet",
-          "de": "Fräse die Nut",
-          "nl": "Processen & Operaties",
-          "en": "Processes & Operations"
-        },
-        {
-          "id": "man_adv_047",
-          "se": "Applicera tätningsmedel",
-          "no": "Kalibrér maskinen",
-          "de": "Kalibriere die Maschine",
-          "nl": "Breng kit aan",
-          "en": "Apply sealant"
-        },
-        {
-          "id": "man_adv_069",
-          "se": "Kalibrera mätinstrument",
-          "no": "Mål hårdhed",
-          "de": "Miss die Härte",
-          "nl": "Kalibreer het meetinstrument",
-          "en": "Calibrate the gauge"
-        },
-        {
-          "id": "man_adv_072",
-          "se": "Utföra visuell kontroll",
-          "no": "Udfør funktionstest",
-          "de": "Führe Funktionstest durch",
-          "nl": "Voer visuele inspectie uit",
-          "en": "Perform visual inspection"
-        },
-        {
-          "id": "man_adv_082",
-          "se": "Uppdatera kvalitetsplan",
-          "no": "Kontroller jordforbindelse",
-          "de": "Prüfe die Erdung",
-          "nl": "Werk de kwaliteitsplan bij",
-          "en": "Update the control plan"
-        },
-        {
-          "id": "man_adv_096",
-          "se": "Utför daglig inspektion",
-          "no": "Kontroller ventilation contestants",
-          "de": "Prüfe die Belüftung",
-          "nl": "Voer dagelijkse inspectie uit",
-          "en": "Carry out daily checks"
-        },
-        {
-          "id": "man_adv_064",
-          "se": "Kontrollera toleranserna",
-          "no": "Udfør prøvning",
-          "de": "Führe Prüfung durch",
-          "nl": "Controleer de toleranties",
-          "en": "Check tolerances"
-        },
-        {
-          "id": "man_adv_098",
-          "se": "Kontrollera brandsläckare",
-          "no": "Dokumentér vedligehold",
-          "de": "Dokumentiere die Wartung",
-          "nl": "Controleer de brandblusser",
-          "en": "Check fire extinguisher"
-        },
-        {
-          "id": "man_adv_018",
-          "se": "Tryckluftsdriven mutterdragare",
-          "no": "Kalibreringsværktøj",
-          "da": "Kalibreringsverktøy",
-          "de": "Kalibrierwerkzeug",
-          "nl": "Persluchtmoeraanzetter",
-          "en": "Pneumatic impact wrench"
-        }
-      ]
-    },
-    "logistics": {
-      "novice": [
-        {
-          "id": "log_nov_024",
-          "se": "Träna ny personal",
-          "no": "Trene ny personell",
-          "da": "Træn ny personale",
-          "de": "Schulen Sie neues Personal",
-          "nl": "Train nieuw personeel",
-          "en": "Minimize waste in warehouse"
-        },
-        {
-          "id": "log_nov_048",
-          "se": "Optimera plockrut",
-          "no": "Optimaliser plukkrute",
-          "da": "Optimér plukrute",
-          "de": "Optimieren Pickroute",
-          "nl": "Optimaliseer pickroute",
-          "en": "Label for hazardous goods"
-        },
-        {
-          "id": "log_nov_010",
-          "se": "Lasta av containern",
-          "no": "Loss containere",
-          "da": "Loss containere",
-          "de": "Entladen Sie den Container",
-          "nl": "Los de container",
-          "en": "The forklift is under maintenance"
-        },
-        {
-          "id": "log_nov_017",
-          "se": "Använd RFID-skanner",
-          "no": "Bruk RFID-skanner",
-          "da": "Brug RFID-scanner",
-          "de": "Verwenden Sie RFID-Scanner",
-          "nl": "Gebruik RFID-scanner",
-          "en": "Handle returns quickly"
-        },
-        {
-          "id": "log_nov_020",
-          "se": "Inspektera fordonet",
-          "no": "Inspekter kjøretøyet",
-          "da": "Inspektér køretøjet",
-          "de": "Inspektion des Fahrzeugs",
-          "nl": "Inspecteer het voertuig",
-          "en": "Plan the shift in advance"
-        },
-        {
-          "id": "log_nov_026",
-          "se": "Paketera för export",
-          "no": "Pakk for eksport",
-          "da": "Pak til eksport",
-          "de": "Verpacken für Export",
-          "nl": "Verpak voor export",
-          "en": "Monitor temperature"
-        },
-        {
-          "id": "log_nov_031",
-          "se": "Verifiera kundorder",
-          "no": "Verifiser kundeordre",
-          "da": "Verificér kundeordre",
-          "de": "Verifizieren Sie Kundenauftrag",
-          "nl": "Verifieer klantorder",
-          "en": "Organize shelves alphabetically"
-        },
-        {
-          "id": "log_nov_038",
-          "se": "Stämpel godkännande",
-          "no": "Stempel godkjenning",
-          "da": "Stempel godkendelse",
-          "de": "Stempel Genehmigung",
-          "nl": "Stempel goedkeuring",
-          "en": "Implement lean methods"
-        },
-        {
-          "id": "log_nov_039",
-          "se": "Planera lagerlayout",
-          "no": "Planlegg lagerlayout",
-          "da": "Planlæg lagerlayout",
-          "de": "Planen Lagerlayout",
-          "nl": "Plan magazijnindeling",
-          "en": "Stamp approval"
-        },
-        {
-          "id": "log_nov_032",
-          "se": "Använd lyftanordning",
-          "no": "Bruk løfteanordning",
-          "da": "Brug liftanordning",
-          "de": "Verwenden Sie Hebevorrichtung",
-          "nl": "Gebruik hefapparaat",
-          "en": "Verify customer order"
-        },
-        {
-          "id": "log_nov_007",
-          "se": "Förpacka varan säkert",
-          "no": "Pakk varen trygt",
-          "da": "Pak varen sikkert",
-          "de": "Verpacken Sie die Ware sicher",
-          "nl": "Verpak de goederen veilig",
-          "en": "Pick the order from shelf A3"
-        },
-        {
-          "id": "log_nov_008",
-          "se": "Uppdatera lagersaldot",
-          "no": "Oppdater lagerbeholdningen",
-          "da": "Oppdater lagerbeholdningen",
-          "de": "Aktualisieren Sie den Lagerbestand",
-          "nl": "Werk de magazijnvoorraad bij",
-          "en": "Package the item securely"
-        },
-        {
-          "id": "log_nov_013",
-          "se": "Beställ nytt material",
-          "no": "Bestill nytt materiale",
-          "da": "Bestil nyt materiale",
-          "de": "Bestellen Sie neues Material",
-          "nl": "Bestel nieuw materiaal",
-          "en": "Conduct safety round"
-        },
-        {
-          "id": "log_nov_025",
-          "se": "Overvaka temperaturen",
-          "no": "Overvåk temperaturen",
-          "da": "Overvåg temperaturen",
-          "de": "Überwachen Sie die Temperatur",
-          "nl": "Monitor de temperatuur",
-          "en": "Train new staff"
-        },
-        {
-          "id": "log_nov_029",
-          "se": "Rapportera avvikelser",
-          "no": "Rapporter avvikelser",
-          "da": "Rapportér afvigelser",
-          "de": "Melden Sie Abweichungen",
-          "nl": "Rapporteer afwijkingen",
-          "en": "Replace faulty equipment"
-        },
-        {
-          "id": "log_nov_001",
-          "se": "Var är nästa leverans?",
-          "no": "Hvor er neste levering?",
-          "da": "Hvor er næste levering?",
-          "de": "Wo ist die nächste Lieferung?",
-          "nl": "Waar is de volgende levering?",
-          "en": "Good morning, welcome to the warehouse"
-        }
-      ],
-      "beginner": [
-        {
-          "id": "log_beg_016",
-          "se": "Hantera returer snabbt",
-          "no": "Håndter returer raskt",
-          "da": "Håndter retur hurtigt",
-          "de": "Behandeln Sie Retouren schnell",
-          "nl": "Behandel retouren snel",
-          "en": "Optimize delivery route"
-        },
-        {
-          "id": "log_beg_021",
-          "se": "Arkivera dokumentation",
-          "no": "Arkiver dokumentasjon",
-          "da": "Arkivér dokumentation",
-          "de": "Archivieren Sie Dokumentation",
-          "nl": "Archiveer documentatie",
-          "en": "Inspect the vehicle"
-        },
-        {
-          "id": "log_beg_027",
-          "se": "Uppfölj leveransstatus",
-          "no": "Følg leveringsstatus",
-          "da": "Følg leveringsstatus",
-          "de": "Folgen Sie Lieferstatus",
-          "nl": "Volg leveringsstatus",
-          "en": "Package for export"
-        },
-        {
-          "id": "log_beg_034",
-          "se": "Kommunicera med teamet",
-          "no": "Kommuniser med teamet",
-          "da": "Kommunikér med holdet",
-          "de": "Kommunizieren Sie mit dem Team",
-          "nl": "Communiceer met het team",
-          "en": "Maintain tools regularly"
-        },
-        {
-          "id": "log_beg_041",
-          "se": "Registrera serienummer",
-          "no": "Registrer serienummer",
-          "da": "Registrer serienummer",
-          "de": "Registrieren Seriennummer",
-          "nl": "Registreer serienummer",
-          "en": "Collect goods from supplier"
-        },
-        {
-          "id": "log_beg_012",
-          "se": "Genomför säkerhetsronde",
-          "no": "Gjennomfør sikkerhetsrunde",
-          "da": "Udfør sikkerhedsrunde",
-          "de": "Führen Sie Sicherheitsrunde durch",
-          "nl": "Voer veiligheidsronde uit",
-          "en": "Label the package correctly"
-        },
-        {
-          "id": "log_beg_009",
-          "se": "Trucken är under service",
-          "no": "Trucken er under service",
-          "da": "Trucken er under vedligeholdelse",
-          "de": "Der Gabelstapler ist in Wartung",
-          "nl": "De heftruck is in onderhoud",
-          "en": "Update stock levels"
-        },
-        {
-          "id": "log_beg_019",
-          "se": "Planera skiftet i förväg",
-          "no": "Planlegg skiftet på forhånd",
-          "da": "Planlæg vagt i forvejen",
-          "de": "Planen Sie den Schicht im Voraus",
-          "nl": "Plan de shift van tevoren",
-          "en": "Turn off machines during break"
-        },
-        {
-          "id": "log_beg_023",
-          "se": "Minimera avfall i lagret",
-          "no": "Minimer avfall på lageret",
-          "da": "Minimer affald på lageret",
-          "de": "Minimieren Sie Abfall im Lager",
-          "nl": "Minimaliseer afval in het magazijn",
-          "en": "Coordinate with supplier"
-        },
-        {
-          "id": "log_beg_028",
-          "se": "Byt ut defekt utrustning",
-          "no": "Bytt ut defekt utstyr",
-          "da": "Skift defekt udstyr",
-          "de": "Ersetzen Sie defekte Ausrüstung",
-          "nl": "Vervang defecte apparatuur",
-          "en": "Track delivery status"
-        },
-        {
-          "id": "log_beg_047",
-          "se": "Etikett för farligt gods",
-          "no": "Merking for farlig gods",
-          "da": "Mærke for farligt gods",
-          "de": "Etikett für gefährliche Güter",
-          "nl": "Label voor gevaarlijke goederen",
-          "en": "Manage seasonal variations"
-        },
-        {
-          "id": "log_beg_036",
-          "se": "Analysera lageromsättning",
-          "no": "Analyser lageromsetning",
-          "da": "Analysér lageromsætning",
-          "de": "Analysieren Lagerumschlag",
-          "nl": "Analyseer magazijnomzet",
-          "en": "Restock consumables"
-        },
-        {
-          "id": "log_beg_037",
-          "se": "Implementera lean-metoder",
-          "no": "Implementer lean-metoder",
-          "da": "Implementér lean-metoder",
-          "de": "Implementieren Lean-Methoden",
-          "nl": "Implementeer lean-methoden",
-          "en": "Analyze stock turnover"
-        },
-        {
-          "id": "log_beg_044",
-          "se": "Uppdatera digitalt system",
-          "no": "Oppdater digitalt system",
-          "da": "Oppdater digitalt system",
-          "de": "Aktualisieren digitales System",
-          "nl": "Werk digitaal systeem bij",
-          "en": "Wear seatbelt in forklift"
-        },
-        {
-          "id": "log_beg_002",
-          "se": "Skanna varan in i systemet",
-          "no": "Skann varen inn i systemet",
-          "da": "Scan varen ind i systemet",
-          "de": "Scannen Sie die Ware ins System",
-          "nl": "Scan de goederen in het systeem",
-          "en": "Where is the next delivery?"
-        },
-        {
-          "id": "log_beg_011",
-          "se": "Etikettera paketet korrekt",
-          "no": "Merk pakken korrekt",
-          "da": "Mærk pakken korrekt",
-          "de": "Beschriftung das Paket korrekt",
-          "nl": "Label het pakket correct",
-          "en": "Unload the container"
-        }
-      ],
-      "advanced": [
-        {
-          "id": "log_adv_014",
-          "se": "Registrera inkommande gods",
-          "no": "Registrer innkommende gods",
-          "da": "Registrer indgående gods",
-          "de": "Registrieren Sie eingehende Güter",
-          "nl": "Registreer inkomende goederen",
-          "en": "Order new materials"
-        },
-        {
-          "id": "log_adv_018",
-          "se": "Stäng av maskiner vid paus",
-          "no": "Slå av maskiner ved pause",
-          "da": "Sluk maskiner ved pause",
-          "de": "Schalten Sie Maschinen bei Pause aus",
-          "nl": "Zet machines uit tijdens pauze",
-          "en": "Use RFID scanner"
-        },
-        {
-          "id": "log_adv_042",
-          "se": "Genomför kvalitetskontroll",
-          "no": "Gjennomfør kvalitetskontroll",
-          "da": "Udfør kvalitetskontrol",
-          "de": "Führen Qualitätskontrolle durch",
-          "nl": "Voer kwaliteitscontrole uit",
-          "en": "Register serial number"
-        },
-        {
-          "id": "log_adv_046",
-          "se": "Hantera säsongsvariationer",
-          "no": "Håndter sesongvariasjoner",
-          "da": "Håndter sæsonvariationer",
-          "de": "Handhaben saisonale Schwankungen",
-          "nl": "Behandel seizoensvariaties",
-          "en": "Coordinate with retail shop"
-        },
-        {
-          "id": "log_adv_022",
-          "se": "Koordinera med leverantören",
-          "no": "Koordiner med leverandøren",
-          "da": "Koordinér med leverandøren",
-          "de": "Koordinieren Sie mit dem Lieferanten",
-          "nl": "Coördineer met de leverancier",
-          "en": "Archive documentation"
-        },
-        {
-          "id": "log_adv_040",
-          "se": "Hämta varor från leverantör",
-          "no": "Hent varer fra leverandør",
-          "da": "Hent varer fra leverandør",
-          "de": "Holen Sie Waren vom Lieferanten",
-          "nl": "Ha goederen op van leverancier",
-          "en": "Plan warehouse layout"
-        },
-        {
-          "id": "log_adv_045",
-          "se": "Koordinera med retail-butik",
-          "no": "Koordiner med retail-butikk",
-          "da": "Koordinér med detailbutik",
-          "de": "Koordinieren mit Einzelhandelsgeschäft",
-          "nl": "Coördineer met retail-winkel",
-          "en": "Update digital system"
-        },
-        {
-          "id": "log_adv_003",
-          "se": "Pallen är redo för transport",
-          "no": "Pallen er klar for transport",
-          "da": "Pallen er klar til transport",
-          "de": "Die Palette ist transportbereit",
-          "nl": "De pallet is klaar voor transport",
-          "en": "Scan the item into the system"
-        },
-        {
-          "id": "log_adv_006",
-          "se": "Plocka ordern från hyllan A3",
-          "no": "Plukk ordren fra hyllen A3",
-          "da": "Pak ordrer fra hylden A3",
-          "de": "Picken Sie die Bestellung aus Regal A3",
-          "nl": "Pak de order van plank A3",
-          "en": "Wear safety gear always"
-        },
-        {
-          "id": "log_adv_015",
-          "se": "Optimera rutten för leverans",
-          "no": "Optimaliser ruten for levering",
-          "da": "Optimér ruten for levering",
-          "de": "Optimieren Sie die Lieferroute",
-          "nl": "Optimaliseer de leveringsroute",
-          "en": "Register incoming goods"
-        },
-        {
-          "id": "log_adv_035",
-          "se": "Fyll på förbrukningsmaterial",
-          "no": "Fyll på forbruksvarer",
-          "da": "Fyld på forbrugsvarer",
-          "de": "Nachfüllen Verbrauchsmaterial",
-          "nl": "Vul verbruiksartikelen aan",
-          "en": "Communicate with team"
-        },
-        {
-          "id": "log_adv_033",
-          "se": "Underhåll verktyg regelbundet",
-          "no": "Vedlikehold verktøy regelmessig",
-          "da": "Vedligehold værktøj regelmæssigt",
-          "de": "Wartung von Werkzeugen regelmäßig",
-          "nl": "Onderhoud gereedschap regelmatig",
-          "en": "Use lifting device"
-        },
-        {
-          "id": "log_adv_043",
-          "se": "Använd säkerhetsbälte i truck",
-          "no": "Bruk sikkerhetsbelte i truck",
-          "da": "Brug sikkerhedsbælte i truck",
-          "de": "Tragen Sie Sicherheitsgurt im Stapler",
-          "nl": "Draag veiligheidsgordel in heftruck",
-          "en": "Perform quality control"
-        },
-        {
-          "id": "log_adv_005",
-          "se": "Använd skyddsutrustning alltid",
-          "no": "Bruk verneutstyr alltid",
-          "da": "Brug sikkerhedsudstyr altid",
-          "de": "Tragen Sie immer Schutzausrüstung",
-          "nl": "Draag altijd beschermende uitrusting",
-          "en": "Check inventory daily"
-        },
-        {
-          "id": "log_adv_030",
-          "se": "Organisera hyllorna alfabetiskt",
-          "no": "Organiser hyllene alfabetisk",
-          "da": "Organisér hylderne alfabetisk",
-          "de": "Organisieren Sie Regale alphabetisch",
-          "nl": "Organiseer planken alfabetisch",
-          "en": "Report deviations"
-        },
-        {
-          "id": "log_adv_004",
-          "se": "Kontrollera inventariet dagligen",
-          "no": "Sjekk inventaret daglig",
-          "da": "Tjek inventaret dagligt",
-          "de": "Überprüfen Sie das Inventar täglich",
-          "nl": "Controleer de voorraad dagelijks",
-          "en": "The pallet is ready for transport"
-        },
-        {
-          "id": "log_adv_000",
-          "se": "God morgon, välkommen till lagret",
-          "no": "God morgen, velkommen til lageret",
-          "da": "God morgen, velkommen til lageret",
-          "de": "Guten Morgen, willkommen im Lager",
-          "nl": "Goedemorgen, welkom in het magazijn",
-          "en": "Phrase"
-        }
-      ]
-    }
-  },
-  "ui": {
-    "en": {
-      "selectNativeLanguage": "Select Your Native Language",
-      "selectTargetLanguage": "Select Language to Learn",
-      "selectIndustry": "Select Industry",
-      "selectLevel": "Select Level",
-      "exercise1": "Read Phrases",
-      "exercise2": "Match Words",
-      "exercise3": "Fill in the Blanks",
-      "healthcare": "Healthcare",
-      "construction": "Construction",
-      "hospitality": "Hospitality",
-      "manufacturing": "Manufacturing",
-      "retail": "Retail",
-      "logistics": "Logistics",
-      "novice": "Novice (Words)",
-      "beginner": "Beginner (Short Phrases)",
-      "advanced": "Advanced (Complex Phrases)",
-      "back": "Back",
-      "next": "Next Exercise",
-      "checkAnswer": "Check Answer",
-      "correct": "Correct!",
-      "tryAgain": "Try again",
-      "listen": "Listen"
-    },
-    "sk": {
-      "selectNativeLanguage": "Vyberte svoj materinský jazyk",
-      "selectTargetLanguage": "Vyberte cieľový jazyk",
-      "selectIndustry": "Vyberte odvetvie",
-      "selectLevel": "Vyberte úroveň",
-      "exercise1": "Prečítajte si frázy",
-      "exercise2": "Spárujte slová",
-      "exercise3": "Vyplňte medzery",
-      "healthcare": "Zdravotníctvo",
-      "construction": "Stavebníctvo",
-      "hospitality": "Pohostinstvo",
-      "manufacturing": "Výroba",
-      "retail": "Maloobchod",
-      "logistics": "Logistika",
-      "novice": "Začiatočník (Slová)",
-      "beginner": "Pokročilý začiatočník (Krátke frázy)",
-      "advanced": "Pokročilý (Zložité frázy)",
-      "back": "Späť",
-      "next": "Ďalšie cvičenie",
-      "checkAnswer": "Skontrolovať odpoveď",
-      "correct": "Správne!",
-      "tryAgain": "Skúste znova",
-      "listen": "Počúvať"
-    },
-    "uk": {
-      "selectNativeLanguage": "Виберіть рідну мову",
-      "selectTargetLanguage": "Виберіть цільову мову",
-      "selectIndustry": "Виберіть галузь",
-      "selectLevel": "Виберіть рівень",
-      "exercise1": "Прочитайте фрази",
-      "exercise2": "Підберіть слова",
-      "exercise3": "Заповніть пропуски",
-      "healthcare": "Охорона здоров'я",
-      "construction": "Будівництво",
-      "hospitality": "Гостинність",
-      "manufacturing": "Виробництво",
-      "retail": "Роздрібна торгівля",
-      "logistics": "Логістика",
-      "novice": "Новачок (Слова)",
-      "beginner": "Початковий (Короткі фрази)",
-      "advanced": "Просунутий (Складні фрази)",
-      "back": "Назад",
-      "next": "Наступна вправа",
-      "checkAnswer": "Перевірити відповідь",
-      "correct": "Правильно!",
-      "tryAgain": "Спробуйте ще раз",
-      "listen": "Слухати"
-    },
-    "ru": {
-      "selectNativeLanguage": "Выберите родной язык",
-      "selectTargetLanguage": "Выберите целевой язык",
-      "selectIndustry": "Выберите отрасль",
-      "selectLevel": "Выберите уровень",
-      "exercise1": "Прочитайте фразы",
-      "exercise2": "Соедините слова",
-      "exercise3": "Заполните пропуски",
-      "healthcare": "Здравоохранение",
-      "construction": "Строительство",
-      "hospitality": "Гостеприимство",
-      "manufacturing": "Производство",
-      "retail": "Розничная торговля",
-      "logistics": "Логистика",
-      "novice": "Новичок (Слова)",
-      "beginner": "Начинающий (Короткие фразы)",
-      "advanced": "Продвинутый (Сложные фразы)",
-      "back": "Назад",
-      "next": "Следующее упражнение",
-      "checkAnswer": "Проверить ответ",
-      "correct": "Правильно!",
-      "tryAgain": "Попробуйте еще раз",
-      "listen": "Слушать"
-    },
-    "pl": {
-      "selectNativeLanguage": "Wybierz swój język ojczysty",
-      "selectTargetLanguage": "Wybierz język docelowy",
-      "selectIndustry": "Wybierz branżę",
-      "selectLevel": "Wybierz poziom",
-      "exercise1": "Przeczytaj frazy",
-      "exercise2": "Dopasuj słowa",
-      "exercise3": "Wypełnij luki",
-      "healthcare": "Opieka zdrowotna",
-      "construction": "Budownictwo",
-      "hospitality": "Hotelarstwo",
-      "manufacturing": "Produkcja",
-      "retail": "Handel detaliczny",
-      "logistics": "Logistyka",
-      "novice": "Nowicjusz (Słowa)",
-      "beginner": "Początkujący (Krótkie frazy)",
-      "advanced": "Zaawansowany (Złożone frazy)",
-      "back": "Wstecz",
-      "next": "Następne ćwiczenie",
-      "checkAnswer": "Sprawdź odpowiedź",
-      "correct": "Prawidłowo!",
-      "tryAgain": "Spróbuj ponownie",
-      "listen": "Słuchaj"
-    },
-    "bg": {
-      "selectNativeLanguage": "Изберете родния си език",
-      "selectTargetLanguage": "Изберете целевия език",
-      "selectIndustry": "Изберете индустрия",
-      "selectLevel": "Изберете ниво",
-      "exercise1": "Прочетете фразите",
-      "exercise2": "Съпоставете думите",
-      "exercise3": "Попълнете празните места",
-      "healthcare": "Здравеопазване",
-      "construction": "Строителство",
-      "hospitality": "Хотелиерство",
-      "manufacturing": "Производство",
-      "retail": "Търговия на дребно",
-      "logistics": "Логистика",
-      "novice": "Начинаещ (Думи)",
-      "beginner": "Напреднал начинаещ (Кратки фрази)",
-      "advanced": "Напреднал (Сложни фрази)",
-      "back": "Назад",
-      "next": "Следващо упражнение",
-      "checkAnswer": "Проверете отговора",
-      "correct": "Правилно!",
-      "tryAgain": "Опитайте отново",
-      "listen": "Слушай"
-    },
-    "sr": {
-      "selectNativeLanguage": "Изаберите матерњи језик",
-      "selectTargetLanguage": "Изаберите циљни језик",
-      "selectIndustry": "Изаберите индустрију",
-      "selectLevel": "Изаберите ниво",
-      "exercise1": "Прочитајте фразе",
-      "exercise2": "Упарите речи",
-      "exercise3": "Попуните празнине",
-      "healthcare": "Здравство",
-      "construction": "Грађевинарство",
-      "hospitality": "Угоститељство",
-      "manufacturing": "Производња",
-      "retail": "Малопродаја",
-      "logistics": "Логистика",
-      "novice": "Почетник (Речи)",
-      "beginner": "Напредни почетник (Кратке фразе)",
-      "advanced": "Напредни (Сложене фразе)",
-      "back": "Назад",
-      "next": "Следећа вежба",
-      "checkAnswer": "Провери одговор",
-      "correct": "Тачно!",
-      "tryAgain": "Покушај поново",
-      "listen": "Слушај"
-    },
-    "ro": {
-      "selectNativeLanguage": "Selectați limba maternă",
-      "selectTargetLanguage": "Selectați limba țintă",
-      "selectIndustry": "Selectați industria",
-      "selectLevel": "Selectați nivelul",
-      "exercise1": "Citiți frazele",
-      "exercise2": "Potriviți cuvintele",
-      "exercise3": "Completați spațiile libere",
-      "healthcare": "Sănătate",
-      "construction": "Construcții",
-      "hospitality": "Ospitalitate",
-      "manufacturing": "Producție",
-      "retail": "Comerț cu amănuntul",
-      "logistics": "Logistică",
-      "novice": "Începător (Cuvinte)",
-      "beginner": "Intermediar începător (Fraze scurte)",
-      "advanced": "Avansat (Fraze complexe)",
-      "back": "Înapoi",
-      "next": "Următorul exercițiu",
-      "checkAnswer": "Verificați răspunsul",
-      "correct": "Corect!",
-      "tryAgain": "Încercați din nou",
-      "listen": "Ascultă"
-    },
-    "lt": {
-      "selectNativeLanguage": "Pasirinkite gimtąją kalbą",
-      "selectTargetLanguage": "Pasirinkite tikslinę kalbą",
-      "selectIndustry": "Pasirinkite pramonę",
-      "selectLevel": "Pasirinkite lygį",
-      "exercise1": "Skaitykite frazes",
-      "exercise2": "Suporuokite žodžius",
-      "exercise3": "Užpildykite tuščias vietas",
-      "healthcare": "Sveikatos priežiūra",
-      "construction": "Statyba",
-      "hospitality": "Svetingumas",
-      "manufacturing": "Gamyba",
-      "retail": "Mažmeninė prekyba",
-      "logistics": "Logistika",
-      "novice": "Naujokas (Žodžiai)",
-      "beginner": "Pradedantysis (Trumpos frazės)",
-      "advanced": "Pažengęs (Sudėtingos frazės)",
-      "back": "Atgal",
-      "next": "Kitas pratimas",
-      "checkAnswer": "Patikrinti atsakymą",
-      "correct": "Teisingai!",
-      "tryAgain": "Bandykite dar kartą",
-      "listen": "Klausyti"
-    },
-    "cs": {
-      "selectNativeLanguage": "Vyberte svůj mateřský jazyk",
-      "selectTargetLanguage": "Vyberte cílový jazyk",
-      "selectIndustry": "Vyberte odvětví",
-      "selectLevel": "Vyberte úroveň",
-      "exercise1": "Přečtěte si fráze",
-      "exercise2": "Spárujte slova",
-      "exercise3": "Vyplňte mezery",
-      "healthcare": "Zdravotnictví",
-      "construction": "Stavebnictví",
-      "hospitality": "Pohostinství",
-      "manufacturing": "Výroba",
-      "retail": "Maloobchod",
-      "logistics": "Logistika",
-      "novice": "Začátečník (Slova)",
-      "beginner": "Mírně pokročilý (Krátké fráze)",
-      "advanced": "Pokročilý (Složité fráze)",
-      "back": "Zpět",
-      "next": "Další cvičení",
-      "checkAnswer": "Zkontrolovat odpověď",
-      "correct": "Správně!",
-      "tryAgain": "Zkuste to znovu",
-      "listen": "Poslouchat"
-    }
-  }
-};
-
-        // App state
-        let state = {
-            uiLang: null,
-            targetLang: null,
-            industry: null,
-            level: 'novice',
-            exercise: 1,
-            pairingSelected: { left: null, right: null },
-            pairingCorrect: [],
-            pairingData: null
+        const database = {
+            "Swedish": {
+                "Healthcare": {
+                    "Beginner": [
+                        { target: "God morgon", translation: "Good morning", native: { Slovak: "Dobré ráno", Ukrainian: "Доброго ранку", Russian: "Доброе утро", Polish: "Dzień dobry", Bulgarian: "Добро утро", Serbian: "Добро јутро", Romanian: "Bună dimineața", Lithuanian: "Labas rytas" }},
+                        { target: "Hur mår du?", translation: "How are you?", native: { Slovak: "Ako sa máš?", Ukrainian: "Як справи?", Russian: "Как дела?", Polish: "Jak się masz?", Bulgarian: "Как си?", Serbian: "Како си?", Romanian: "Ce mai faci?", Lithuanian: "Kaip laikaisi?" }},
+                        { target: "Jag heter...", translation: "My name is...", native: { Slovak: "Volám sa...", Ukrainian: "Мене звати...", Russian: "Меня зовут...", Polish: "Nazywam się...", Bulgarian: "Казвам се...", Serbian: "Зовем се...", Romanian: "Mă numesc...", Lithuanian: "Mano vardas..." }},
+                        { target: "Tack", translation: "Thank you", native: { Slovak: "Ďakujem", Ukrainian: "Дякую", Russian: "Спасибо", Polish: "Dziękuję", Bulgarian: "Благодаря", Serbian: "Хвала", Romanian: "Mulțumesc", Lithuanian: "Ačiū" }},
+                        { target: "Varsågod", translation: "You're welcome", native: { Slovak: "Prosím", Ukrainian: "Будь ласка", Russian: "Пожалуйста", Polish: "Proszę", Bulgarian: "Моля", Serbian: "Молим", Romanian: "Cu plăcere", Lithuanian: "Prašom" }},
+                        { target: "Ursäkta", translation: "Excuse me", native: { Slovak: "Prepáčte", Ukrainian: "Вибачте", Russian: "Извините", Polish: "Przepraszam", Bulgarian: "Извинете", Serbian: "Извините", Romanian: "Scuzați-mă", Lithuanian: "Atsiprašau" }},
+                        { target: "Jag förstår inte", translation: "I don't understand", native: { Slovak: "Nerozumiem", Ukrainian: "Я не розумію", Russian: "Я не понимаю", Polish: "Nie rozumiem", Bulgarian: "Не разбирам", Serbian: "Не разумем", Romanian: "Nu înțeleg", Lithuanian: "Nesuprantu" }},
+                        { target: "Kan du upprepa?", translation: "Can you repeat?", native: { Slovak: "Môžete zopakovať?", Ukrainian: "Чи можете повторити?", Russian: "Можете повторить?", Polish: "Czy możesz powtórzyć?", Bulgarian: "Можете ли да повторите?", Serbian: "Можете ли поновити?", Romanian: "Poți repeta?", Lithuanian: "Ar gali pakartoti?" }},
+                        { target: "Hjälp", translation: "Help", native: { Slovak: "Pomoc", Ukrainian: "Допомога", Russian: "Помощь", Polish: "Pomoc", Bulgarian: "Помощ", Serbian: "Помоћ", Romanian: "Ajutor", Lithuanian: "Pagalba" }},
+                        { target: "Ja", translation: "Yes", native: { Slovak: "Áno", Ukrainian: "Так", Russian: "Да", Polish: "Tak", Bulgarian: "Да", Serbian: "Да", Romanian: "Da", Lithuanian: "Taip" }}
+                    ],
+                    "Intermediate": [
+                        { target: "Patienten behöver hjälp", translation: "The patient needs help", native: { Slovak: "Pacient potrebuje pomoc", Ukrainian: "Пацієнту потрібна допомога", Russian: "Пациенту нужна помощь", Polish: "Pacjent potrzebuje pomocy", Bulgarian: "Пациентът се нуждае от помощ", Serbian: "Пацијент треба помоћ", Romanian: "Pacientul are nevoie de ajutor", Lithuanian: "Pacientui reikia pagalbos" }},
+                        { target: "Var har du ont?", translation: "Where does it hurt?", native: { Slovak: "Kde ťa bolí?", Ukrainian: "Де болить?", Russian: "Где болит?", Polish: "Gdzie boli?", Bulgarian: "Къде те боли?", Serbian: "Где те боли?", Romanian: "Unde te doare?", Lithuanian: "Kur skauda?" }},
+                        { target: "Ta din medicin", translation: "Take your medicine", native: { Slovak: "Vezmi si liek", Ukrainian: "Прийми ліки", Russian: "Прими лекарство", Polish: "Weź swoje lekarstwo", Bulgarian: "Вземи си лекарството", Serbian: "Узми свој лек", Romanian: "Ia-ți medicamentul", Lithuanian: "Išgerk vaistus" }},
+                        { target: "Hur länge har du haft dessa symtom?", translation: "How long have you had these symptoms?", native: { Slovak: "Ako dlho máš tieto príznaky?", Ukrainian: "Як довго у вас ці симптоми?", Russian: "Как долго у вас эти симптомы?", Polish: "Jak długo masz te objawy?", Bulgarian: "Колко дълго имаш тези симптоми?", Serbian: "Колико дуго имаш ове симптоме?", Romanian: "De cât timp ai aceste simptome?", Lithuanian: "Kiek laiko turi šiuos simptomus?" }},
+                        { target: "Jag ska kontrollera ditt blodtryck", translation: "I will check your blood pressure", native: { Slovak: "Skontolujem ti krvný tlak", Ukrainian: "Я перевірю ваш кров'яний тиск", Russian: "Я проверю ваше давление", Polish: "Sprawdzę twoje ciśnienie krwi", Bulgarian: "Ще проверя кръвното ти налягане", Serbian: "Проверићу ти крвни притисак", Romanian: "Îți voi verifica tensiunea arterială", Lithuanian: "Patikrįsiu tavo kraujospūdį" }},
+                        { target: "Du behöver vila", translation: "You need to rest", native: { Slovak: "Potrebuješ oddych", Ukrainian: "Тобі потрібен відпочинок", Russian: "Тебе нужен отдых", Polish: "Musisz odpocząć", Bulgarian: "Трябва да си починеш", Serbian: "Треба да се одмориш", Romanian: "Trebuie să te odihnești", Lithuanian: "Tau reikia pailsėti" }},
+                        { target: "Ring efter läkaren", translation: "Call the doctor", native: { Slovak: "Zavolaj lekára", Ukrainian: "Зателефонуй лікарю", Russian: "Позови врача", Polish: "Zadzwoń po lekarza", Bulgarian: "Обади се на лекаря", Serbian: "Позови лекара", Romanian: "Sună doctorul", Lithuanian: "Paskambink gydytojui" }},
+                        { target: "Allergisk reaktion", translation: "Allergic reaction", native: { Slovak: "Alergická reakcia", Ukrainian: "Алергічна реакція", Russian: "Аллергическая реакция", Polish: "Reakcja alergiczna", Bulgarian: "Алергична реакция", Serbian: "Алергијска реакција", Romanian: "Reacție alergică", Lithuanian: "Alerginė reakcija" }},
+                        { target: "Akut situation", translation: "Emergency situation", native: { Slovak: "Akútna situácia", Ukrainian: "Невідкладна ситуація", Russian: "Экстренная ситуация", Polish: "Sytuacja awaryjna", Bulgarian: "Спешна ситуация", Serbian: "Хитна ситуација", Romanian: "Situație de urgență", Lithuanian: "Skubi situacija" }},
+                        { target: "Besöksschema", translation: "Visiting schedule", native: { Slovak: "Rozvrh návštev", Ukrainian: "Розклад відвідувань", Russian: "Расписание посещений", Polish: "Harmonogram odwiedzin", Bulgarian: "График на посещенията", Serbian: "Распоред посета", Romanian: "Program de vizită", Lithuanian: "Lankymosi grafikas" }}
+                    ],
+                    "Advanced": [
+                        { target: "Administrera medicinering enligt ordination", translation: "Administer medication as prescribed", native: { Slovak: "Podávať lieky podľa predpisu", Ukrainian: "Вводити ліки за призначенням", Russian: "Давать лекарства по назначению", Polish: "Podawać leki zgodnie z zaleceniem", Bulgarian: "Прилагай лекарства според предписанието", Serbian: "Примењивати лекове према рецепту", Romanian: "Administrează medicația conform prescripției", Lithuanian: "Duoti vaistus pagal paskyrimą" }},
+                        { target: "Dokumentera patientens tillstånd", translation: "Document patient's condition", native: { Slovak: "Dokumentovať stav pacienta", Ukrainian: "Документувати стан пацієнта", Russian: "Документировать состояние пациента", Polish: "Dokumentować stan pacjenta", Bulgarian: "Документирай състоянието на пациента", Serbian: "Документовати стање пацијента", Romanian: "Documentează starea pacientului", Lithuanian: "Dokumentuoti paciento būklę" }},
+                        { target: "Riskbedömning krävs", translation: "Risk assessment required", native: { Slovak: "Potrebné posúdenie rizika", Ukrainian: "Потрібна оцінка ризику", Russian: "Требуется оценка риска", Polish: "Wymagana ocena ryzyka", Bulgarian: "Изисква се оценка на риска", Serbian: "Потребна процена ризика", Romanian: "Se necesită evaluarea riscului", Lithuanian: "Reikalingas rizikos vertinimas" }},
+                        { target: "Överföra patient till intensivvård", translation: "Transfer patient to intensive care", native: { Slovak: "Presunúť pacienta na intenzívnu starostlivosť", Ukrainian: "Перевести пацієнта до реанімації", Russian: "Перевести пациента в реанимацию", Polish: "Przenieść pacjenta na intensywną terapię", Bulgarian: "Прехвърли пациента в интензивно отделение", Serbian: "Пребацити пацијента на интензивну негу", Romanian: "Transferă pacientul la terapie intensivă", Lithuanian: "Perkelti pacientą į intensyvią priežiūrą" }},
+                        { target: "Postoperativ övervakning", translation: "Postoperative monitoring", native: { Slovak: "Pooperačné monitorovanie", Ukrainian: "Післяопераційний моніторинг", Russian: "Послеоперационное наблюдение", Polish: "Monitorowanie pooperacyjne", Bulgarian: "Следоперативно наблюдение", Serbian: "Постоперативно праћење", Romanian: "Monitorizare postoperatorie", Lithuanian: "Pooperacinis stebėjimas" }},
+                        { target: "Informera anhöriga om patientens prognos", translation: "Inform relatives about patient's prognosis", native: { Slovak: "Informovať príbuzných o prognóze pacienta", Ukrainian: "Інформувати родичів про прогноз пацієнта", Russian: "Информировать родственников о прогнозе", Polish: "Poinformować krewnych o rokowaniu pacjenta", Bulgarian: "Информирай роднините за прогнозата на пациента", Serbian: "Информисати рођаке о прогнози пацијента", Romanian: "Informează rudele despre prognosticul pacientului", Lithuanian: "Informuoti artimuosius apie paciento prognoze" }},
+                        { target: "Vitalparametrar inom normalintervall", translation: "Vital parameters within normal range", native: { Slovak: "Vitálne parametre v normálnom rozsahu", Ukrainian: "Життєві параметри в нормі", Russian: "Жизненные параметры в норме", Polish: "Parametry życiowe w normie", Bulgarian: "Жизнените показатели в нормални граници", Serbian: "Витални параметри у нормалном опсегу", Romanian: "Parametri vitali în limite normale", Lithuanian: "Gyvybiniai rodikliai normaliuose ribose" }},
+                        { target: "Rehabiliteringsplan ska upprättas", translation: "Rehabilitation plan to be established", native: { Slovak: "Treba vypracovať rehabilitačný plán", Ukrainian: "Необхідно скласти план реабілітації", Russian: "Необходимо составить план реабилитации", Polish: "Należy ustanowić plan rehabilitacji", Bulgarian: "Трябва да се състави план за рехабилитация", Serbian: "Потребно је успоставити план рехабилитације", Romanian: "Trebuie stabilit un plan de reabilitare", Lithuanian: "Reikia sudaryti reabilitacijos planą" }},
+                        { target: "Multidisciplinärt teammöte", translation: "Multidisciplinary team meeting", native: { Slovak: "Multidisciplinárne stretnutie tímu", Ukrainian: "Міждисциплінарна зустріч команди", Russian: "Междисциплинарное совещание команды", Polish: "Spotkanie zespołu multidyscyplinarnego", Bulgarian: "Мултидисциплинарна среща на екипа", Serbian: "Мултидисциплинарни тимски састанак", Romanian: "Întâlnire a echipei multidisciplinare", Lithuanian: "Multidisciplinės komandos susitikimas" }},
+                        { target: "Säkerställa patientsäkerhet", translation: "Ensure patient safety", native: { Slovak: "Zabezpečiť bezpečnosť pacienta", Ukrainian: "Забезпечити безпеку пацієнта", Russian: "Обеспечить безопасность пациента", Polish: "Zapewnić bezpieczeństwo pacjenta", Bulgarian: "Осигури безопасността на пациента", Serbian: "Обезбедити безбедност пацијента", Romanian: "Asigurarea siguranței pacientului", Lithuanian: "Užtikrinti paciento saugumą" }}
+                    ]
+                }
+            }
         };
 
-        function showScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
+        let selectedNative = '';
+        let selectedTarget = '';
+        let selectedCourse = '';
+        let selectedLevel = '';
+        let currentExerciseData = {};
+
+        function init() {
+            populateLanguages();
+            setupEventListeners();
         }
 
-        function selectUILanguage(lang) {
-            console.log('✅ UI Language:', lang);
-            state.uiLang = lang;
-            updateUIText();
-            showScreen('screen-target-lang');
+        function populateLanguages() {
+            const nativeLanguages = ['Slovak', 'Ukrainian', 'Russian', 'Polish', 'Bulgarian', 'Serbian', 'Romanian', 'Lithuanian'];
+            const targetLanguages = ['Swedish', 'Norwegian', 'Danish', 'German', 'Dutch', 'English'];
+
+            const nativeContainer = document.getElementById('nativeLanguages');
+            nativeLanguages.forEach(lang => {
+                const btn = document.createElement('button');
+                btn.className = 'lang-btn';
+                btn.textContent = lang;
+                btn.onclick = () => selectNativeLanguage(lang);
+                nativeContainer.appendChild(btn);
+            });
+
+            const targetContainer = document.getElementById('targetLanguages');
+            targetLanguages.forEach(lang => {
+                const btn = document.createElement('button');
+                btn.className = 'lang-btn';
+                btn.textContent = lang;
+                btn.onclick = () => selectTargetLanguage(lang);
+                targetContainer.appendChild(btn);
+            });
+        }
+
+        function selectNativeLanguage(lang) {
+            selectedNative = lang;
+            document.querySelectorAll('#nativeLanguages .lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent === lang);
+            });
+            updateCourses();
         }
 
         function selectTargetLanguage(lang) {
-            console.log('✅ Target Language:', lang);
-            state.targetLang = lang;
-            showScreen('screen-industry');
+            selectedTarget = lang;
+            document.querySelectorAll('#targetLanguages .lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent === lang);
+            });
+            updateCourses();
         }
 
-        function selectIndustry(industry) {
-            console.log('✅ Industry:', industry);
-            state.industry = industry;
-            document.getElementById('current-industry-name').textContent = DATA.ui[state.uiLang][industry];
-            showScreen('screen-exercises');
-            loadExercise();
-        }
+        function updateCourses() {
+            const courseSelect = document.getElementById('courseSelect');
+            courseSelect.innerHTML = '<option value="">Select industry...</option>';
 
-        function selectLevel(level) {
-            state.level = level;
-            document.querySelectorAll('.level-tab').forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-            loadExercise();
-        }
-
-        function selectExercise(num) {
-            state.exercise = num;
-            document.querySelectorAll('.exercise-tab').forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-            loadExercise();
-        }
-
-        function nextExercise() {
-            if (state.exercise < 3) {
-                selectExercise(state.exercise + 1);
-                document.querySelectorAll('.exercise-tab')[state.exercise - 1].click();
-            } else {
-                alert(DATA.ui[state.uiLang].correct + ' All exercises completed!');
+            if (selectedTarget && database[selectedTarget]) {
+                Object.keys(database[selectedTarget]).forEach(course => {
+                    const option = document.createElement('option');
+                    option.value = course;
+                    option.textContent = course;
+                    courseSelect.appendChild(option);
+                });
             }
         }
 
-        function updateUIText() {
-            const ui = DATA.ui[state.uiLang];
-            document.getElementById('heading-ui-select').textContent = ui.selectNativeLanguage;
-            document.getElementById('text-selectTargetLanguage').textContent = ui.selectTargetLanguage;
-            document.getElementById('text-selectIndustry').textContent = ui.selectIndustry;
-            document.getElementById('text-industry-healthcare').textContent = ui.healthcare;
-            document.getElementById('text-industry-construction').textContent = ui.construction;
-            document.getElementById('text-industry-hospitality').textContent = ui.hospitality;
-            document.getElementById('text-industry-manufacturing').textContent = ui.manufacturing;
-            document.getElementById('text-industry-logistics').textContent = ui.logistics;
-            document.getElementById('text-level-novice').textContent = ui.novice;
-            document.getElementById('text-level-beginner').textContent = ui.beginner;
-            document.getElementById('text-level-advanced').textContent = ui.advanced;
-            document.getElementById('text-exercise1').textContent = '📖 ' + ui.exercise1;
-            document.getElementById('text-exercise2').textContent = '🔗 ' + ui.exercise2;
-            document.getElementById('text-exercise3').textContent = '✏️ ' + ui.exercise3;
-            document.querySelectorAll('[id^="text-back"]').forEach(btn => btn.textContent = '← ' + ui.back);
-            document.getElementById('text-next').textContent = ui.next + ' →';
+        function setupEventListeners() {
+            document.getElementById('courseSelect').addEventListener('change', (e) => {
+                selectedCourse = e.target.value;
+                if (selectedCourse) {
+                    showLessons();
+                }
+            });
         }
 
-        function loadExercise() {
-            const phrases = DATA.database[state.industry]?.[state.level] || [];
-            if (phrases.length === 0) {
-                document.getElementById('exercise-content').innerHTML = '<p style="text-align: center; padding: 40px; color: #999;">No phrases available.</p>';
-                return;
+        function showLessons() {
+            const lessonGrid = document.getElementById('lessonGrid');
+            lessonGrid.innerHTML = '';
+
+            if (database[selectedTarget] && database[selectedTarget][selectedCourse]) {
+                const levels = Object.keys(database[selectedTarget][selectedCourse]);
+                levels.forEach(level => {
+                    const card = document.createElement('div');
+                    card.className = 'lesson-card';
+                    card.innerHTML = `
+                        <h4>${level}</h4>
+                        <p>Click to start learning</p>
+                    `;
+                    card.onclick = () => selectLesson(level);
+                    lessonGrid.appendChild(card);
+                });
             }
-            state.pairingSelected = { left: null, right: null };
-            state.pairingCorrect = [];
-            if (state.exercise === 1) renderExercise1(phrases);
-            else if (state.exercise === 2) renderExercise2(phrases);
-            else if (state.exercise === 3) renderExercise3(phrases);
+
+            document.getElementById('phraseDisplay').style.display = 'none';
+            document.getElementById('exerciseSection').style.display = 'none';
+        }
+
+        function selectLesson(level) {
+            selectedLevel = level;
+            document.querySelectorAll('.lesson-card').forEach(card => {
+                card.classList.toggle('active', card.querySelector('h4').textContent === level);
+            });
+            displayPhrases();
+            setupExercises();
+        }
+
+        function displayPhrases() {
+            const phraseDisplay = document.getElementById('phraseDisplay');
+            phraseDisplay.style.display = 'block';
+            phraseDisplay.innerHTML = '<h2>📖 Phrases</h2>';
+
+            const phrases = database[selectedTarget][selectedCourse][selectedLevel];
+            phrases.forEach(phrase => {
+                const item = document.createElement('div');
+                item.className = 'phrase-item';
+                item.innerHTML = `
+                    <div class="target">${phrase.target}</div>
+                    <div class="translation">${phrase.native[selectedNative]}</div>
+                `;
+                phraseDisplay.appendChild(item);
+            });
+
+            document.getElementById('exerciseSection').style.display = 'block';
+        }
+
+        function setupExercises() {
+            const phrases = database[selectedTarget][selectedCourse][selectedLevel];
+            currentExerciseData = {
+                exercise1: null,
+                exercise2: [],
+                exercise3: null
+            };
+
+            renderExercise1(phrases);
+            renderExercise2(phrases);
+            renderExercise3(phrases);
         }
 
         function renderExercise1(phrases) {
-            let html = '<div class="exercise-container">';
-            phrases.slice(0, 10).forEach(phrase => {
-                const text = phrase[state.targetLang] || phrase.se || 'N/A';
-                html += `<div class="phrase-item"><div class="phrase-text">${text}</div><button class="audio-button" onclick="playAudio('${phrase.id}')">🔊 ${DATA.ui[state.uiLang].listen}</button></div>`;
-            });
-            document.getElementById('exercise-content').innerHTML = html + '</div>';
+            const ex1 = document.getElementById('exercise1');
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            currentExerciseData.exercise1 = randomPhrase;
+
+            const options = [randomPhrase.target];
+            while (options.length < 4) {
+                const random = phrases[Math.floor(Math.random() * phrases.length)].target;
+                if (!options.includes(random)) options.push(random);
+            }
+            options.sort(() => Math.random() - 0.5);
+
+            ex1.innerHTML = `
+                <h3>Exercise 1: Choose correct translation</h3>
+                <div class="exercise-item">
+                    <p><strong>${randomPhrase.native[selectedNative]}</strong></p>
+                    <div class="exercise-buttons">
+                        ${options.map(opt => `<button class="exercise-btn" onclick="checkExercise1('${opt}')">${opt}</button>`).join('')}
+                    </div>
+                    <div id="feedback1"></div>
+                </div>
+            `;
         }
 
         function renderExercise2(phrases) {
-            const selected = phrases.slice(0, 8);
-            const targetWords = selected.map(p => ({ target: p[state.targetLang] || p.se, id: p.id }));
-            const shuffled = [...targetWords].sort(() => Math.random() - 0.5);
-            let html = `<div class="exercise-container"><div class="pairing-container">
-                <div class="pairing-column"><h3>${DATA.ui[state.uiLang].selectTargetLanguage}</h3>
-                ${targetWords.map((w, i) => `<div class="pair-item" onclick="selectPair('left', ${i})" id="left-${i}">${w.target}</div>`).join('')}
-                </div><div class="pairing-column"><h3>${DATA.ui[state.uiLang].selectNativeLanguage}</h3>
-                ${shuffled.map((w, i) => `<div class="pair-item" onclick="selectPair('right', ${i})" id="right-${i}">${w.target}</div>`).join('')}
-                </div></div><button class="check-button" onclick="checkPairing()">${DATA.ui[state.uiLang].checkAnswer}</button>
-                <div id="pairing-result"></div></div>`;
-            document.getElementById('exercise-content').innerHTML = html;
-            state.pairingData = { left: targetWords, right: shuffled };
-        }
+            const ex2 = document.getElementById('exercise2');
+            const selectedPhrases = phrases.slice(0, 4);
+            currentExerciseData.exercise2 = selectedPhrases.map(p => ({ target: p.target, native: p.native[selectedNative] }));
 
-        function selectPair(side, index) {
-            if (state.pairingSelected[side] !== null) {
-                document.getElementById(`${side}-${state.pairingSelected[side]}`).classList.remove('selected');
-            }
-            state.pairingSelected[side] = index;
-            document.getElementById(`${side}-${index}`).classList.add('selected');
-            if (state.pairingSelected.left !== null && state.pairingSelected.right !== null) {
-                const leftWord = state.pairingData.left[state.pairingSelected.left];
-                const rightWord = state.pairingData.right[state.pairingSelected.right];
-                if (leftWord.id === rightWord.id) {
-                    document.getElementById(`left-${state.pairingSelected.left}`).classList.add('correct');
-                    document.getElementById(`right-${state.pairingSelected.right}`).classList.add('correct');
-                    state.pairingCorrect.push({ left: state.pairingSelected.left, right: state.pairingSelected.right });
-                    state.pairingSelected = { left: null, right: null };
-                }
-            }
-        }
+            const leftWords = selectedPhrases.map(p => p.native[selectedNative]).sort(() => Math.random() - 0.5);
+            const rightWords = selectedPhrases.map(p => p.target).sort(() => Math.random() - 0.5);
 
-        function checkPairing() {
-            const total = state.pairingData.left.length;
-            const correct = state.pairingCorrect.length;
-            const resultDiv = document.getElementById('pairing-result');
-            if (correct === total) {
-                resultDiv.innerHTML = `<div class="result-message correct">✅ ${DATA.ui[state.uiLang].correct}</div>`;
-            } else {
-                resultDiv.innerHTML = `<div class="result-message incorrect">${correct}/${total} correct. ${DATA.ui[state.uiLang].tryAgain}!</div>`;
-            }
+            ex2.innerHTML = `
+                <h3>Exercise 2: Match the pairs</h3>
+                <div class="word-pair-container">
+                    <div class="word-column" id="leftColumn">
+                        ${leftWords.map((word, i) => `<button class="word-btn" data-word="${word}" onclick="selectWord(this, 'left')">${word}</button>`).join('')}
+                    </div>
+                    <div class="word-column" id="rightColumn">
+                        ${rightWords.map((word, i) => `<button class="word-btn" data-word="${word}" onclick="selectWord(this, 'right')">${word}</button>`).join('')}
+                    </div>
+                </div>
+                <div id="feedback2"></div>
+            `;
         }
 
         function renderExercise3(phrases) {
-            let html = '<div class="exercise-container">';
-            phrases.slice(0, 5).forEach((phrase, idx) => {
-                const text = phrase[state.targetLang] || phrase.se || '';
-                if (!text) return;
-                const words = text.split(' ');
-                if (words.length < 3) return;
-                const blankIndex = Math.floor(Math.random() * words.length);
-                const blankWord = words[blankIndex];
-                let sentenceHTML = words.map((word, i) => {
-                    if (i === blankIndex) return `<input type="text" class="blank-input" id="blank-${idx}" data-answer="${word.toLowerCase()}" />`;
-                    return word;
-                }).join(' ');
-                html += `<div class="fillblank-container"><div class="fillblank-sentence">${sentenceHTML}</div>
-                    <p style="text-align: center; color: #666; margin-top: 10px;">Hint: <strong>${blankWord}</strong></p></div>`;
-            });
-            html += `<button class="check-button" onclick="checkFillBlanks()">${DATA.ui[state.uiLang].checkAnswer}</button>
-                <div id="fillblank-result"></div></div>`;
-            document.getElementById('exercise-content').innerHTML = html;
+            const ex3 = document.getElementById('exercise3');
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            currentExerciseData.exercise3 = randomPhrase;
+
+            const words = randomPhrase.target.split(' ');
+            const blankIndex = Math.floor(Math.random() * words.length);
+            const correctWord = words[blankIndex];
+            const sentenceWithBlank = words.map((w, i) => i === blankIndex ? '______' : w).join(' ');
+
+            ex3.innerHTML = `
+                <h3>Exercise 3: Fill in the blank</h3>
+                <div class="exercise-item">
+                    <p><strong>${sentenceWithBlank}</strong></p>
+                    <p style="color: #6c757d; margin: 10px 0;">Hint: ${randomPhrase.native[selectedNative]}</p>
+                    <input type="text" id="fillBlankInput" placeholder="Type the missing word...">
+                    <button class="check-btn" onclick="checkExercise3('${correctWord}')">Check Answer</button>
+                    <div id="feedback3"></div>
+                </div>
+            `;
         }
 
-        function checkFillBlanks() {
-            const inputs = document.querySelectorAll('.blank-input');
-            let correct = 0;
-            inputs.forEach(input => {
-                const answer = input.dataset.answer.toLowerCase().replace(/[.,!?]/g, '');
-                const userAnswer = input.value.trim().toLowerCase().replace(/[.,!?]/g, '');
-                if (userAnswer === answer) {
-                    input.style.background = '#d4edda';
-                    input.style.color = '#155724';
-                    correct++;
-                } else {
-                    input.style.background = '#f8d7da';
-                    input.style.color = '#721c24';
+        function checkExercise1(selected) {
+            const correct = currentExerciseData.exercise1.target;
+            const buttons = document.querySelectorAll('#exercise1 .exercise-btn');
+            const feedback = document.getElementById('feedback1');
+
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === correct) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent === selected && selected !== correct) {
+                    btn.classList.add('incorrect');
                 }
             });
-            const resultDiv = document.getElementById('fillblank-result');
-            const ui = DATA.ui[state.uiLang];
-            if (correct === inputs.length) {
-                resultDiv.innerHTML = `<div class="result-message correct">✅ ${ui.correct}</div>`;
+
+            if (selected === correct) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✅ Correct! Well done!';
             } else {
-                resultDiv.innerHTML = `<div class="result-message incorrect">${correct}/${inputs.length} correct. ${ui.tryAgain}!</div>`;
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `❌ Incorrect. The correct answer is: ${correct}`;
             }
         }
 
-        function playAudio(filename) {
-            const audioPath = `/audio/${state.industry}/${state.level}/${filename}_${state.targetLang}.mp3`;
-            console.log('🔊 Playing:', audioPath);
-            const audio = new Audio(audioPath);
-            audio.play().catch(() => alert('Audio not available yet.'));
+        let selectedLeft = null;
+        let selectedRight = null;
+
+        function selectWord(button, side) {
+            if (button.classList.contains('matched')) return;
+
+            const column = side === 'left' ? 'selectedLeft' : 'selectedRight';
+            
+            if (side === 'left') {
+                if (selectedLeft) selectedLeft.classList.remove('selected');
+                selectedLeft = button;
+                button.classList.add('selected');
+            } else {
+                if (selectedRight) selectedRight.classList.remove('selected');
+                selectedRight = button;
+                button.classList.add('selected');
+            }
+
+            if (selectedLeft && selectedRight) {
+                checkPair();
+            }
         }
 
-        console.log('✅ WORKLINGO loaded - 444 phrases across 5 industries');
+        function checkPair() {
+            const leftWord = selectedLeft.dataset.word;
+            const rightWord = selectedRight.dataset.word;
+
+            const isMatch = currentExerciseData.exercise2.some(pair => 
+                pair.target === leftWord && pair.native === rightWord
+            );
+
+            if (isMatch) {
+                selectedLeft.classList.add('matched');
+                selectedRight.classList.add('matched');
+                selectedLeft.classList.remove('selected');
+                selectedRight.classList.remove('selected');
+                
+                const feedback = document.getElementById('feedback2');
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✅ Correct match!';
+                setTimeout(() => feedback.textContent = '', 1500);
+            } else {
+                const feedback = document.getElementById('feedback2');
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = '❌ Not a match. Try again!';
+                setTimeout(() => {
+                    selectedLeft.classList.remove('selected');
+                    selectedRight.classList.remove('selected');
+                    feedback.textContent = '';
+                }, 1500);
+            }
+
+            selectedLeft = null;
+            selectedRight = null;
+        }
+
+        function checkExercise3(correctWord) {
+            const input = document.getElementById('fillBlankInput');
+            const userAnswer = input.value.trim().toLowerCase();
+            const correct = correctWord.toLowerCase();
+            const feedback = document.getElementById('feedback3');
+
+            if (userAnswer === correct) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✅ Correct! Excellent!';
+                input.disabled = true;
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `❌ Incorrect. The correct answer is: ${correctWord}`;
+            }
+        }
+
+        window.onload = init;
     </script>
 </body>
 </html>
