@@ -569,12 +569,21 @@
 
 
         function extractWords(targetPhrase, uiPhrase) {
-            // FIX 1: Hover bubbles show UI language translation, not target language
-            const words = targetPhrase.split(' ').filter(w => w.length > 2).slice(0, 5);
-            const uiWords = uiPhrase.split(' ').filter(w => w.length > 2).slice(0, 5);
-            return words.map((w, i) => ({
+            // FIX 1: For single words, show direct translation. For phrases, show whole phrase as translation.
+            const words = targetPhrase.split(' ');
+            
+            // If single word, map to single UI word
+            if (words.length === 1) {
+                return [{
+                    word: words[0].replace(/[.,!?]/g, ''),
+                    translation: uiPhrase.replace(/[.,!?]/g, '')
+                }];
+            }
+            
+            // For phrases, each word hovers to show the ENTIRE UI phrase translation
+            return words.map(w => ({
                 word: w.replace(/[.,!?]/g, ''),
-                translation: uiWords[i] ? uiWords[i].replace(/[.,!?]/g, '') : w
+                translation: uiPhrase  // Show complete UI phrase for context
             }));
         }
 
@@ -607,33 +616,47 @@
         }
 
         function createFillBlanks(indices, targetPhrases, uiPhrases) {
-            // FIX 3: Use UNIQUE words from each sentence, not repeated dummy words
-            return indices.slice(0, 5).map(i => {
-                const targetPhrase = targetPhrases[i];
+            // FIX 3: Use words from OTHER sentences as wrong options
+            return indices.slice(0, 5).map((currentIndex, exerciseNum) => {
+                const targetPhrase = targetPhrases[currentIndex];
                 const words = targetPhrase.split(' ').filter(w => w.length > 3);
                 
-                // If single word, skip this exercise
-                if (targetPhrase.split(' ').length === 1) {
+                // If single word or too short, skip this exercise
+                if (targetPhrase.split(' ').length === 1 || words.length === 0) {
                     return null;
                 }
                 
-                if (words.length === 0) return null;
-                
-                // Select correct word randomly from sentence
+                // Select correct word randomly from current sentence
                 const correctWord = words[Math.floor(Math.random() * words.length)].replace(/[.,!?]/g, '');
                 
-                // Create wrong options from OTHER words in the SAME sentence
-                const allWords = targetPhrase.split(' ').map(w => w.replace(/[.,!?]/g, '')).filter(w => w.length > 2 && w !== correctWord);
+                // Get words from OTHER sentences in this lesson
+                const otherIndices = indices.filter((idx, i) => i !== exerciseNum);
+                const wrongWords = [];
                 
-                // If not enough words in sentence, skip
-                if (allWords.length < 3) {
-                    return null;
+                otherIndices.forEach(idx => {
+                    const otherPhrase = targetPhrases[idx];
+                    const otherWords = otherPhrase.split(' ')
+                        .map(w => w.replace(/[.,!?]/g, ''))
+                        .filter(w => w.length > 3 && w !== correctWord);
+                    wrongWords.push(...otherWords);
+                });
+                
+                // If not enough words from other sentences, use common filler words
+                if (wrongWords.length < 3) {
+                    const fillers = ['och', 'men', 'för', 'att', 'den', 'det', 'med', 'till', 'som', 'är', 'har', 'kan', 'ska', 'var'];
+                    wrongWords.push(...fillers.filter(w => w !== correctWord.toLowerCase()));
                 }
                 
-                // Shuffle and take 3 wrong options
-                const wrongWords = allWords.sort(() => Math.random() - 0.5).slice(0, 3);
-                const options = [correctWord, ...wrongWords].sort(() => Math.random() - 0.5);
+                // Shuffle and take 3 unique wrong options
+                const uniqueWrong = [...new Set(wrongWords)]
+                    .sort(() => Math.random() - 0.5)
+                    .slice(0, 3);
                 
+                if (uniqueWrong.length < 3) {
+                    return null; // Not enough options
+                }
+                
+                const options = [correctWord, ...uniqueWrong].sort(() => Math.random() - 0.5);
                 const sentence = targetPhrase.replace(new RegExp('\\b' + correctWord + '\\b', 'i'), '___');
                 
                 return {sentence, correctWord, options};
