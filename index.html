@@ -46,19 +46,23 @@
         }
 
         .content {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            min-height: 600px;
-        }
-
-        .sidebar {
-            background: #f8f9fa;
-            padding: 30px;
-            border-right: 2px solid #e9ecef;
-        }
-
-        .main-content {
             padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .step-container {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .step-container.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .language-selector {
@@ -385,12 +389,7 @@
 
         @media (max-width: 768px) {
             .content {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                border-right: none;
-                border-bottom: 2px solid #e9ecef;
+                padding: 20px;
             }
 
             .lesson-grid {
@@ -411,29 +410,36 @@
         </div>
 
         <div class="content">
-            <div class="sidebar">
-                <div class="language-selector">
-                    <h3>📚 Your Native Language</h3>
-                    <div class="language-buttons" id="nativeLanguages"></div>
-                </div>
-
-                <div class="language-selector">
-                    <h3>🎯 Language to Learn</h3>
-                    <div class="language-buttons" id="targetLanguages"></div>
-                </div>
-
-                <div class="course-selector">
-                    <h3>💼 Industry</h3>
-                    <select id="courseSelect">
-                        <option value="">Select industry...</option>
-                    </select>
-                </div>
+            <!-- STEP 1: UI Language -->
+            <div id="step1" class="step-container active">
+                <h2 style="text-align: center; margin-bottom: 40px;">📚 Choose Your Native Language</h2>
+                <div class="language-buttons" id="nativeLanguages"></div>
             </div>
 
-            <div class="main-content">
+            <!-- STEP 2: Target Language -->
+            <div id="step2" class="step-container">
+                <h2 style="text-align: center; margin-bottom: 40px;">🎯 Choose Language to Learn</h2>
+                <div class="language-buttons" id="targetLanguages"></div>
+            </div>
+
+            <!-- STEP 3: Industry -->
+            <div id="step3" class="step-container">
+                <h2 style="text-align: center; margin-bottom: 40px;">💼 Choose Industry</h2>
+                <select id="courseSelect" style="max-width: 400px; margin: 0 auto; display: block;">
+                    <option value="">Select industry...</option>
+                </select>
+            </div>
+
+            <!-- STEP 4: Difficulty Level -->
+            <div id="step4" class="step-container">
+                <h2 style="text-align: center; margin-bottom: 40px;">📊 Choose Difficulty Level</h2>
                 <div id="lessonGrid" class="lesson-grid"></div>
-                <div id="phraseDisplay" class="phrase-display" style="display:none;"></div>
-                <div id="exerciseSection" style="display:none;">
+            </div>
+
+            <!-- STEP 5: Learning Content -->
+            <div id="step5" class="step-container">
+                <div id="phraseDisplay" class="phrase-display"></div>
+                <div id="exerciseSection">
                     <div class="exercise-section" id="exercise1"></div>
                     <div class="exercise-section" id="exercise2"></div>
                     <div class="exercise-section" id="exercise3"></div>
@@ -447,43 +453,235 @@
             "Swedish": {
                 "Healthcare": {
                     "Beginner": [
-                        { target: "God morgon", translation: "Good morning", native: { Slovak: "Dobré ráno", Ukrainian: "Доброго ранку", Russian: "Доброе утро", Polish: "Dzień dobry", Bulgarian: "Добро утро", Serbian: "Добро јутро", Romanian: "Bună dimineața", Lithuanian: "Labas rytas" }},
-                        { target: "Hur mår du?", translation: "How are you?", native: { Slovak: "Ako sa máš?", Ukrainian: "Як справи?", Russian: "Как дела?", Polish: "Jak się masz?", Bulgarian: "Как си?", Serbian: "Како си?", Romanian: "Ce mai faci?", Lithuanian: "Kaip laikaisi?" }},
-                        { target: "Jag heter...", translation: "My name is...", native: { Slovak: "Volám sa...", Ukrainian: "Мене звати...", Russian: "Меня зовут...", Polish: "Nazywam się...", Bulgarian: "Казвам се...", Serbian: "Зовем се...", Romanian: "Mă numesc...", Lithuanian: "Mano vardas..." }},
-                        { target: "Tack", translation: "Thank you", native: { Slovak: "Ďakujem", Ukrainian: "Дякую", Russian: "Спасибо", Polish: "Dziękuję", Bulgarian: "Благодаря", Serbian: "Хвала", Romanian: "Mulțumesc", Lithuanian: "Ačiū" }},
-                        { target: "Varsågod", translation: "You're welcome", native: { Slovak: "Prosím", Ukrainian: "Будь ласка", Russian: "Пожалуйста", Polish: "Proszę", Bulgarian: "Моля", Serbian: "Молим", Romanian: "Cu plăcere", Lithuanian: "Prašom" }},
-                        { target: "Ursäkta", translation: "Excuse me", native: { Slovak: "Prepáčte", Ukrainian: "Вибачте", Russian: "Извините", Polish: "Przepraszam", Bulgarian: "Извинете", Serbian: "Извините", Romanian: "Scuzați-mă", Lithuanian: "Atsiprašau" }},
-                        { target: "Jag förstår inte", translation: "I don't understand", native: { Slovak: "Nerozumiem", Ukrainian: "Я не розумію", Russian: "Я не понимаю", Polish: "Nie rozumiem", Bulgarian: "Не разбирам", Serbian: "Не разумем", Romanian: "Nu înțeleg", Lithuanian: "Nesuprantu" }},
-                        { target: "Kan du upprepa?", translation: "Can you repeat?", native: { Slovak: "Môžete zopakovať?", Ukrainian: "Чи можете повторити?", Russian: "Можете повторить?", Polish: "Czy możesz powtórzyć?", Bulgarian: "Можете ли да повторите?", Serbian: "Можете ли поновити?", Romanian: "Poți repeta?", Lithuanian: "Ar gali pakartoti?" }},
-                        { target: "Hjälp", translation: "Help", native: { Slovak: "Pomoc", Ukrainian: "Допомога", Russian: "Помощь", Polish: "Pomoc", Bulgarian: "Помощ", Serbian: "Помоћ", Romanian: "Ajutor", Lithuanian: "Pagalba" }},
-                        { target: "Ja", translation: "Yes", native: { Slovak: "Áno", Ukrainian: "Так", Russian: "Да", Polish: "Tak", Bulgarian: "Да", Serbian: "Да", Romanian: "Da", Lithuanian: "Taip" }}
+                        { target: "God morgon", translation: "Good morning", native: { Slovak: "Dobré ráno", Czech: "Dobré ráno", Ukrainian: "Доброго ранку", Russian: "Доброе утро", Polish: "Dzień dobry", Bulgarian: "Добро утро", Serbian: "Добро јутро", Romanian: "Bună dimineața", Lithuanian: "Labas rytas" }},
+                        { target: "Hur mår du?", translation: "How are you?", native: { Slovak: "Ako sa máš?", Czech: "Jak se máš?", Ukrainian: "Як справи?", Russian: "Как дела?", Polish: "Jak się masz?", Bulgarian: "Как си?", Serbian: "Како си?", Romanian: "Ce mai faci?", Lithuanian: "Kaip laikaisi?" }},
+                        { target: "Jag heter...", translation: "My name is...", native: { Slovak: "Volám sa...", Czech: "Jmenuji se...", Ukrainian: "Мене звати...", Russian: "Меня зовут...", Polish: "Nazywam się...", Bulgarian: "Казвам се...", Serbian: "Зовем се...", Romanian: "Mă numesc...", Lithuanian: "Mano vardas..." }},
+                        { target: "Tack", translation: "Thank you", native: { Slovak: "Ďakujem", Czech: "Děkuji", Ukrainian: "Дякую", Russian: "Спасибо", Polish: "Dziękuję", Bulgarian: "Благодаря", Serbian: "Хвала", Romanian: "Mulțumesc", Lithuanian: "Ačiū" }},
+                        { target: "Varsågod", translation: "You're welcome", native: { Slovak: "Prosím", Czech: "Prosím", Ukrainian: "Будь ласка", Russian: "Пожалуйста", Polish: "Proszę", Bulgarian: "Моля", Serbian: "Молим", Romanian: "Cu plăcere", Lithuanian: "Prašom" }},
+                        { target: "Ursäkta", translation: "Excuse me", native: { Slovak: "Prepáčte", Czech: "Promiňte", Ukrainian: "Вибачте", Russian: "Извините", Polish: "Przepraszam", Bulgarian: "Извинете", Serbian: "Извините", Romanian: "Scuzați-mă", Lithuanian: "Atsiprašau" }},
+                        { target: "Jag förstår inte", translation: "I don't understand", native: { Slovak: "Nerozumiem", Czech: "Nerozumím", Ukrainian: "Я не розумію", Russian: "Я не понимаю", Polish: "Nie rozumiem", Bulgarian: "Не разбирам", Serbian: "Не разумем", Romanian: "Nu înțeleg", Lithuanian: "Nesuprantu" }},
+                        { target: "Kan du upprepa?", translation: "Can you repeat?", native: { Slovak: "Môžete zopakovať?", Czech: "Můžete opakovat?", Ukrainian: "Чи можете повторити?", Russian: "Можете повторить?", Polish: "Czy możesz powtórzyć?", Bulgarian: "Можете ли да повторите?", Serbian: "Можете ли поновити?", Romanian: "Poți repeta?", Lithuanian: "Ar gali pakartoti?" }},
+                        { target: "Hjälp", translation: "Help", native: { Slovak: "Pomoc", Czech: "Pomoc", Ukrainian: "Допомога", Russian: "Помощь", Polish: "Pomoc", Bulgarian: "Помощ", Serbian: "Помоћ", Romanian: "Ajutor", Lithuanian: "Pagalba" }},
+                        { target: "Ja", translation: "Yes", native: { Slovak: "Áno", Czech: "Ano", Ukrainian: "Так", Russian: "Да", Polish: "Tak", Bulgarian: "Да", Serbian: "Да", Romanian: "Da", Lithuanian: "Taip" }}
                     ],
                     "Intermediate": [
-                        { target: "Patienten behöver hjälp", translation: "The patient needs help", native: { Slovak: "Pacient potrebuje pomoc", Ukrainian: "Пацієнту потрібна допомога", Russian: "Пациенту нужна помощь", Polish: "Pacjent potrzebuje pomocy", Bulgarian: "Пациентът се нуждае от помощ", Serbian: "Пацијент треба помоћ", Romanian: "Pacientul are nevoie de ajutor", Lithuanian: "Pacientui reikia pagalbos" }},
-                        { target: "Var har du ont?", translation: "Where does it hurt?", native: { Slovak: "Kde ťa bolí?", Ukrainian: "Де болить?", Russian: "Где болит?", Polish: "Gdzie boli?", Bulgarian: "Къде те боли?", Serbian: "Где те боли?", Romanian: "Unde te doare?", Lithuanian: "Kur skauda?" }},
-                        { target: "Ta din medicin", translation: "Take your medicine", native: { Slovak: "Vezmi si liek", Ukrainian: "Прийми ліки", Russian: "Прими лекарство", Polish: "Weź swoje lekarstwo", Bulgarian: "Вземи си лекарството", Serbian: "Узми свој лек", Romanian: "Ia-ți medicamentul", Lithuanian: "Išgerk vaistus" }},
-                        { target: "Hur länge har du haft dessa symtom?", translation: "How long have you had these symptoms?", native: { Slovak: "Ako dlho máš tieto príznaky?", Ukrainian: "Як довго у вас ці симптоми?", Russian: "Как долго у вас эти симптомы?", Polish: "Jak długo masz te objawy?", Bulgarian: "Колко дълго имаш тези симптоми?", Serbian: "Колико дуго имаш ове симптоме?", Romanian: "De cât timp ai aceste simptome?", Lithuanian: "Kiek laiko turi šiuos simptomus?" }},
-                        { target: "Jag ska kontrollera ditt blodtryck", translation: "I will check your blood pressure", native: { Slovak: "Skontolujem ti krvný tlak", Ukrainian: "Я перевірю ваш кров'яний тиск", Russian: "Я проверю ваше давление", Polish: "Sprawdzę twoje ciśnienie krwi", Bulgarian: "Ще проверя кръвното ти налягане", Serbian: "Проверићу ти крвни притисак", Romanian: "Îți voi verifica tensiunea arterială", Lithuanian: "Patikrįsiu tavo kraujospūdį" }},
-                        { target: "Du behöver vila", translation: "You need to rest", native: { Slovak: "Potrebuješ oddych", Ukrainian: "Тобі потрібен відпочинок", Russian: "Тебе нужен отдых", Polish: "Musisz odpocząć", Bulgarian: "Трябва да си починеш", Serbian: "Треба да се одмориш", Romanian: "Trebuie să te odihnești", Lithuanian: "Tau reikia pailsėti" }},
-                        { target: "Ring efter läkaren", translation: "Call the doctor", native: { Slovak: "Zavolaj lekára", Ukrainian: "Зателефонуй лікарю", Russian: "Позови врача", Polish: "Zadzwoń po lekarza", Bulgarian: "Обади се на лекаря", Serbian: "Позови лекара", Romanian: "Sună doctorul", Lithuanian: "Paskambink gydytojui" }},
-                        { target: "Allergisk reaktion", translation: "Allergic reaction", native: { Slovak: "Alergická reakcia", Ukrainian: "Алергічна реакція", Russian: "Аллергическая реакция", Polish: "Reakcja alergiczna", Bulgarian: "Алергична реакция", Serbian: "Алергијска реакција", Romanian: "Reacție alergică", Lithuanian: "Alerginė reakcija" }},
-                        { target: "Akut situation", translation: "Emergency situation", native: { Slovak: "Akútna situácia", Ukrainian: "Невідкладна ситуація", Russian: "Экстренная ситуация", Polish: "Sytuacja awaryjna", Bulgarian: "Спешна ситуация", Serbian: "Хитна ситуација", Romanian: "Situație de urgență", Lithuanian: "Skubi situacija" }},
-                        { target: "Besöksschema", translation: "Visiting schedule", native: { Slovak: "Rozvrh návštev", Ukrainian: "Розклад відвідувань", Russian: "Расписание посещений", Polish: "Harmonogram odwiedzin", Bulgarian: "График на посещенията", Serbian: "Распоред посета", Romanian: "Program de vizită", Lithuanian: "Lankymosi grafikas" }}
+                        { target: "Patienten behöver hjälp", translation: "The patient needs help", native: { Slovak: "Pacient potrebuje pomoc", Czech: "Pacient potřebuje pomoc", Ukrainian: "Пацієнту потрібна допомога", Russian: "Пациенту нужна помощь", Polish: "Pacjent potrzebuje pomocy", Bulgarian: "Пациентът се нуждае от помощ", Serbian: "Пацијент треба помоћ", Romanian: "Pacientul are nevoie de ajutor", Lithuanian: "Pacientui reikia pagalbos" }},
+                        { target: "Var har du ont?", translation: "Where does it hurt?", native: { Slovak: "Kde ťa bolí?", Czech: "Kde tě bolí?", Ukrainian: "Де болить?", Russian: "Где болит?", Polish: "Gdzie boli?", Bulgarian: "Къде те боли?", Serbian: "Где те боли?", Romanian: "Unde te doare?", Lithuanian: "Kur skauda?" }},
+                        { target: "Ta din medicin", translation: "Take your medicine", native: { Slovak: "Vezmi si liek", Czech: "Vezmi si lék", Ukrainian: "Прийми ліки", Russian: "Прими лекарство", Polish: "Weź swoje lekarstwo", Bulgarian: "Вземи си лекарството", Serbian: "Узми свој лек", Romanian: "Ia-ți medicamentul", Lithuanian: "Išgerk vaistus" }},
+                        { target: "Hur länge har du haft dessa symtom?", translation: "How long have you had these symptoms?", native: { Slovak: "Ako dlho máš tieto príznaky?", Czech: "Jak dlouho máš tyto příznaky?", Ukrainian: "Як довго у вас ці симптоми?", Russian: "Как долго у вас эти симптомы?", Polish: "Jak długo masz te objawy?", Bulgarian: "Колко дълго имаш тези симптоми?", Serbian: "Колико дуго имаш ове симптоме?", Romanian: "De cât timp ai aceste simptome?", Lithuanian: "Kiek laiko turi šiuos simptomus?" }},
+                        { target: "Jag ska kontrollera ditt blodtryck", translation: "I will check your blood pressure", native: { Slovak: "Skontolujem ti krvný tlak", Czech: "Zkontoluji ti krevní tlak", Ukrainian: "Я перевірю ваш кров'яний тиск", Russian: "Я проверю ваше давление", Polish: "Sprawdzę twoje ciśnienie krwi", Bulgarian: "Ще проверя кръвното ти налягане", Serbian: "Проверићу ти крвни притисак", Romanian: "Îți voi verifica tensiunea arterială", Lithuanian: "Patikrįsiu tavo kraujospūdį" }},
+                        { target: "Du behöver vila", translation: "You need to rest", native: { Slovak: "Potrebuješ oddych", Czech: "Potřebuješ odpočinek", Ukrainian: "Тобі потрібен відпочинок", Russian: "Тебе нужен отдых", Polish: "Musisz odpocząć", Bulgarian: "Трябва да си починеш", Serbian: "Треба да се одмориш", Romanian: "Trebuie să te odihnești", Lithuanian: "Tau reikia pailsėti" }},
+                        { target: "Ring efter läkaren", translation: "Call the doctor", native: { Slovak: "Zavolaj lekára", Czech: "Zavolej lékaře", Ukrainian: "Зателефонуй лікарю", Russian: "Позови врача", Polish: "Zadzwoń po lekarza", Bulgarian: "Обади се на лекаря", Serbian: "Позови лекара", Romanian: "Sună doctorul", Lithuanian: "Paskambink gydytojui" }},
+                        { target: "Allergisk reaktion", translation: "Allergic reaction", native: { Slovak: "Alergická reakcia", Czech: "Alergická reakce", Ukrainian: "Алергічна реакція", Russian: "Аллергическая реакция", Polish: "Reakcja alergiczna", Bulgarian: "Алергична реакция", Serbian: "Алергијска реакција", Romanian: "Reacție alergică", Lithuanian: "Alerginė reakcija" }},
+                        { target: "Akut situation", translation: "Emergency situation", native: { Slovak: "Akútna situácia", Czech: "Akutní situace", Ukrainian: "Невідкладна ситуація", Russian: "Экстренная ситуация", Polish: "Sytuacja awaryjna", Bulgarian: "Спешна ситуация", Serbian: "Хитна ситуација", Romanian: "Situație de urgență", Lithuanian: "Skubi situacija" }},
+                        { target: "Besöksschema", translation: "Visiting schedule", native: { Slovak: "Rozvrh návštev", Czech: "Rozvrh návštěv", Ukrainian: "Розклад відвідувань", Russian: "Расписание посещений", Polish: "Harmonogram odwiedzin", Bulgarian: "График на посещенията", Serbian: "Распоред посета", Romanian: "Program de vizită", Lithuanian: "Lankymosi grafikas" }}
                     ],
                     "Advanced": [
-                        { target: "Administrera medicinering enligt ordination", translation: "Administer medication as prescribed", native: { Slovak: "Podávať lieky podľa predpisu", Ukrainian: "Вводити ліки за призначенням", Russian: "Давать лекарства по назначению", Polish: "Podawać leki zgodnie z zaleceniem", Bulgarian: "Прилагай лекарства според предписанието", Serbian: "Примењивати лекове према рецепту", Romanian: "Administrează medicația conform prescripției", Lithuanian: "Duoti vaistus pagal paskyrimą" }},
-                        { target: "Dokumentera patientens tillstånd", translation: "Document patient's condition", native: { Slovak: "Dokumentovať stav pacienta", Ukrainian: "Документувати стан пацієнта", Russian: "Документировать состояние пациента", Polish: "Dokumentować stan pacjenta", Bulgarian: "Документирай състоянието на пациента", Serbian: "Документовати стање пацијента", Romanian: "Documentează starea pacientului", Lithuanian: "Dokumentuoti paciento būklę" }},
-                        { target: "Riskbedömning krävs", translation: "Risk assessment required", native: { Slovak: "Potrebné posúdenie rizika", Ukrainian: "Потрібна оцінка ризику", Russian: "Требуется оценка риска", Polish: "Wymagana ocena ryzyka", Bulgarian: "Изисква се оценка на риска", Serbian: "Потребна процена ризика", Romanian: "Se necesită evaluarea riscului", Lithuanian: "Reikalingas rizikos vertinimas" }},
-                        { target: "Överföra patient till intensivvård", translation: "Transfer patient to intensive care", native: { Slovak: "Presunúť pacienta na intenzívnu starostlivosť", Ukrainian: "Перевести пацієнта до реанімації", Russian: "Перевести пациента в реанимацию", Polish: "Przenieść pacjenta na intensywną terapię", Bulgarian: "Прехвърли пациента в интензивно отделение", Serbian: "Пребацити пацијента на интензивну негу", Romanian: "Transferă pacientul la terapie intensivă", Lithuanian: "Perkelti pacientą į intensyvią priežiūrą" }},
-                        { target: "Postoperativ övervakning", translation: "Postoperative monitoring", native: { Slovak: "Pooperačné monitorovanie", Ukrainian: "Післяопераційний моніторинг", Russian: "Послеоперационное наблюдение", Polish: "Monitorowanie pooperacyjne", Bulgarian: "Следоперативно наблюдение", Serbian: "Постоперативно праћење", Romanian: "Monitorizare postoperatorie", Lithuanian: "Pooperacinis stebėjimas" }},
-                        { target: "Informera anhöriga om patientens prognos", translation: "Inform relatives about patient's prognosis", native: { Slovak: "Informovať príbuzných o prognóze pacienta", Ukrainian: "Інформувати родичів про прогноз пацієнта", Russian: "Информировать родственников о прогнозе", Polish: "Poinformować krewnych o rokowaniu pacjenta", Bulgarian: "Информирай роднините за прогнозата на пациента", Serbian: "Информисати рођаке о прогнози пацијента", Romanian: "Informează rudele despre prognosticul pacientului", Lithuanian: "Informuoti artimuosius apie paciento prognoze" }},
-                        { target: "Vitalparametrar inom normalintervall", translation: "Vital parameters within normal range", native: { Slovak: "Vitálne parametre v normálnom rozsahu", Ukrainian: "Життєві параметри в нормі", Russian: "Жизненные параметры в норме", Polish: "Parametry życiowe w normie", Bulgarian: "Жизнените показатели в нормални граници", Serbian: "Витални параметри у нормалном опсегу", Romanian: "Parametri vitali în limite normale", Lithuanian: "Gyvybiniai rodikliai normaliuose ribose" }},
-                        { target: "Rehabiliteringsplan ska upprättas", translation: "Rehabilitation plan to be established", native: { Slovak: "Treba vypracovať rehabilitačný plán", Ukrainian: "Необхідно скласти план реабілітації", Russian: "Необходимо составить план реабилитации", Polish: "Należy ustanowić plan rehabilitacji", Bulgarian: "Трябва да се състави план за рехабилитация", Serbian: "Потребно је успоставити план рехабилитације", Romanian: "Trebuie stabilit un plan de reabilitare", Lithuanian: "Reikia sudaryti reabilitacijos planą" }},
-                        { target: "Multidisciplinärt teammöte", translation: "Multidisciplinary team meeting", native: { Slovak: "Multidisciplinárne stretnutie tímu", Ukrainian: "Міждисциплінарна зустріч команди", Russian: "Междисциплинарное совещание команды", Polish: "Spotkanie zespołu multidyscyplinarnego", Bulgarian: "Мултидисциплинарна среща на екипа", Serbian: "Мултидисциплинарни тимски састанак", Romanian: "Întâlnire a echipei multidisciplinare", Lithuanian: "Multidisciplinės komandos susitikimas" }},
-                        { target: "Säkerställa patientsäkerhet", translation: "Ensure patient safety", native: { Slovak: "Zabezpečiť bezpečnosť pacienta", Ukrainian: "Забезпечити безпеку пацієнта", Russian: "Обеспечить безопасность пациента", Polish: "Zapewnić bezpieczeństwo pacjenta", Bulgarian: "Осигури безопасността на пациента", Serbian: "Обезбедити безбедност пацијента", Romanian: "Asigurarea siguranței pacientului", Lithuanian: "Užtikrinti paciento saugumą" }}
+                        { target: "Administrera medicinering enligt ordination", translation: "Administer medication as prescribed", native: { Slovak: "Podávať lieky podľa predpisu", Czech: "Podávat léky podle předpisu", Ukrainian: "Вводити ліки за призначенням", Russian: "Давать лекарства по назначению", Polish: "Podawać leki zgodnie z zaleceniem", Bulgarian: "Прилагай лекарства според предписанието", Serbian: "Примењивати лекове према рецепту", Romanian: "Administrează medicația conform prescripției", Lithuanian: "Duoti vaistus pagal paskyrimą" }},
+                        { target: "Dokumentera patientens tillstånd", translation: "Document patient's condition", native: { Slovak: "Dokumentovať stav pacienta", Czech: "Dokumentovat stav pacienta", Ukrainian: "Документувати стан пацієнта", Russian: "Документировать состояние пациента", Polish: "Dokumentować stan pacjenta", Bulgarian: "Документирай състоянието на пациента", Serbian: "Документовати стање пацијента", Romanian: "Documentează starea pacientului", Lithuanian: "Dokumentuoti paciento būklę" }},
+                        { target: "Riskbedömning krävs", translation: "Risk assessment required", native: { Slovak: "Potrebné posúdenie rizika", Czech: "Vyžaduje se posouzení rizika", Ukrainian: "Потрібна оцінка ризику", Russian: "Требуется оценка риска", Polish: "Wymagana ocena ryzyka", Bulgarian: "Изисква се оценка на риска", Serbian: "Потребна процена ризика", Romanian: "Se necesită evaluarea riscului", Lithuanian: "Reikalingas rizikos vertinimas" }},
+                        { target: "Överföra patient till intensivvård", translation: "Transfer patient to intensive care", native: { Slovak: "Presunúť pacienta na intenzívnu starostlivosť", Czech: "Převést pacienta na intenzivní péči", Ukrainian: "Перевести пацієнта до реанімації", Russian: "Перевести пациента в реанимацию", Polish: "Przenieść pacjenta na intensywną terapię", Bulgarian: "Прехвърли пациента в интензивно отделение", Serbian: "Пребацити пацијента на интензивну негу", Romanian: "Transferă pacientul la terapie intensivă", Lithuanian: "Perkelti pacientą į intensyvią priežiūrą" }},
+                        { target: "Postoperativ övervakning", translation: "Postoperative monitoring", native: { Slovak: "Pooperačné monitorovanie", Czech: "Pooperační monitorování", Ukrainian: "Післяопераційний моніторинг", Russian: "Послеоперационное наблюдение", Polish: "Monitorowanie pooperacyjne", Bulgarian: "Следоперативно наблюдение", Serbian: "Постоперативно праћење", Romanian: "Monitorizare postoperatorie", Lithuanian: "Pooperacinis stebėjimas" }},
+                        { target: "Informera anhöriga om patientens prognos", translation: "Inform relatives about patient's prognosis", native: { Slovak: "Informovať príbuzných o prognóze pacienta", Czech: "Informovat příbuzné o prognóze pacienta", Ukrainian: "Інформувати родичів про прогноз пацієнта", Russian: "Информировать родственников о прогнозе", Polish: "Poinformować krewnych o rokowaniu pacjenta", Bulgarian: "Информирай роднините за прогнозата на пациента", Serbian: "Информисати рођаке о прогнози пацијента", Romanian: "Informează rudele despre prognosticul pacientului", Lithuanian: "Informuoti artimuosius apie paciento prognoze" }},
+                        { target: "Vitalparametrar inom normalintervall", translation: "Vital parameters within normal range", native: { Slovak: "Vitálne parametre v normálnom rozsahu", Czech: "Vitální parametry v normálním rozmezí", Ukrainian: "Життєві параметри в нормі", Russian: "Жизненные параметры в норме", Polish: "Parametry życiowe w normie", Bulgarian: "Жизнените показатели в нормални граници", Serbian: "Витални параметри у нормалном опсегу", Romanian: "Parametri vitali în limite normale", Lithuanian: "Gyvybiniai rodikliai normaliuose ribose" }},
+                        { target: "Rehabiliteringsplan ska upprättas", translation: "Rehabilitation plan to be established", native: { Slovak: "Treba vypracovať rehabilitačný plán", Czech: "Je třeba vypracovat rehabilitační plán", Ukrainian: "Необхідно скласти план реабілітації", Russian: "Необходимо составить план реабилитации", Polish: "Należy ustanowić plan rehabilitacji", Bulgarian: "Трябва да се състави план за рехабилитация", Serbian: "Потребно је успоставити план рехабилитације", Romanian: "Trebuie stabilit un plan de reabilitare", Lithuanian: "Reikia sudaryti reabilitacijos planą" }},
+                        { target: "Multidisciplinärt teammöte", translation: "Multidisciplinary team meeting", native: { Slovak: "Multidisciplinárne stretnutie tímu", Czech: "Multidisciplinární týmová schůzka", Ukrainian: "Міждисциплінарна зустріч команди", Russian: "Междисциплинарное совещание команды", Polish: "Spotkanie zespołu multidyscyplinarnego", Bulgarian: "Мултидисциплинарна среща на екипа", Serbian: "Мултидисциплинарни тимски састанак", Romanian: "Întâlnire a echipei multidisciplinare", Lithuanian: "Multidisciplinės komandos susitikimas" }},
+                        { target: "Säkerställa patientsäkerhet", translation: "Ensure patient safety", native: { Slovak: "Zabezpečiť bezpečnosť pacienta", Czech: "Zajistit bezpečnost pacienta", Ukrainian: "Забезпечити безпеку пацієнта", Russian: "Обеспечить безопасность пациента", Polish: "Zapewnić bezpieczeństwo pacjenta", Bulgarian: "Осигури безопасността на пациента", Serbian: "Обезбедити безбедност пацијента", Romanian: "Asigurarea siguranței pacientului", Lithuanian: "Užtikrinti paciento saugumą" }}
                     ]
                 }
+            },
+            "Construction": {
+                "Beginner": [
+                    { target: "Säkerhetsutrustning", translation: "Safety equipment", native: { Slovak: "Bezpečnostné vybavenie", Czech: "Bezpečnostní vybavení", Ukrainian: "Засоби безпеки", Russian: "Средства безопасности", Polish: "Sprzęt ochronny", Bulgarian: "Защитно оборудване", Serbian: "Заштитна опрема", Romanian: "Echipament de siguranță", Lithuanian: "Saugos įranga" }},
+                    { target: "Hjälm", translation: "Helmet", native: { Slovak: "Prilba", Czech: "Helma", Ukrainian: "Каска", Russian: "Каска", Polish: "Kask", Bulgarian: "Каска", Serbian: "Шлем", Romanian: "Cască", Lithuanian: "Šalmas" }},
+                    { target: "Verktyg", translation: "Tools", native: { Slovak: "Náradie", Czech: "Nářadí", Ukrainian: "Інструменти", Russian: "Инструменты", Polish: "Narzędzia", Bulgarian: "Инструменти", Serbian: "Алати", Romanian: "Unelte", Lithuanian: "Įrankiai" }},
+                    { target: "Arbetsplats", translation: "Work site", native: { Slovak: "Pracovisko", Czech: "Pracoviště", Ukrainian: "Робоче місце", Russian: "Рабочее место", Polish: "Miejsce pracy", Bulgarian: "Работно място", Serbian: "Радно место", Romanian: "Șantier", Lithuanian: "Darbo vieta" }},
+                    { target: "Bygg", translation: "Building", native: { Slovak: "Stavba", Czech: "Stavba", Ukrainian: "Будівля", Russian: "Здание", Polish: "Budynek", Bulgarian: "Сграда", Serbian: "Зграда", Romanian: "Clădire", Lithuanian: "Pastatas" }},
+                    { target: "Material", translation: "Materials", native: { Slovak: "Materiál", Czech: "Materiál", Ukrainian: "Матеріали", Russian: "Материалы", Polish: "Materiały", Bulgarian: "Материали", Serbian: "Материјали", Romanian: "Materiale", Lithuanian: "Medžiagos" }},
+                    { target: "Ritning", translation: "Blueprint", native: { Slovak: "Výkres", Czech: "Výkres", Ukrainian: "Креслення", Russian: "Чертеж", Polish: "Plan", Bulgarian: "План", Serbian: "Нацрт", Romanian: "Plan", Lithuanian: "Brėžinys" }},
+                    { target: "Mätband", translation: "Measuring tape", native: { Slovak: "Meter", Czech: "Metr", Ukrainian: "Рулетка", Russian: "Рулетка", Polish: "Miara", Bulgarian: "Метър", Serbian: "Метар", Romanian: "Ruletă", Lithuanian: "Ruletė" }},
+                    { target: "Paus", translation: "Break", native: { Slovak: "Prestávka", Czech: "Přestávka", Ukrainian: "Перерва", Russian: "Перерыв", Polish: "Przerwa", Bulgarian: "Почивка", Serbian: "Пауза", Romanian: "Pauză", Lithuanian: "Pertrauka" }},
+                    { target: "Chef", translation: "Boss", native: { Slovak: "Šéf", Czech: "Šéf", Ukrainian: "Начальник", Russian: "Начальник", Polish: "Szef", Bulgarian: "Шеф", Serbian: "Шеф", Romanian: "Șef", Lithuanian: "Viršininkas" }}
+                ],
+                "Intermediate": [
+                    { target: "Kontrollera nivån", translation: "Check the level", native: { Slovak: "Skontrolovať úroveň", Czech: "Zkontrolovat úroveň", Ukrainian: "Перевірити рівень", Russian: "Проверить уровень", Polish: "Sprawdzić poziom", Bulgarian: "Провери нивото", Serbian: "Провери ниво", Romanian: "Verifică nivelul", Lithuanian: "Patikrinti lygį" }},
+                    { target: "Blanda betong", translation: "Mix concrete", native: { Slovak: "Miešať betón", Czech: "Míchat beton", Ukrainian: "Змішати бетон", Russian: "Замешать бетон", Polish: "Mieszać beton", Bulgarian: "Размесвай бетон", Serbian: "Мешати бетон", Romanian: "Amestecă betonul", Lithuanian: "Maišyti betoną" }},
+                    { target: "Montera ställning", translation: "Assemble scaffolding", native: { Slovak: "Montovať lešenie", Czech: "Montovat lešení", Ukrainian: "Монтувати риштування", Russian: "Монтировать леса", Polish: "Montować rusztowanie", Bulgarian: "Монтирай скеле", Serbian: "Монтирати скеле", Romanian: "Montează schela", Lithuanian: "Montuoti pastolį" }},
+                    { target: "Isolera väggar", translation: "Insulate walls", native: { Slovak: "Izolovať steny", Czech: "Izolovat stěny", Ukrainian: "Ізолювати стіни", Russian: "Изолировать стены", Polish: "Izolować ściany", Bulgarian: "Изолирай стените", Serbian: "Изоловати зидове", Romanian: "Izolează pereții", Lithuanian: "Izoliuoti sienas" }},
+                    { target: "Lägga plattor", translation: "Lay tiles", native: { Slovak: "Klásť dlaždice", Czech: "Pokládat dlaždice", Ukrainian: "Класти плитку", Russian: "Класть плитку", Polish: "Układać płytki", Bulgarian: "Полагай плочки", Serbian: "Полагати плочице", Romanian: "Pune plăci", Lithuanian: "Kloti plytelės" }},
+                    { target: "Måla fasad", translation: "Paint facade", native: { Slovak: "Maľovať fasádu", Czech: "Malovat fasádu", Ukrainian: "Фарбувати фасад", Russian: "Красить фасад", Polish: "Malować fasadę", Bulgarian: "Боядисай фасадата", Serbian: "Фарбати фасаду", Romanian: "Vopsi fațada", Lithuanian: "Dažyti fasadą" }},
+                    { target: "Installera rör", translation: "Install pipes", native: { Slovak: "Inštalovať rúry", Czech: "Instalovat trubky", Ukrainian: "Встановити труби", Russian: "Установить трубы", Polish: "Instalować rury", Bulgarian: "Инсталирай тръби", Serbian: "Инсталирати цеви", Romanian: "Instalează țevi", Lithuanian: "Montuoti vamzdžius" }},
+                    { target: "Dra kablar", translation: "Pull cables", native: { Slovak: "Ťahať káble", Czech: "Táhnout kabely", Ukrainian: "Тягнути кабелі", Russian: "Тянуть кабели", Polish: "Ciągnąć kable", Bulgarian: "Дърпай кабели", Serbian: "Повући каблове", Romanian: "Trage cabluri", Lithuanian: "Traukti kabelius" }},
+                    { target: "Byggnadslov", translation: "Building permit", native: { Slovak: "Stavebné povolenie", Czech: "Stavební povolení", Ukrainian: "Дозвіл на будівництво", Russian: "Разрешение на строительство", Polish: "Pozwolenie na budowę", Bulgarian: "Разрешително за строеж", Serbian: "Грађевинска дозвола", Romanian: "Autorizație de construcție", Lithuanian: "Statybos leidimas" }},
+                    { target: "Kvalitetskontroll", translation: "Quality control", native: { Slovak: "Kontrola kvality", Czech: "Kontrola kvality", Ukrainian: "Контроль якості", Russian: "Контроль качества", Polish: "Kontrola jakości", Bulgarian: "Контрол на качеството", Serbian: "Контрола квалитета", Romanian: "Control al calității", Lithuanian: "Kokybės kontrolė" }}
+                ],
+                "Advanced": [
+                    { target: "Projektledning och samordning", translation: "Project management and coordination", native: { Slovak: "Projektové riadenie a koordinácia", Czech: "Projektové řízení a koordinace", Ukrainian: "Управління проектом та координація", Russian: "Управление проектом и координация", Polish: "Zarządzanie projektem i koordynacja", Bulgarian: "Управление на проекти и координация", Serbian: "Управљање пројектом и координација", Romanian: "Managementul proiectului și coordonare", Lithuanian: "Projekto valdymas ir koordinavimas" }},
+                    { target: "Konstruktionsberäkningar", translation: "Structural calculations", native: { Slovak: "Konštrukčné výpočty", Czech: "Konstrukční výpočty", Ukrainian: "Конструкційні розрахунки", Russian: "Конструкционные расчеты", Polish: "Obliczenia konstrukcyjne", Bulgarian: "Конструктивни изчисления", Serbian: "Конструкцијски прорачуни", Romanian: "Calcule structurale", Lithuanian: "Konstrukciniai skaičiavimai" }},
+                    { target: "Arbetsmiljöansvar", translation: "Work environment responsibility", native: { Slovak: "Zodpovednosť za pracovné prostredie", Czech: "Odpovědnost za pracovní prostředí", Ukrainian: "Відповідальність за робоче середовище", Russian: "Ответственность за рабочую среду", Polish: "Odpowiedzialność za środowisko pracy", Bulgarian: "Отговорност за работната среда", Serbian: "Одговорност за радну околину", Romanian: "Responsabilitatea mediului de lucru", Lithuanian: "Darbo aplinkos atsakomybė" }},
+                    { target: "Tidplan och milstolpar", translation: "Timeline and milestones", native: { Slovak: "Harmonogram a míľniky", Czech: "Harmonogram a milníky", Ukrainian: "Графік та віхи", Russian: "График и вехи", Polish: "Harmonogram i kamienie milowe", Bulgarian: "График и етапи", Serbian: "Временски план и прекретнице", Romanian: "Program și etape cheie", Lithuanian: "Laiko planas ir etapai" }},
+                    { target: "Upphandling av underentreprenörer", translation: "Procurement of subcontractors", native: { Slovak: "Obstarávanie subdodávateľov", Czech: "Obstarávání subdodavatelů", Ukrainian: "Закупівля субпідрядників", Russian: "Закупка субподрядчиков", Polish: "Zamówienia podwykonawców", Bulgarian: "Възлагане на подизпълнители", Serbian: "Набавка подизвођача", Romanian: "Achiziționarea subcontractorilor", Lithuanian: "Subrangovų pirkimas" }},
+                    { target: "Teknisk dokumentation", translation: "Technical documentation", native: { Slovak: "Technická dokumentácia", Czech: "Technická dokumentace", Ukrainian: "Технічна документація", Russian: "Техническая документация", Polish: "Dokumentacja techniczna", Bulgarian: "Техническа документация", Serbian: "Техничка документација", Romanian: "Documentație tehnică", Lithuanian: "Techninė dokumentacija" }},
+                    { target: "Materiallogistik", translation: "Material logistics", native: { Slovak: "Materiálová logistika", Czech: "Materiálová logistika", Ukrainian: "Матеріальна логістика", Russian: "Материальная логистика", Polish: "Logistyka materiałowa", Bulgarian: "Материална логистика", Serbian: "Материјална логистика", Romanian: "Logistica materialelor", Lithuanian: "Medžiagų logistika" }},
+                    { target: "Slutbesiktning", translation: "Final inspection", native: { Slovak: "Záverečná kontrola", Czech: "Konečná kontrola", Ukrainian: "Заключна інспекція", Russian: "Заключительная инспекция", Polish: "Inspekcja końcowa", Bulgarian: "Окончателна инспекция", Serbian: "Завршна инспекција", Romanian: "Inspecție finală", Lithuanian: "Galutinė apžiūra" }},
+                    { target: "Entreprenadrätt", translation: "Construction law", native: { Slovak: "Stavebné právo", Czech: "Stavební právo", Ukrainian: "Будівельне право", Russian: "Строительное право", Polish: "Prawo budowlane", Bulgarian: "Строително право", Serbian: "Грађевинско право", Romanian: "Dreptul construcțiilor", Lithuanian: "Statybų teisė" }},
+                    { target: "Hållbarhets certifiering", translation: "Sustainability certification", native: { Slovak: "Certifikácia udržateľnosti", Czech: "Certifikace udržitelnosti", Ukrainian: "Сертифікація сталості", Russian: "Сертификация устойчивости", Polish: "Certyfikacja zrównoważonego rozwoju", Bulgarian: "Сертификация за устойчивост", Serbian: "Сертификација одрживости", Romanian: "Certificarea durabilității", Lithuanian: "Tvarumo sertifikavimas" }}
+                ]
+,
+            "Hospitality": {
+                "Beginner": [
+                    { target: "Välkommen", translation: "Welcome", native: { Slovak: "Vitajte", Czech: "Vítejte", Ukrainian: "Ласкаво просимо", Russian: "Добро пожаловать", Polish: "Witamy", Bulgarian: "Добре дошли", Serbian: "Добродошли", Romanian: "Bun venit", Lithuanian: "Sveiki atvykę" }},
+                    { target: "Beställning", translation: "Order", native: { Slovak: "Objednávka", Czech: "Objednávka", Ukrainian: "Замовлення", Russian: "Заказ", Polish: "Zamówienie", Bulgarian: "Поръчка", Serbian: "Поруџбина", Romanian: "Comandă", Lithuanian: "Užsakymas" }},
+                    { target: "Meny", translation: "Menu", native: { Slovak: "Menu", Czech: "Jídelní lístek", Ukrainian: "Меню", Russian: "Меню", Polish: "Menu", Bulgarian: "Меню", Serbian: "Мени", Romanian: "Meniu", Lithuanian: "Meniu" }},
+                    { target: "Dryck", translation: "Beverage", native: { Slovak: "Nápoj", Czech: "Nápoj", Ukrainian: "Напій", Russian: "Напиток", Polish: "Napój", Bulgarian: "Напитка", Serbian: "Пиће", Romanian: "Băutură", Lithuanian: "Gėrimas" }},
+                    { target: "Räkning", translation: "Bill", native: { Slovak: "Účet", Czech: "Účet", Ukrainian: "Рахунок", Russian: "Счет", Polish: "Rachunek", Bulgarian: "Сметка", Serbian: "Рачун", Romanian: "Notă de plată", Lithuanian: "Sąskaita" }},
+                    { target: "Rum", translation: "Room", native: { Slovak: "Izba", Czech: "Pokoj", Ukrainian: "Кімната", Russian: "Комната", Polish: "Pokój", Bulgarian: "Стая", Serbian: "Соба", Romanian: "Cameră", Lithuanian: "Kambarys" }},
+                    { target: "Nyckel", translation: "Key", native: { Slovak: "Kľúč", Czech: "Klíč", Ukrainian: "Ключ", Russian: "Ключ", Polish: "Klucz", Bulgarian: "Ключ", Serbian: "Кључ", Romanian: "Cheie", Lithuanian: "Raktas" }},
+                    { target: "Frukost", translation: "Breakfast", native: { Slovak: "Raňajky", Czech: "Snídaně", Ukrainian: "Сніданок", Russian: "Завтрак", Polish: "Śniadanie", Bulgarian: "Закуска", Serbian: "Доручак", Romanian: "Mic dejun", Lithuanian: "Pusryčiai" }},
+                    { target: "Reservering", translation: "Reservation", native: { Slovak: "Rezervácia", Czech: "Rezervace", Ukrainian: "Бронювання", Russian: "Бронирование", Polish: "Rezerwacja", Bulgarian: "Резервация", Serbian: "Резервација", Romanian: "Rezervare", Lithuanian: "Rezervacija" }},
+                    { target: "Gäst", translation: "Guest", native: { Slovak: "Hosť", Czech: "Host", Ukrainian: "Гість", Russian: "Гость", Polish: "Gość", Bulgarian: "Гост", Serbian: "Гост", Romanian: "Oaspete", Lithuanian: "Svečias" }}
+                ],
+                "Intermediate": [
+                    { target: "Incheckning klockan tre", translation: "Check-in at three", native: { Slovak: "Prihlásenie o tretej", Czech: "Přihlášení ve tři", Ukrainian: "Реєстрація о третій", Russian: "Регистрация в три", Polish: "Zameldowanie o trzeciej", Bulgarian: "Настаняване в три", Serbian: "Пријава у три", Romanian: "Check-in la trei", Lithuanian: "Registracija trečią" }},
+                    { target: "Allergier och preferenser", translation: "Allergies and preferences", native: { Slovak: "Alergie a preferencie", Czech: "Alergie a preference", Ukrainian: "Алергії та вподобання", Russian: "Аллергии и предпочтения", Polish: "Alergie i preferencje", Bulgarian: "Алергии и предпочитания", Serbian: "Алергије и преференције", Romanian: "Alergii și preferințe", Lithuanian: "Alergijos ir pageidavimai" }},
+                    { target: "Rekommendera rätter", translation: "Recommend dishes", native: { Slovak: "Odporúčať jedlá", Czech: "Doporučit jídla", Ukrainian: "Рекомендувати страви", Russian: "Рекомендовать блюда", Polish: "Polecić dania", Bulgarian: "Препоръчай ястия", Serbian: "Препоручити јела", Romanian: "Recomandă feluri", Lithuanian: "Rekomenduoti patiekalus" }},
+                    { target: "Hantera klagomål", translation: "Handle complaints", native: { Slovak: "Riešiť sťažnosti", Czech: "Řešit stížnosti", Ukrainian: "Обробляти скарги", Russian: "Обрабатывать жалобы", Polish: "Obsługiwać reklamacje", Bulgarian: "Обработвай оплаквания", Serbian: "Решавати жалбе", Romanian: "Gestionează reclamații", Lithuanian: "Valdyti skundus" }},
+                    { target: "Städa rum noggrant", translation: "Clean room thoroughly", native: { Slovak: "Upratať izbu dôkladne", Czech: "Uklidit pokoj důkladně", Ukrainian: "Прибрати кімнату ретельно", Russian: "Убрать комнату тщательно", Polish: "Posprzątać pokój dokładnie", Bulgarian: "Почисти стаята старателно", Serbian: "Очистити собу темељно", Romanian: "Curăță camera amănunțit", Lithuanian: "Išvalyti kambarį kruopščiai" }},
+                    { target: "Servera vin korrekt", translation: "Serve wine correctly", native: { Slovak: "Podávať víno správne", Czech: "Podávat víno správně", Ukrainian: "Подавати вино правильно", Russian: "Подавать вино правильно", Polish: "Podawać wino poprawnie", Bulgarian: "Сервирай вино правилно", Serbian: "Послужити вино исправно", Romanian: "Servește vinul corect", Lithuanian: "Patiekti vyną teisingai" }},
+                    { target: "Uppdatera bokningssystem", translation: "Update booking system", native: { Slovak: "Aktualizovať rezervačný systém", Czech: "Aktualizovat rezervační systém", Ukrainian: "Оновити систему бронювання", Russian: "Обновить систему бронирования", Polish: "Zaktualizować system rezerwacji", Bulgarian: "Актуализирай системата за резервации", Serbian: "Ажурирати систем резервација", Romanian: "Actualizează sistemul de rezervări", Lithuanian: "Atnaujinti rezervacijų sistemą" }},
+                    { target: "Koordinera med köket", translation: "Coordinate with kitchen", native: { Slovak: "Koordinovať s kuchyňou", Czech: "Koordinovat s kuchyní", Ukrainian: "Координувати з кухнею", Russian: "Координировать с кухней", Polish: "Koordynować z kuchnią", Bulgarian: "Координирай с кухнята", Serbian: "Координирати са кухињом", Romanian: "Coordonează cu bucătăria", Lithuanian: "Koordinuoti su virtuve" }},
+                    { target: "Minibar inventering", translation: "Minibar inventory", native: { Slovak: "Inventúra minibaru", Czech: "Inventura minibaru", Ukrainian: "Інвентаризація мінібару", Russian: "Инвентаризация минибара", Polish: "Inwentaryzacja minibaru", Bulgarian: "Инвентар на минибара", Serbian: "Попис минибара", Romanian: "Inventar minibar", Lithuanian: "Minibar inventorizacija" }},
+                    { target: "Eventplanering", translation: "Event planning", native: { Slovak: "Plánovanie podujatí", Czech: "Plánování akcí", Ukrainian: "Планування подій", Russian: "Планирование мероприятий", Polish: "Planowanie wydarzeń", Bulgarian: "Планиране на събития", Serbian: "Планирање догађаја", Romanian: "Planificarea evenimentelor", Lithuanian: "Renginių planavimas" }}
+                ],
+                "Advanced": [
+                    { target: "Gästtillfredsställelse", translation: "Guest satisfaction", native: { Slovak: "Spokojnosť hostí", Czech: "Spokojenost hostů", Ukrainian: "Задоволеність гостей", Russian: "Удовлетворенность гостей", Polish: "Satysfakcja gości", Bulgarian: "Удовлетвореност на гостите", Serbian: "Задовољство гостију", Romanian: "Satisfacția oaspeților", Lithuanian: "Svečių pasitenkinimas" }},
+                    { target: "Revenue management", translation: "Revenue management", native: { Slovak: "Riadenie príjmov", Czech: "Řízení výnosů", Ukrainian: "Управління доходами", Russian: "Управление доходами", Polish: "Zarządzanie przychodami", Bulgarian: "Управление на приходите", Serbian: "Управљање приходима", Romanian: "Managementul veniturilor", Lithuanian: "Pajamų valdymas" }},
+                    { target: "Personalschemaläggning", translation: "Staff scheduling", native: { Slovak: "Plánovanie personálu", Czech: "Plánování personálu", Ukrainian: "Планування персоналу", Russian: "Планирование персонала", Polish: "Planowanie personelu", Bulgarian: "Планиране на персонала", Serbian: "Планирање особља", Romanian: "Programarea personalului", Lithuanian: "Personalo planavimas" }},
+                    { target: "Matkostnadskontroll", translation: "Food cost control", native: { Slovak: "Kontrola nákladov na jedlo", Czech: "Kontrola nákladů na jídlo", Ukrainian: "Контроль витрат на їжу", Russian: "Контроль затрат на еду", Polish: "Kontrola kosztów żywności", Bulgarian: "Контрол на разходите за храна", Serbian: "Контрола трошкова хране", Romanian: "Controlul costurilor alimentare", Lithuanian: "Maisto išlaidų kontrolė" }},
+                    { target: "Kvalitetssäkring", translation: "Quality assurance", native: { Slovak: "Zabezpečenie kvality", Czech: "Zajištění kvality", Ukrainian: "Забезпечення якості", Russian: "Обеспечение качества", Polish: "Zapewnienie jakości", Bulgarian: "Осигуряване на качество", Serbian: "Обезбеђивање квалитета", Romanian: "Asigurarea calității", Lithuanian: "Kokybės užtikrinimas" }},
+                    { target: "Leverantörsförhandlingar", translation: "Supplier negotiations", native: { Slovak: "Rokovania s dodávateľmi", Czech: "Jednání s dodavateli", Ukrainian: "Переговори з постачальниками", Russian: "Переговоры с поставщиками", Polish: "Negocjacje z dostawcami", Bulgarian: "Преговори с доставчици", Serbian: "Преговори са добављачима", Romanian: "Negocieri cu furnizorii", Lithuanian: "Derybos su tiekėjais" }},
+                    { target: "Krishantering", translation: "Crisis management", native: { Slovak: "Krízové riadenie", Czech: "Krizové řízení", Ukrainian: "Антикризове управління", Russian: "Антикризисное управление", Polish: "Zarządzanie kryzysowe", Bulgarian: "Управление на кризи", Serbian: "Управљање кризом", Romanian: "Gestionarea crizelor", Lithuanian: "Krizių valdymas" }},
+                    { target: "Marknadsföring", translation: "Marketing", native: { Slovak: "Marketing", Czech: "Marketing", Ukrainian: "Маркетинг", Russian: "Маркетинг", Polish: "Marketing", Bulgarian: "Маркетинг", Serbian: "Маркетинг", Romanian: "Marketing", Lithuanian: "Rinkodara" }},
+                    { target: "Hållbarhet", translation: "Sustainability", native: { Slovak: "Udržateľnosť", Czech: "Udržitelnost", Ukrainian: "Стійкість", Russian: "Устойчивость", Polish: "Zrównoważony rozwój", Bulgarian: "Устойчивост", Serbian: "Одрживост", Romanian: "Durabilitate", Lithuanian: "Tvarumas" }},
+                    { target: "Internationell gästhantering", translation: "International guest management", native: { Slovak: "Medzinárodná správa hostí", Czech: "Mezinárodní správa hostů", Ukrainian: "Міжнародне управління гостями", Russian: "Международное управление гостями", Polish: "Międzynarodowe zarządzanie gośćmi", Bulgarian: "Международно управление на гости", Serbian: "Међународно управљање гостима", Romanian: "Managementul oaspeților internaționali", Lithuanian: "Tarptautinis svečių valdymas" }}
+                ]
             }
+,
+            "Manufacturing": {
+                "Beginner": [
+                    { target: "Maskin", translation: "Machine", native: { Slovak: "Stroj", Czech: "Stroj", Ukrainian: "Машина", Russian: "Машина", Polish: "Maszyna", Bulgarian: "Машина", Serbian: "Машина", Romanian: "Mașină", Lithuanian: "Mašina" }},
+                    { target: "Produktion", translation: "Production", native: { Slovak: "Výroba", Czech: "Výroba", Ukrainian: "Виробництво", Russian: "Производство", Polish: "Produkcja", Bulgarian: "Производство", Serbian: "Производња", Romanian: "Producție", Lithuanian: "Gamyba" }},
+                    { target: "Kvalitet", translation: "Quality", native: { Slovak: "Kvalita", Czech: "Kvalita", Ukrainian: "Якість", Russian: "Качество", Polish: "Jakość", Bulgarian: "Качество", Serbian: "Квалитет", Romanian: "Calitate", Lithuanian: "Kokybė" }},
+                    { target: "Lager", translation: "Warehouse", native: { Slovak: "Sklad", Czech: "Sklad", Ukrainian: "Склад", Russian: "Склад", Polish: "Magazyn", Bulgarian: "Склад", Serbian: "Складиште", Romanian: "Depozit", Lithuanian: "Sandėlis" }},
+                    { target: "Skift", translation: "Shift", native: { Slovak: "Zmena", Czech: "Směna", Ukrainian: "Зміна", Russian: "Смена", Polish: "Zmiana", Bulgarian: "Смяна", Serbian: "Смена", Romanian: "Schimb", Lithuanian: "Pamaina" }},
+                    { target: "Underhåll", translation: "Maintenance", native: { Slovak: "Údržba", Czech: "Údržba", Ukrainian: "Обслуговування", Russian: "Обслуживание", Polish: "Konserwacja", Bulgarian: "Поддръжка", Serbian: "Одржавање", Romanian: "Întreținere", Lithuanian: "Priežiūra" }},
+                    { target: "Orderspecifikation", translation: "Order specification", native: { Slovak: "Špecifikácia objednávky", Czech: "Specifikace objednávky", Ukrainian: "Специфікація замовлення", Russian: "Спецификация заказа", Polish: "Specyfikacja zamówienia", Bulgarian: "Спецификация на поръчката", Serbian: "Спецификација поруџбине", Romanian: "Specificație comandă", Lithuanian: "Užsakymo specifikacija" }},
+                    { target: "Monteringslinje", translation: "Assembly line", native: { Slovak: "Montážna linka", Czech: "Montážní linka", Ukrainian: "Складальна лінія", Russian: "Сборочная линия", Polish: "Linia montażowa", Bulgarian: "Сглобителна линия", Serbian: "Монтажна линија", Romanian: "Linie de asamblare", Lithuanian: "Surinkimo linija" }},
+                    { target: "Råmaterial", translation: "Raw materials", native: { Slovak: "Surovina", Czech: "Surovina", Ukrainian: "Сировина", Russian: "Сырье", Polish: "Surowce", Bulgarian: "Суровини", Serbian: "Сировине", Romanian: "Materii prime", Lithuanian: "Žaliavos" }},
+                    { target: "Slutprodukt", translation: "Final product", native: { Slovak: "Konečný produkt", Czech: "Konečný produkt", Ukrainian: "Кінцевий продукт", Russian: "Конечный продукт", Polish: "Produkt końcowy", Bulgarian: "Краен продукт", Serbian: "Крајњи производ", Romanian: "Produs final", Lithuanian: "Galutinis produktas" }}
+                ],
+                "Intermediate": [
+                    { target: "Starta maskinen", translation: "Start the machine", native: { Slovak: "Spustiť stroj", Czech: "Spustit stroj", Ukrainian: "Запустити машину", Russian: "Запустить машину", Polish: "Uruchomić maszynę", Bulgarian: "Стартирай машината", Serbian: "Покрени машину", Romanian: "Pornește mașina", Lithuanian: "Paleisti mašiną" }},
+                    { target: "Justera inställningar", translation: "Adjust settings", native: { Slovak: "Upraviť nastavenia", Czech: "Upravit nastavení", Ukrainian: "Налаштувати параметри", Russian: "Настроить параметры", Polish: "Dostosować ustawienia", Bulgarian: "Настрой настройките", Serbian: "Подеси подешавања", Romanian: "Reglează setările", Lithuanian: "Sureguliuoti nustatymus" }},
+                    { target: "Rapportera defekt", translation: "Report defect", native: { Slovak: "Nahlásiť chybu", Czech: "Nahlásit závadu", Ukrainian: "Повідомити про дефект", Russian: "Сообщить о дефекте", Polish: "Zgłosić defekt", Bulgarian: "Докладвай дефект", Serbian: "Пријави дефект", Romanian: "Raportează defect", Lithuanian: "Pranešti apie defektą" }},
+                    { target: "Kontrollera mått", translation: "Check measurements", native: { Slovak: "Skontrolovať rozmery", Czech: "Zkontrolovat rozměry", Ukrainian: "Перевірити виміри", Russian: "Проверить размеры", Polish: "Sprawdzić wymiary", Bulgarian: "Провери размерите", Serbian: "Провери мере", Romanian: "Verifică măsurătorile", Lithuanian: "Patikrinti matmenis" }},
+                    { target: "Byta verktyg", translation: "Change tools", native: { Slovak: "Vymeniť náradie", Czech: "Vyměnit nástroje", Ukrainian: "Замінити інструменти", Russian: "Сменить инструменты", Polish: "Wymienić narzędzia", Bulgarian: "Смени инструментите", Serbian: "Замени алате", Romanian: "Schimbă uneltele", Lithuanian: "Pakeisti įrankius" }},
+                    { target: "Förpacka varor", translation: "Pack goods", native: { Slovak: "Zabaliť tovar", Czech: "Zabalit zboží", Ukrainian: "Упакувати товари", Russian: "Упаковать товары", Polish: "Zapakować towary", Bulgarian: "Опаковай стоките", Serbian: "Упаковати робу", Romanian: "Împachetează mărfurile", Lithuanian: "Supakuoti prekes" }},
+                    { target: "Lasta pallarna", translation: "Load the pallets", native: { Slovak: "Naložiť palety", Czech: "Naložit palety", Ukrainian: "Завантажити палети", Russian: "Загрузить паллеты", Polish: "Załadować palety", Bulgarian: "Натовари палетите", Serbian: "Утоварити палете", Romanian: "Încarcă paletele", Lithuanian: "Pakrauti padėklus" }},
+                    { target: "Inventera lager", translation: "Inventory check", native: { Slovak: "Inventúra skladu", Czech: "Inventura skladu", Ukrainian: "Інвентаризація складу", Russian: "Инвентаризация склада", Polish: "Inwentaryzacja magazynu", Bulgarian: "Инвентаризация на склада", Serbian: "Попис складишта", Romanian: "Inventar depozit", Lithuanian: "Sandėlio inventorizacija" }},
+                    { target: "Produktionsmål", translation: "Production target", native: { Slovak: "Výrobný cieľ", Czech: "Výrobní cíl", Ukrainian: "Виробнича ціль", Russian: "Производственная цель", Polish: "Cel produkcyjny", Bulgarian: "Производствена цел", Serbian: "Производни циљ", Romanian: "Țintă de producție", Lithuanian: "Gamybos tikslas" }},
+                    { target: "Säkerhetsprotokoll", translation: "Safety protocol", native: { Slovak: "Bezpečnostný protokol", Czech: "Bezpečnostní protokol", Ukrainian: "Протокол безпеки", Russian: "Протокол безопасности", Polish: "Protokół bezpieczeństwa", Bulgarian: "Протокол за безопасност", Serbian: "Безбедносни протокол", Romanian: "Protocol de siguranță", Lithuanian: "Saugos protokolas" }}
+                ],
+                "Advanced": [
+                    { target: "Lean manufacturing", translation: "Lean manufacturing", native: { Slovak: "Štíhla výroba", Czech: "Štíhlá výroba", Ukrainian: "Ощадлива виробництво", Russian: "Бережливое производство", Polish: "Szczupła produkcja", Bulgarian: "Стройно производство", Serbian: "Витка производња", Romanian: "Producție lean", Lithuanian: "Liesa gamyba" }},
+                    { target: "Six Sigma kvalitet", translation: "Six Sigma quality", native: { Slovak: "Six Sigma kvalita", Czech: "Six Sigma kvalita", Ukrainian: "Six Sigma якість", Russian: "Six Sigma качество", Polish: "Jakość Six Sigma", Bulgarian: "Six Sigma качество", Serbian: "Six Sigma квалитет", Romanian: "Calitate Six Sigma", Lithuanian: "Six Sigma kokybė" }},
+                    { target: "Produktionsoptimering", translation: "Production optimization", native: { Slovak: "Optimalizácia výroby", Czech: "Optimalizace výroby", Ukrainian: "Оптимізація виробництва", Russian: "Оптимизация производства", Polish: "Optymalizacja produkcji", Bulgarian: "Оптимизация на производството", Serbian: "Оптимизација производње", Romanian: "Optimizarea producției", Lithuanian: "Gamybos optimizavimas" }},
+                    { target: "Kapacitetsplanering", translation: "Capacity planning", native: { Slovak: "Plánovanie kapacity", Czech: "Plánování kapacity", Ukrainian: "Планування потужності", Russian: "Планирование мощности", Polish: "Planowanie wydajności", Bulgarian: "Планиране на капацитета", Serbian: "Планирање капацитета", Romanian: "Planificarea capacității", Lithuanian: "Pajėgumų planavimas" }},
+                    { target: "Leveranskedja", translation: "Supply chain", native: { Slovak: "Dodávateľský reťazec", Czech: "Dodavatelský řetězec", Ukrainian: "Ланцюг постачання", Russian: "Цепь поставок", Polish: "Łańcuch dostaw", Bulgarian: "Веriga на доставки", Serbian: "Ланац снабдевања", Romanian: "Lanțul de aprovizionare", Lithuanian: "Tiekimo grandinė" }},
+                    { target: "Automatisering", translation: "Automation", native: { Slovak: "Automatizácia", Czech: "Automatizace", Ukrainian: "Автоматизація", Russian: "Автоматизация", Polish: "Automatyzacja", Bulgarian: "Автоматизация", Serbian: "Аутоматизација", Romanian: "Automatizare", Lithuanian: "Automatizacija" }},
+                    { target: "Kvalitetscertifiering", translation: "Quality certification", native: { Slovak: "Certifikácia kvality", Czech: "Certifikace kvality", Ukrainian: "Сертифікація якості", Russian: "Сертификация качества", Polish: "Certyfikacja jakości", Bulgarian: "Сертификация на качеството", Serbian: "Сертификација квалитета", Romanian: "Certificarea calității", Lithuanian: "Kokybės sertifikavimas" }},
+                    { target: "Processutveckling", translation: "Process development", native: { Slovak: "Vývoj procesov", Czech: "Vývoj procesů", Ukrainian: "Розвиток процесів", Russian: "Развитие процессов", Polish: "Rozwój procesów", Bulgarian: "Развитие на процесите", Serbian: "Развој процеса", Romanian: "Dezvoltarea proceselor", Lithuanian: "Procesų plėtra" }},
+                    { target: "Miljöcertifiering", translation: "Environmental certification", native: { Slovak: "Environmentálna certifikácia", Czech: "Environmentální certifikace", Ukrainian: "Екологічна сертифікація", Russian: "Экологическая сертификация", Polish: "Certyfikacja środowiskowa", Bulgarian: "Екологична сертификация", Serbian: "Еколошка сертификација", Romanian: "Certificare de mediu", Lithuanian: "Aplinkos sertifikavimas" }},
+                    { target: "Globala produktionsstandarder", translation: "Global production standards", native: { Slovak: "Globálne výrobné štandardy", Czech: "Globální výrobní standardy", Ukrainian: "Глобальні виробничі стандарти", Russian: "Глобальные производственные стандарты", Polish: "Globalne standardy produkcji", Bulgarian: "Глобални производствени стандарти", Serbian: "Глобални производни стандарди", Romanian: "Standarde globale de producție", Lithuanian: "Pasauliniai gamybos standartai" }}
+                ]
+            },
+            "Retail": {
+                "Beginner": [
+                    { target: "Kassa", translation: "Cash register", native: { Slovak: "Pokladňa", Czech: "Pokladna", Ukrainian: "Каса", Russian: "Касса", Polish: "Kasa", Bulgarian: "Каса", Serbian: "Каса", Romanian: "Casă", Lithuanian: "Kasa" }},
+                    { target: "Kund", translation: "Customer", native: { Slovak: "Zákazník", Czech: "Zákazník", Ukrainian: "Клієнт", Russian: "Клиент", Polish: "Klient", Bulgarian: "Клиент", Serbian: "Купац", Romanian: "Client", Lithuanian: "Klientas" }},
+                    { target: "Pris", translation: "Price", native: { Slovak: "Cena", Czech: "Cena", Ukrainian: "Ціна", Russian: "Цена", Polish: "Cena", Bulgarian: "Цена", Serbian: "Цена", Romanian: "Preț", Lithuanian: "Kaina" }},
+                    { target: "Rabatt", translation: "Discount", native: { Slovak: "Zľava", Czech: "Sleva", Ukrainian: "Знижка", Russian: "Скидка", Polish: "Rabat", Bulgarian: "Отстъпка", Serbian: "Попуст", Romanian: "Reducere", Lithuanian: "Nuolaida" }},
+                    { target: "Kvitto", translation: "Receipt", native: { Slovak: "Účtenka", Czech: "Účtenka", Ukrainian: "Квитанція", Russian: "Квитанция", Polish: "Paragon", Bulgarian: "Разписка", Serbian: "Рачун", Romanian: "Chitanță", Lithuanian: "Kvitas" }},
+                    { target: "Öppettider", translation: "Opening hours", native: { Slovak: "Otváracie hodiny", Czech: "Otevírací doba", Ukrainian: "Години роботи", Russian: "Часы работы", Polish: "Godziny otwarcia", Bulgarian: "Работно време", Serbian: "Радно време", Romanian: "Program", Lithuanian: "Darbo laikas" }},
+                    { target: "Prova", translation: "Try on", native: { Slovak: "Vyskúšať", Czech: "Vyzkoušet", Ukrainian: "Приміряти", Russian: "Примерить", Polish: "Przymierzyć", Bulgarian: "Пробвай", Serbian: "Пробај", Romanian: "Probează", Lithuanian: "Išbandyti" }},
+                    { target: "Garanti", translation: "Warranty", native: { Slovak: "Záruka", Czech: "Záruka", Ukrainian: "Гарантія", Russian: "Гарантия", Polish: "Gwarancja", Bulgarian: "Гаранция", Serbian: "Гаранција", Romanian: "Garanție", Lithuanian: "Garantija" }},
+                    { target: "Retur", translation: "Return", native: { Slovak: "Vrátenie", Czech: "Vrácení", Ukrainian: "Повернення", Russian: "Возврат", Polish: "Zwrot", Bulgarian: "Връщане", Serbian: "Повраћај", Romanian: "Returnare", Lithuanian: "Grąžinimas" }},
+                    { target: "Påfyllning", translation: "Restocking", native: { Slovak: "Doplnenie", Czech: "Doplnění", Ukrainian: "Поповнення", Russian: "Пополнение", Polish: "Uzupełnienie", Bulgarian: "Попълване", Serbian: "Допуњавање", Romanian: "Reaprovizionare", Lithuanian: "Papildymas" }}
+                ],
+                "Intermediate": [
+                    { target: "Hjälpa kunden välja", translation: "Help customer choose", native: { Slovak: "Pomôcť zákazníkovi vybrať", Czech: "Pomoci zákazníkovi vybrat", Ukrainian: "Допомогти клієнту вибрати", Russian: "Помочь клиенту выбрать", Polish: "Pomóc klientowi wybrać", Bulgarian: "Помогни на клиента да избере", Serbian: "Помоћи купцу да изабере", Romanian: "Ajută clientul să aleagă", Lithuanian: "Padėti klientui pasirinkti" }},
+                    { target: "Hantera reklamation", translation: "Handle complaint", native: { Slovak: "Riešiť reklamáciu", Czech: "Řešit reklamaci", Ukrainian: "Обробити скаргу", Russian: "Обработать жалобу", Polish: "Obsłużyć reklamację", Bulgarian: "Обработвай рекламация", Serbian: "Решити рекламацију", Romanian: "Gestionează reclamația", Lithuanian: "Išnagrinėti skundą" }},
+                    { target: "Uppdatera prislapp", translation: "Update price tag", native: { Slovak: "Aktualizovať cenovku", Czech: "Aktualizovat cenovku", Ukrainian: "Оновити цінник", Russian: "Обновить ценник", Polish: "Zaktualizować cenę", Bulgarian: "Актуализирай ценовата етикетка", Serbian: "Ажурирати цену", Romanian: "Actualizează eticheta", Lithuanian: "Atnaujinti kainoraštį" }},
+                    { target: "Förbereda kampanj", translation: "Prepare campaign", native: { Slovak: "Pripraviť kampaň", Czech: "Připravit kampaň", Ukrainian: "Підготувати кампанію", Russian: "Подготовить кампанию", Polish: "Przygotować kampanię", Bulgarian: "Подготви кампания", Serbian: "Припремити кампању", Romanian: "Pregătește campania", Lithuanian: "Paruošti kampaniją" }},
+                    { target: "Inventering", translation: "Inventory", native: { Slovak: "Inventúra", Czech: "Inventura", Ukrainian: "Інвентаризація", Russian: "Инвентаризация", Polish: "Inwentaryzacja", Bulgarian: "Инвентаризация", Serbian: "Инвентар", Romanian: "Inventar", Lithuanian: "Inventorizacija" }},
+                    { target: "Beställa varor", translation: "Order goods", native: { Slovak: "Objednať tovar", Czech: "Objednat zboží", Ukrainian: "Замовити товари", Russian: "Заказать товары", Polish: "Zamówić towary", Bulgarian: "Поръчай стоки", Serbian: "Наручити робу", Romanian: "Comandă mărfuri", Lithuanian: "Užsakyti prekes" }},
+                    { target: "Exponera produkter", translation: "Display products", native: { Slovak: "Vystaviť produkty", Czech: "Vystavit produkty", Ukrainian: "Виставити продукти", Russian: "Выставить продукты", Polish: "Wystawić produkty", Bulgarian: "Изложи продуктите", Serbian: "Изложити производе", Romanian: "Expune produsele", Lithuanian: "Eksponuoti produktus" }},
+                    { target: "Kassakontroll", translation: "Cash count", native: { Slovak: "Kontrola pokladne", Czech: "Kontrola pokladny", Ukrainian: "Перевірка каси", Russian: "Проверка кассы", Polish: "Kontrola kasy", Bulgarian: "Проверка на касата", Serbian: "Контрола касе", Romanian: "Verificare casă", Lithuanian: "Kasos patikra" }},
+                    { target: "Kundlojalitet", translation: "Customer loyalty", native: { Slovak: "Vernosť zákazníkov", Czech: "Věrnost zákazníků", Ukrainian: "Лояльність клієнтів", Russian: "Лояльность клиентов", Polish: "Lojalność klientów", Bulgarian: "Лоялност на клиентите", Serbian: "Лојалност купаца", Romanian: "Loialitatea clienților", Lithuanian: "Klientų lojalumas" }},
+                    { target: "Försäljningsmål", translation: "Sales target", native: { Slovak: "Predajný cieľ", Czech: "Prodejní cíl", Ukrainian: "Ціль продажів", Russian: "Цель продаж", Polish: "Cel sprzedażowy", Bulgarian: "Цел за продажби", Serbian: "Циљ продаје", Romanian: "Țintă de vânzări", Lithuanian: "Pardavimų tikslas" }}
+                ],
+                "Advanced": [
+                    { target: "Visuell merchandising", translation: "Visual merchandising", native: { Slovak: "Vizuálny merchandising", Czech: "Vizuální merchandising", Ukrainian: "Візуальний мерчандайзинг", Russian: "Визуальный мерчандайзинг", Polish: "Merchandising wizualny", Bulgarian: "Визуален мърчандайзинг", Serbian: "Визуелни мерчандајзинг", Romanian: "Merchandising vizual", Lithuanian: "Vizualinis prekių išdėstymas" }},
+                    { target: "Försäljningsanalys", translation: "Sales analysis", native: { Slovak: "Analýza predaja", Czech: "Analýza prodeje", Ukrainian: "Аналіз продажів", Russian: "Анализ продаж", Polish: "Analiza sprzedaży", Bulgarian: "Анализ на продажбите", Serbian: "Анализа продаје", Romanian: "Analiza vânzărilor", Lithuanian: "Pardavimų analizė" }},
+                    { target: "Kategorihantering", translation: "Category management", native: { Slovak: "Správa kategórií", Czech: "Správa kategorií", Ukrainian: "Управління категоріями", Russian: "Управление категориями", Polish: "Zarządzanie kategoriami", Bulgarian: "Управление на категориите", Serbian: "Управљање категоријама", Romanian: "Managementul categoriilor", Lithuanian: "Kategorijų valdymas" }},
+                    { target: "Marginaloptimering", translation: "Margin optimization", native: { Slovak: "Optimalizácia marže", Czech: "Optimalizace marže", Ukrainian: "Оптимізація маржі", Russian: "Оптимизация маржи", Polish: "Optymalizacja marży", Bulgarian: "Оптимизация на марж", Serbian: "Оптимизација марже", Romanian: "Optimizarea marjei", Lithuanian: "Maržos optimizavimas" }},
+                    { target: "Kunddata analys", translation: "Customer data analysis", native: { Slovak: "Analýza zákazníckych dát", Czech: "Analýza zákaznických dat", Ukrainian: "Аналіз даних клієнтів", Russian: "Анализ данных клиентов", Polish: "Analiza danych klientów", Bulgarian: "Анализ на клиентски данни", Serbian: "Анализа података купаца", Romanian: "Analiza datelor clienților", Lithuanian: "Klientų duomenų analizė" }},
+                    { target: "Omnikanalstrategi", translation: "Omnichannel strategy", native: { Slovak: "Omnikanálová stratégia", Czech: "Omnikanálová strategie", Ukrainian: "Омніканальна стратегія", Russian: "Омниканальная стратегия", Polish: "Strategia omnikanałowa", Bulgarian: "Омниканална стратегия", Serbian: "Омниканална стратегија", Romanian: "Strategie omnicanal", Lithuanian: "Daugiakanalis strategija" }},
+                    { target: "Lageroptimering", translation: "Inventory optimization", native: { Slovak: "Optimalizácia zásob", Czech: "Optimalizace zásob", Ukrainian: "Оптимізація запасів", Russian: "Оптимизация запасов", Polish: "Optymalizacja zapasów", Bulgarian: "Оптимизация на запасите", Serbian: "Оптимизација залиха", Romanian: "Optimizarea stocurilor", Lithuanian: "Atsargų optimizavimas" }},
+                    { target: "Prissättningsstrategi", translation: "Pricing strategy", native: { Slovak: "Stratégia stanovovania cien", Czech: "Strategie tvorby cen", Ukrainian: "Стратегія ціноутворення", Russian: "Стратегия ценообразования", Polish: "Strategia cenowa", Bulgarian: "Ценова стратегия", Serbian: "Стратегија одређивања цена", Romanian: "Strategie de stabilire a prețurilor", Lithuanian: "Kainų nustatymo strategija" }},
+                    { target: "Säsongplanering", translation: "Seasonal planning", native: { Slovak: "Sezónne plánovanie", Czech: "Sezónní plánování", Ukrainian: "Сезонне планування", Russian: "Сезонное планирование", Polish: "Planowanie sezonowe", Bulgarian: "Сезонно планиране", Serbian: "Сезонско планирање", Romanian: "Planificare sezonieră", Lithuanian: "Sezoninis planavimas" }},
+                    { target: "Kundupplevelse optimering", translation: "Customer experience optimization", native: { Slovak: "Optimalizácia zákazníckej skúsenosti", Czech: "Optimalizace zákaznické zkušenosti", Ukrainian: "Оптимізація клієнтського досвіду", Russian: "Оптимизация клиентского опыта", Polish: "Optymalizacja doświadczenia klienta", Bulgarian: "Оптимизация на клиентското преживяване", Serbian: "Оптимизација корисничког искуства", Romanian: "Optimizarea experienței clienților", Lithuanian: "Klientų patirties optimizavimas" }}
+                ]
+            },
+            "Logistics": {
+                "Beginner": [
+                    { target: "Paket", translation: "Package", native: { Slovak: "Balík", Czech: "Balík", Ukrainian: "Пакет", Russian: "Посылка", Polish: "Paczka", Bulgarian: "Пакет", Serbian: "Пакет", Romanian: "Pachet", Lithuanian: "Siuntinys" }},
+                    { target: "Leverans", translation: "Delivery", native: { Slovak: "Dodávka", Czech: "Dodávka", Ukrainian: "Доставка", Russian: "Доставка", Polish: "Dostawa", Bulgarian: "Доставка", Serbian: "Достава", Romanian: "Livrare", Lithuanian: "Pristatymas" }},
+                    { target: "Adress", translation: "Address", native: { Slovak: "Adresa", Czech: "Adresa", Ukrainian: "Адреса", Russian: "Адрес", Polish: "Adres", Bulgarian: "Адрес", Serbian: "Адреса", Romanian: "Adresă", Lithuanian: "Adresas" }},
+                    { target: "Spåra", translation: "Track", native: { Slovak: "Sledovať", Czech: "Sledovat", Ukrainian: "Відстежити", Russian: "Отследить", Polish: "Śledzić", Bulgarian: "Проследявай", Serbian: "Пратити", Romanian: "Urmări", Lithuanian: "Sekti" }},
+                    { target: "Lasta", translation: "Load", native: { Slovak: "Nakladať", Czech: "Nakládat", Ukrainian: "Завантажити", Russian: "Загрузить", Polish: "Ładować", Bulgarian: "Товарене", Serbian: "Утоварити", Romanian: "Încărca", Lithuanian: "Pakrauti" }},
+                    { target: "Lossa", translation: "Unload", native: { Slovak: "Vykladať", Czech: "Vykládat", Ukrainian: "Розвантажити", Russian: "Разгрузить", Polish: "Rozładować", Bulgarian: "Разтоварване", Serbian: "Истоварити", Romanian: "Descărca", Lithuanian: "Iškrauti" }},
+                    { target: "Rutt", translation: "Route", native: { Slovak: "Trasa", Czech: "Trasa", Ukrainian: "Маршрут", Russian: "Маршрут", Polish: "Trasa", Bulgarian: "Маршрут", Serbian: "Рута", Romanian: "Rută", Lithuanian: "Maršrutas" }},
+                    { target: "Förare", translation: "Driver", native: { Slovak: "Vodič", Czech: "Řidič", Ukrainian: "Водій", Russian: "Водитель", Polish: "Kierowca", Bulgarian: "Шофьор", Serbian: "Возач", Romanian: "Șofer", Lithuanian: "Vairuotojas" }},
+                    { target: "Tidtabell", translation: "Schedule", native: { Slovak: "Rozvrh", Czech: "Rozvrh", Ukrainian: "Розклад", Russian: "Расписание", Polish: "Harmonogram", Bulgarian: "График", Serbian: "Распоред", Romanian: "Program", Lithuanian: "Tvarkaraštis" }},
+                    { target: "Signatur", translation: "Signature", native: { Slovak: "Podpis", Czech: "Podpis", Ukrainian: "Підпис", Russian: "Подпись", Polish: "Podpis", Bulgarian: "Подпис", Serbian: "Потпис", Romanian: "Semnătură", Lithuanian: "Parašas" }}
+                ],
+                "Intermediate": [
+                    { target: "Optimera rutt", translation: "Optimize route", native: { Slovak: "Optimalizovať trasu", Czech: "Optimalizovat trasu", Ukrainian: "Оптимізувати маршрут", Russian: "Оптимизировать маршрут", Polish: "Optymalizować trasę", Bulgarian: "Оптимизирай маршрута", Serbian: "Оптимизовати руту", Romanian: "Optimizează ruta", Lithuanian: "Optimizuoti maršrutą" }},
+                    { target: "Kontrollera fraktsedel", translation: "Check waybill", native: { Slovak: "Skontrolovať nákladný list", Czech: "Zkontrolovat nákladní list", Ukrainian: "Перевірити накладну", Russian: "Проверить накладную", Polish: "Sprawdzić list przewozowy", Bulgarian: "Провери товарителницата", Serbian: "Проверити товарни лист", Romanian: "Verifică scrisoarea de trăsură", Lithuanian: "Patikrinti važtaraštį" }},
+                    { target: "Hantera tull", translation: "Handle customs", native: { Slovak: "Vybaviť colnicu", Czech: "Vyřídit celnici", Ukrainian: "Обробити митницю", Russian: "Обработать таможню", Polish: "Obsłużyć odprawę celną", Bulgarian: "Обработи митницата", Serbian: "Обрадити царину", Romanian: "Gestionează vama", Lithuanian: "Tvarkyti muitinę" }},
+                    { target: "Lagerhantering", translation: "Warehouse management", native: { Slovak: "Správa skladu", Czech: "Správa skladu", Ukrainian: "Управління складом", Russian: "Управление складом", Polish: "Zarządzanie magazynem", Bulgarian: "Управление на склад", Serbian: "Управљање складиштем", Romanian: "Managementul depozitului", Lithuanian: "Sandėlio valdymas" }},
+                    { target: "Fraktberäkning", translation: "Freight calculation", native: { Slovak: "Výpočet prepravy", Czech: "Výpočet přepravy", Ukrainian: "Розрахунок фрахту", Russian: "Расчет фрахта", Polish: "Obliczanie frachtu", Bulgarian: "Изчисление на транспорта", Serbian: "Обрачун превоза", Romanian: "Calculul transportului", Lithuanian: "Transporto skaičiavimas" }},
+                    { target: "Dokumentation", translation: "Documentation", native: { Slovak: "Dokumentácia", Czech: "Dokumentace", Ukrainian: "Документація", Russian: "Документация", Polish: "Dokumentacja", Bulgarian: "Документация", Serbian: "Документација", Romanian: "Documentație", Lithuanian: "Dokumentacija" }},
+                    { target: "Packa säkert", translation: "Pack securely", native: { Slovak: "Zabaliť bezpečne", Czech: "Zabalit bezpečně", Ukrainian: "Упакувати безпечно", Russian: "Упаковать безопасно", Polish: "Pakować bezpiecznie", Bulgarian: "Опаковай сигурно", Serbian: "Упаковати сигурно", Romanian: "Împachetează securizat", Lithuanian: "Supakuoti saugiai" }},
+                    { target: "Temperaturkontroll", translation: "Temperature control", native: { Slovak: "Kontrola teploty", Czech: "Kontrola teploty", Ukrainian: "Контроль температури", Russian: "Контроль температуры", Polish: "Kontrola temperatury", Bulgarian: "Контрол на температурата", Serbian: "Контрола температуре", Romanian: "Controlul temperaturii", Lithuanian: "Temperatūros kontrolė" }},
+                    { target: "Returer hantering", translation: "Returns handling", native: { Slovak: "Spracovanie vrátení", Czech: "Zpracování vrácení", Ukrainian: "Обробка повернень", Russian: "Обработка возвратов", Polish: "Obsługa zwrotów", Bulgarian: "Обработка на връщания", Serbian: "Обрада повраћаја", Romanian: "Gestionarea retururilor", Lithuanian: "Grąžinimų tvarkymas" }},
+                    { target: "Leveranstid", translation: "Delivery time", native: { Slovak: "Dodacia lehota", Czech: "Dodací lhůta", Ukrainian: "Час доставки", Russian: "Время доставки", Polish: "Czas dostawy", Bulgarian: "Време за доставка", Serbian: "Време достављања", Romanian: "Timp de livrare", Lithuanian: "Pristatymo laikas" }}
+                ],
+                "Advanced": [
+                    { target: "Supply chain integration", translation: "Supply chain integration", native: { Slovak: "Integrácia dodávateľského reťazca", Czech: "Integrace dodavatelského řetězce", Ukrainian: "Інтеграція ланцюга постачання", Russian: "Интеграция цепи поставок", Polish: "Integracja łańcucha dostaw", Bulgarian: "Интеграция на веригата на доставки", Serbian: "Интеграција ланца снабдевања", Romanian: "Integrarea lanțului de aprovizionare", Lithuanian: "Tiekimo grandinės integracija" }},
+                    { target: "Just-in-time leverans", translation: "Just-in-time delivery", native: { Slovak: "Dodávka presne včas", Czech: "Dodávka právě včas", Ukrainian: "Доставка точно в строк", Russian: "Доставка точно в срок", Polish: "Dostawa just-in-time", Bulgarian: "Доставка точно навреме", Serbian: "Тачно на време достава", Romanian: "Livrare just-in-time", Lithuanian: "Pristatymas laiku" }},
+                    { target: "Cross-docking", translation: "Cross-docking", native: { Slovak: "Priamy prekládka", Czech: "Přímé překládání", Ukrainian: "Крос-докінг", Russian: "Кросс-докинг", Polish: "Cross-docking", Bulgarian: "Директно претоварване", Serbian: "Директно претоварање", Romanian: "Cross-docking", Lithuanian: "Kryžminis perkrovimas" }},
+                    { target: "Lastoptimering", translation: "Load optimization", native: { Slovak: "Optimalizácia nákladu", Czech: "Optimalizace nákladu", Ukrainian: "Оптимізація завантаження", Russian: "Оптимизация загрузки", Polish: "Optymalizacja ładunku", Bulgarian: "Оптимизация на товара", Serbian: "Оптимизација товара", Romanian: "Optimizarea încărcăturii", Lithuanian: "Krovinio optimizavimas" }},
+                    { target: "Transportledning system", translation: "Transport management system", native: { Slovak: "Systém riadenia prepravy", Czech: "Systém řízení přepravy", Ukrainian: "Система управління транспортом", Russian: "Система управления транспортом", Polish: "System zarządzania transportem", Bulgarian: "Система за управление на транспорта", Serbian: "Систем управљања транспортом", Romanian: "Sistem de management al transportului", Lithuanian: "Transporto valdymo sistema" }},
+                    { target: "Tredjepartslogistik", translation: "Third-party logistics", native: { Slovak: "Logistika tretej strany", Czech: "Logistika třetí strany", Ukrainian: "Логістика третьої сторони", Russian: "Логистика третьей стороны", Polish: "Logistyka firm trzecich", Bulgarian: "Логистика на трета страна", Serbian: "Логистика треће стране", Romanian: "Logistică terță parte", Lithuanian: "Trečiosios šalies logistika" }},
+                    { target: "Riskhantering", translation: "Risk management", native: { Slovak: "Riadenie rizík", Czech: "Řízení rizik", Ukrainian: "Управління ризиками", Russian: "Управление рисками", Polish: "Zarządzanie ryzykiem", Bulgarian: "Управление на риска", Serbian: "Управљање ризиком", Romanian: "Managementul riscurilor", Lithuanian: "Rizikos valdymas" }},
+                    { target: "Hållbar logistik", translation: "Sustainable logistics", native: { Slovak: "Udržateľná logistika", Czech: "Udržitelná logistika", Ukrainian: "Сталаlogistic logистика", Russian: "Устойчивая логистика", Polish: "Zrównoważona logistyka", Bulgarian: "Устойчива логистика", Serbian: "Одржива логистика", Romanian: "Logistică durabilă", Lithuanian: "Tvari logistika" }},
+                    { target: "KPI uppföljning", translation: "KPI monitoring", native: { Slovak: "Sledovanie KPI", Czech: "Sledování KPI", Ukrainian: "Моніторинг KPI", Russian: "Мониторинг KPI", Polish: "Monitorowanie KPI", Bulgarian: "Наблюдение на KPI", Serbian: "Праћење KPI", Romanian: "Monitorizarea KPI", Lithuanian: "KPI stebėjimas" }},
+                    { target: "Internationella regelverk", translation: "International regulations", native: { Slovak: "Medzinárodné predpisy", Czech: "Mezinárodní předpisy", Ukrainian: "Міжнародні правила", Russian: "Международные правила", Polish: "Przepisy międzynarodowe", Bulgarian: "Международни правила", Serbian: "Међународни прописи", Romanian: "Reglementări internaționale", Lithuanian: "Tarptautiniai reglamentai" }}
+                ]
+            }
+        }
         };
 
         let selectedNative = '';
@@ -498,7 +696,7 @@
         }
 
         function populateLanguages() {
-            const nativeLanguages = ['Slovak', 'Ukrainian', 'Russian', 'Polish', 'Bulgarian', 'Serbian', 'Romanian', 'Lithuanian'];
+            const nativeLanguages = ['Slovak', 'Czech', 'Ukrainian', 'Russian', 'Polish', 'Bulgarian', 'Serbian', 'Romanian', 'Lithuanian'];
             const targetLanguages = ['Swedish', 'Norwegian', 'Danish', 'German', 'Dutch', 'English'];
 
             const nativeContainer = document.getElementById('nativeLanguages');
@@ -525,7 +723,11 @@
             document.querySelectorAll('#nativeLanguages .lang-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.textContent === lang);
             });
-            updateCourses();
+            // Go to step 2
+            setTimeout(() => {
+                document.getElementById('step1').classList.remove('active');
+                document.getElementById('step2').classList.add('active');
+            }, 300);
         }
 
         function selectTargetLanguage(lang) {
@@ -534,6 +736,11 @@
                 btn.classList.toggle('active', btn.textContent === lang);
             });
             updateCourses();
+            // Go to step 3
+            setTimeout(() => {
+                document.getElementById('step2').classList.remove('active');
+                document.getElementById('step3').classList.add('active');
+            }, 300);
         }
 
         function updateCourses() {
@@ -555,6 +762,11 @@
                 selectedCourse = e.target.value;
                 if (selectedCourse) {
                     showLessons();
+                    // Go to step 4
+                    setTimeout(() => {
+                        document.getElementById('step3').classList.remove('active');
+                        document.getElementById('step4').classList.add('active');
+                    }, 300);
                 }
             });
         }
@@ -576,9 +788,6 @@
                     lessonGrid.appendChild(card);
                 });
             }
-
-            document.getElementById('phraseDisplay').style.display = 'none';
-            document.getElementById('exerciseSection').style.display = 'none';
         }
 
         function selectLesson(level) {
@@ -588,11 +797,15 @@
             });
             displayPhrases();
             setupExercises();
+            // Go to step 5
+            setTimeout(() => {
+                document.getElementById('step4').classList.remove('active');
+                document.getElementById('step5').classList.add('active');
+            }, 300);
         }
 
         function displayPhrases() {
             const phraseDisplay = document.getElementById('phraseDisplay');
-            phraseDisplay.style.display = 'block';
             phraseDisplay.innerHTML = '<h2>📖 Phrases</h2>';
 
             const phrases = database[selectedTarget][selectedCourse][selectedLevel];
@@ -605,8 +818,6 @@
                 `;
                 phraseDisplay.appendChild(item);
             });
-
-            document.getElementById('exerciseSection').style.display = 'block';
         }
 
         function setupExercises() {
