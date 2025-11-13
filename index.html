@@ -111,6 +111,43 @@ const t = {
     lt: {chooseNative:"Pasirinkite gimtąją kalbą",chooseTarget:"Pasirinkite kalbą",chooseIndustry:"Pasirinkite pramonę",chooseLevel:"Pasirinkite lygį",back:"Atgal",selectIndustry:"Pasirinkite pramonę...",novice:"Pradedantysis",beginner:"Pradinis",intermediate:"Vidutinis",advanced:"Pažengęs",phrases:"Frazės mokymuisi",ex1:"Pratimas 1: Skaityk ir kartok",ex2:"Pratimas 2: Sujunk",ex3:"Pratimas 3: Užpildyk",ex4:"Pratimas 4: Sudaryk",check:"Patikrinti",correct:"✅ Teisingai!",incorrect:"❌ Bandyk dar",healthcare:"Sveikata",construction:"Statyba",hospitality:"Svetingumas",manufacturing:"Gamyba",retail:"Prekyba",logistics:"Logistika"}
 };
 
+// Word-by-word translation dictionary (31 Swedish words × 10 UI languages)
+const wordDict = {
+    se: {
+        "Administrera": {sk:"Podávaj", cs:"Podávej", uk:"Вводь", ru:"Давай", pl:"Podawaj", bg:"Прилагай", sr:"Примењуј", ro:"Administrează", lt:"Duok"},
+        "God": {sk:"Dobré", cs:"Dobré", uk:"Доброго", ru:"Доброе", pl:"Dzień", bg:"Добро", sr:"Добро", ro:"Bună", lt:"Labas"},
+        "Hammare": {sk:"Kladivo", cs:"Kladivo", uk:"Молоток", ru:"Молоток", pl:"Młotek", bg:"Чук", sr:"Чекић", ro:"Ciocan", lt:"Plaktukas"},
+        "Hur": {sk:"Ako", cs:"Jak", uk:"Як", ru:"Как", pl:"Jak", bg:"Как", sr:"Како", ro:"Ce", lt:"Kaip"},
+        "Kontrollera": {sk:"Skontroluj", cs:"Zkontroluj", uk:"Перевір", ru:"Проверь", pl:"Sprawdź", bg:"Провери", sr:"Провери", ro:"Verifică", lt:"Patikrink"},
+        "Läkare": {sk:"Lekár", cs:"Lékař", uk:"Лікар", ru:"Врач", pl:"Lekarz", bg:"Лекар", sr:"Лекар", ro:"Doctor", lt:"Gydytojas"},
+        "Medicin": {sk:"Liek", cs:"Lék", uk:"Ліки", ru:"Лекарство", pl:"Lek", bg:"Лекарство", sr:"Лек", ro:"Medicament", lt:"Vaistas"},
+        "Patient": {sk:"Pacient", cs:"Pacient", uk:"Пацієнт", ru:"Пациент", pl:"Pacjent", bg:"Пациент", sr:"Пацијент", ro:"Pacient", lt:"Pacientas"},
+        "Patienten": {sk:"Pacient", cs:"Pacient", uk:"Пацієнт", ru:"Пациент", pl:"Pacjent", bg:"Пациентът", sr:"Пацијент", ro:"Pacientul", lt:"Pacientas"},
+        "Projektledningen": {sk:"Projektové riadenie", cs:"Projektové řízení", uk:"Управління проектом", ru:"Управление проектом", pl:"Zarządzanie projektem", bg:"Управлението на проекта", sr:"Управљање пројектом", ro:"Managementul proiectului", lt:"Projekto valdymas"},
+        "Sjuksköterska": {sk:"Sestra", cs:"Sestra", uk:"Медсестра", ru:"Медсестра", pl:"Pielęgniarka", bg:"Сестра", sr:"Сестра", ro:"Asistentă", lt:"Slaugytoja"},
+        "Säkerhet": {sk:"Bezpečnosť", cs:"Bezpečnost", uk:"Безпека", ru:"Безопасность", pl:"Bezpieczeństwo", bg:"Безопасност", sr:"Безбедност", ro:"Siguranță", lt:"Saugumas"},
+        "alltid": {sk:"vždy", cs:"vždy", uk:"завжди", ru:"всегда", pl:"zawsze", bg:"винаги", sr:"увек", ro:"întotdeauna", lt:"visada"},
+        "behöver": {sk:"potrebuje", cs:"potřebuje", uk:"потрібна", ru:"нужна", pl:"potrzebuje", bg:"се нуждае от", sr:"треба", ro:"are nevoie de", lt:"reikia"},
+        "dagligen": {sk:"denne", cs:"denně", uk:"щодня", ru:"ежедневно", pl:"codziennie", bg:"ежедневно", sr:"дневно", ro:"zilnic", lt:"kasdien"},
+        "dokumentera": {sk:"dokumentuj", cs:"dokumentuj", uk:"документуй", ru:"документируй", pl:"dokumentuj", bg:"документирай", sr:"документуј", ro:"documentează", lt:"dokumentuok"},
+        "du": {sk:"ty", cs:"ty", uk:"ти", ru:"ты", pl:"ty", bg:"ти", sr:"ти", ro:"tu", lt:"tu"},
+        "enligt": {sk:"podľa", cs:"podle", uk:"за", ru:"по", pl:"zgodnie z", bg:"според", sr:"према", ro:"conform", lt:"pagal"},
+        "först": {sk:"najprv", cs:"nejprve", uk:"спочатку", ru:"сначала", pl:"najpierw", bg:"първо", sr:"прво", ro:"mai întâi", lt:"pirmiausia"},
+        "hjälp": {sk:"pomoc", cs:"pomoc", uk:"допомога", ru:"помощь", pl:"pomoc", bg:"помощ", sr:"помоћ", ro:"ajutor", lt:"pagalba"},
+        "kräver": {sk:"vyžaduje", cs:"vyžaduje", uk:"вимагає", ru:"требует", pl:"wymaga", bg:"изисква", sr:"захтева", ro:"necesită", lt:"reikalauja"},
+        "medicinering": {sk:"lieky", cs:"léky", uk:"ліки", ru:"лекарства", pl:"leki", bg:"лекарства", sr:"лекове", ro:"medicația", lt:"vaistus"},
+        "morgon": {sk:"ráno", cs:"ráno", uk:"ранку", ru:"утро", pl:"dobry", bg:"утро", sr:"јутро", ro:"dimineața", lt:"rytas"},
+        "mår": {sk:"sa máš", cs:"se máš", uk:"справи", ru:"дела", pl:"się masz", bg:"си", sr:"си", ro:"mai faci", lt:"laikaisi"},
+        "nivån": {sk:"úroveň", cs:"úroveň", uk:"рівень", ru:"уровень", pl:"poziom", bg:"нивото", sr:"ниво", ro:"nivelul", lt:"lygį"},
+        "noggrant": {sk:"starostlivo", cs:"pečlivě", uk:"ретельно", ru:"тщательно", pl:"dokładnie", bg:"внимателно", sr:"пажљиво", ro:"cu atenție", lt:"kruopščiai"},
+        "och": {sk:"a", cs:"a", uk:"та", ru:"и", pl:"i", bg:"и", sr:"и", ro:"și", lt:"ir"},
+        "omedelbart": {sk:"okamžite", cs:"okamžitě", uk:"негайно", ru:"немедленно", pl:"natychmiast", bg:"незабавно", sr:"одмах", ro:"imediat", lt:"nedelsiant"},
+        "omfattande": {sk:"rozsiahlu", cs:"rozsáhlou", uk:"всебічної", ru:"всесторонней", pl:"szerokiej", bg:"обширна", sr:"свеобухватну", ro:"extinsă", lt:"išsamios"},
+        "ordination": {sk:"predpisu", cs:"předpisu", uk:"призначенням", ru:"назначению", pl:"zaleceniem", bg:"предписанието", sr:"рецепту", ro:"prescripției", lt:"paskyrimą"},
+        "samordning": {sk:"koordináciu", cs:"koordinaci", uk:"координації", ru:"координации", pl:"koordynacji", bg:"координация", sr:"координацију", ro:"coordonare", lt:"koordinacijos"}
+    }
+};
+
 const db = {
     healthcare: {
         novice: [
@@ -208,7 +245,24 @@ function showCurrentExercise() {
         const tgt = p[s.tgt] || p.se || '';
         const nat = p[s.ui] || '';
         const words = tgt.split(' ');
-        const hints = words.map(w => `<span class="word-hint" data-translation="${nat}">${w}</span>`).join(' ');
+        
+        // Word-by-word translation with dictionary lookup
+        const hints = words.map(w => {
+            // Remove punctuation for lookup (but keep in display)
+            const cleanWord = w.replace(/[,.!?;:]$/, '');
+            const punctuation = w.match(/[,.!?;:]$/) ? w.match(/[,.!?;:]$/)[0] : '';
+            
+            // Look up in dictionary
+            const dict = wordDict[s.tgt];
+            let translation = nat; // Default fallback to full phrase
+            
+            if (dict && dict[cleanWord] && dict[cleanWord][s.ui]) {
+                translation = dict[cleanWord][s.ui];
+            }
+            
+            return `<span class="word-hint" data-translation="${translation}">${w}</span>`;
+        }).join(' ');
+        
         return `<div class="phrase-item"><div class="phrase-content"><div class="phrase-target">${hints}</div><div class="phrase-native">${nat}</div></div><button class="audio-btn" onclick="speak('${tgt.replace(/'/g,"\\'")}','${s.tgt}')">🔊</button></div>`;
     }).join('');
     
@@ -280,12 +334,28 @@ function renderEx1() {
 
 function renderEx2() {
     const tx = t[s.ui];
-    const sel = s.ph.slice(0, Math.min(4, s.ph.length));
+    
+    // Filter to only use single-word phrases (Novice level)
+    const singleWords = s.ph.filter(p => {
+        const tgt = p[s.tgt] || p.se || '';
+        return tgt.split(' ').length === 1; // Only 1-word phrases
+    });
+    
+    // If not enough single words, skip this exercise
+    if (singleWords.length < 2) {
+        return '';
+    }
+    
+    const sel = singleWords.slice(0, Math.min(4, singleWords.length));
     const left = sel.map(p => p[s.tgt] || p.se || '');
-    const right = sel.map(p => p[s.ui] || '').sort(() => Math.random() - 0.5);
+    const right = sel.map(p => p[s.ui] || '');
+    
+    // Shuffle right column completely randomly - different order than left
+    const shuffledRight = [...right].sort(() => Math.random() - 0.5);
+    
     return `<div class="exercise-section"><h3>${tx.ex2}</h3><div class="match-container"><div class="match-column">${left.map((w,i) => 
         `<button class="match-btn" onclick="selM('l',${i},'${w.replace(/'/g,"\\'")}')" data-w="${w}">${w}</button>`
-    ).join('')}</div><div class="match-column">${right.map((w,i) => 
+    ).join('')}</div><div class="match-column">${shuffledRight.map((w,i) => 
         `<button class="match-btn" onclick="selM('r',${i},'${w.replace(/'/g,"\\'")}')" data-w="${w}">${w}</button>`
     ).join('')}</div></div><div id="fb2"></div></div>`;
 }
