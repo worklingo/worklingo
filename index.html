@@ -151,28 +151,47 @@ const wordDict = {
 const db = {
     healthcare: {
         novice: [
-            {se:"Läkare",sk:"Lekár",cs:"Lékař",uk:"Лікар",ru:"Врач",pl:"Lekarz",bg:"Лекар",sr:"Лекар",ro:"Doctor",lt:"Gydytojas"},
-            {se:"Sjuksköterska",sk:"Sestra",cs:"Sestra",uk:"Медсестра",ru:"Медсестра",pl:"Pielęgniarka",bg:"Сестра",sr:"Сестра",ro:"Asistentă",lt:"Slaugytoja"},
-            {se:"Patient",sk:"Pacient",cs:"Pacient",uk:"Пацієнт",ru:"Пациент",pl:"Pacjent",bg:"Пациент",sr:"Пацијент",ro:"Pacient",lt:"Pacientas"},
-            {se:"Medicin",sk:"Liek",cs:"Lék",uk:"Ліки",ru:"Лекарство",pl:"Lek",bg:"Лекарство",sr:"Лек",ro:"Medicament",lt:"Vaistas"}
+            {se:"Läkare",no:"Lege",da:"Læge",de:"Arzt",nl:"Arts",en:"Doctor",sk:"Lekár",cs:"Lékař",uk:"Лікар",ru:"Врач",pl:"Lekarz",bg:"Лекар",sr:"Лекар",ro:"Doctor",lt:"Gydytojas"},
+            {se:"Sjuksköterska",no:"Sykepleier",da:"Sygeplejerske",de:"Krankenschwester",nl:"Verpleegster",en:"Nurse",sk:"Sestra",cs:"Sestra",uk:"Медсестра",ru:"Медсестра",pl:"Pielęgniarka",bg:"Сестра",sr:"Сестра",ro:"Asistentă",lt:"Slaugytoja"},
+            {se:"Patient",no:"Pasient",da:"Patient",de:"Patient",nl:"Patiënt",en:"Patient",sk:"Pacient",cs:"Pacient",uk:"Пацієнт",ru:"Пациент",pl:"Pacjent",bg:"Пациент",sr:"Пацијент",ro:"Pacient",lt:"Pacientas"},
+            {se:"Medicin",no:"Medisin",da:"Medicin",de:"Medizin",nl:"Medicijn",en:"Medicine",sk:"Liek",cs:"Lék",uk:"Ліки",ru:"Лекарство",pl:"Lek",bg:"Лекарство",sr:"Лек",ro:"Medicament",lt:"Vaistas"},
+            {se:"Sjukhus",no:"Sykehus",da:"Hospital",de:"Krankenhaus",nl:"Ziekenhuis",en:"Hospital",sk:"Nemocnica",cs:"Nemocnice",uk:"Лікарня",ru:"Больница",pl:"Szpital",bg:"Болница",sr:"Болница",ro:"Spital",lt:"Ligoninė"},
+            {se:"Smärta",no:"Smerte",da:"Smerte",de:"Schmerz",nl:"Pijn",en:"Pain",sk:"Bolesť",cs:"Bolest",uk:"Біль",ru:"Боль",pl:"Ból",bg:"Болка",sr:"Бол",ro:"Durere",lt:"Skausmas"},
+            {se:"Blod",no:"Blod",da:"Blod",de:"Blut",nl:"Bloed",en:"Blood",sk:"Krv",cs:"Krev",uk:"Кров",ru:"Кровь",pl:"Krew",bg:"Кръв",sr:"Крв",ro:"Sânge",lt:"Kraujas"},
+            {se:"Feber",no:"Feber",da:"Feber",de:"Fieber",nl:"Koorts",en:"Fever",sk:"Horúčka",cs:"Horečka",uk:"Лихоманка",ru:"Температура",pl:"Gorączka",bg:"Треска",sr:"Грозница",ro:"Febră",lt:"Karščiavimas"},
+            {se:"Akut",no:"Akutt",da:"Akut",de:"Notfall",nl:"Urgent",en:"Emergency",sk:"Akútny",cs:"Akutní",uk:"Гострий",ru:"Срочный",pl:"Pilny",bg:"Спешен",sr:"Хитан",ro:"Urgent",lt:"Skubus"},
+            {se:"Sår",no:"Sår",da:"Sår",de:"Wunde",nl:"Wond",en:"Wound",sk:"Rana",cs:"Rána",uk:"Рана",ru:"Рана",pl:"Rana",bg:"Рана",sr:"Рана",ro:"Rană",lt:"Žaizda"},
+            {se:"Verband",no:"Bandasje",da:"Forbinding",de:"Verband",nl:"Verband",en:"Bandage",sk:"Obväz",cs:"Obvaz",uk:"Пов'язка",ru:"Повязка",pl:"Opatrunek",bg:"Превръзка",sr:"Завој",ro:"Bandaj",lt:"Tvarstis"},
+            {se:"Röntgen",no:"Røntgen",da:"Røntgen",de:"Röntgen",nl:"Röntgen",en:"X-ray",sk:"Röntgen",cs:"Rentgen",uk:"Рентген",ru:"Рентген",pl:"Rentgen",bg:"Рентген",sr:"Рендген",ro:"Radiografie",lt:"Rentgenas"},
+            {se:"Ambulans",no:"Ambulanse",da:"Ambulance",de:"Krankenwagen",nl:"Ambulance",en:"Ambulance",sk:"Sanitka",cs:"Sanitka",uk:"Швидка",ru:"Скорая",pl:"Karetka",bg:"Линейка",sr:"Хитна",ro:"Ambulanță",lt:"Greitoji"},
         ],
         beginner: [
-            {se:"God morgon",sk:"Dobré ráno",cs:"Dobré ráno",uk:"Доброго ранку",ru:"Доброе утро",pl:"Dzień dobry",bg:"Добро утро",sr:"Добро јутро",ro:"Bună dimineața",lt:"Labas rytas"},
-            {se:"Hur mår du?",sk:"Ako sa máš?",cs:"Jak se máš?",uk:"Як справи?",ru:"Как дела?",pl:"Jak się masz?",bg:"Как си?",sr:"Како си?",ro:"Ce mai faci?",lt:"Kaip laikaisi?"}
+            {se:"God morgon",no:"God morgen",da:"God morgen",de:"Guten Morgen",nl:"Goedemorgen",en:"Good morning",sk:"Dobré ráno",cs:"Dobré ráno",uk:"Доброго ранку",ru:"Доброе утро",pl:"Dzień dobry",bg:"Добро утро",sr:"Добро јутро",ro:"Bună dimineața",lt:"Labas rytas"},
+            {se:"Hur mår du?",no:"Hvordan har du det?",da:"Hvordan har du det?",de:"Wie geht es dir?",nl:"Hoe gaat het?",en:"How are you?",sk:"Ako sa máš?",cs:"Jak se máš?",uk:"Як справи?",ru:"Как дела?",pl:"Jak się masz?",bg:"Как си?",sr:"Како си?",ro:"Ce mai faci?",lt:"Kaip laikaisi?"},
         ],
         intermediate: [
-            {se:"Patienten behöver hjälp omedelbart",sk:"Pacient potrebuje pomoc okamžite",cs:"Pacient potřebuje pomoc okamžitě",uk:"Пацієнту потрібна допомога негайно",ru:"Пациенту нужна помощь немедленно",pl:"Pacjent potrzebuje pomocy natychmiast",bg:"Пациентът се нуждае от помощ незабавно",sr:"Пацијент треба помоћ одмах",ro:"Pacientul are nevoie de ajutor imediat",lt:"Pacientui reikia pagalbos nedelsiant"}
+            {se:"Patienten behöver hjälp omedelbart",no:"Pasienten trenger hjelp umiddelbart",da:"Patienten har brug for hjælp straks",de:"Der Patient braucht sofort Hilfe",nl:"De patiënt heeft onmiddellijk hulp nodig",en:"The patient needs help immediately",sk:"Pacient potrebuje pomoc okamžite",cs:"Pacient potřebuje pomoc okamžitě",uk:"Пацієнту потрібна допомога негайно",ru:"Пациенту нужна помощь немедленно",pl:"Pacjent potrzebuje pomocy natychmiast",bg:"Пациентът се нуждае от помощ незабавно",sr:"Пацијент треба помоћ одмах",ro:"Pacientul are nevoie de ajutor imediat",lt:"Pacientui reikia pagalbos nedelsiant"},
         ],
         advanced: [
-            {se:"Administrera medicinering enligt ordination och dokumentera noggrant",sk:"Podávaj lieky podľa predpisu a dokumentuj starostlivo",cs:"Podávej léky podle předpisu a dokumentuj pečlivě",uk:"Вводь ліки за призначенням та ретельно документуй",ru:"Давай лекарства по назначению и тщательно документируй",pl:"Podawaj leki zgodnie z zaleceniem i dokładnie dokumentuj",bg:"Прилагай лекарства според предписанието и документирай внимателно",sr:"Примењуј лекове према рецепту и пажљиво документуј",ro:"Administrează medicația conform prescripției și documentează cu atenție",lt:"Duok vaistus pagal paskyrimą ir kruopščiai dokumentuok"}
-        ]
+            {se:"Administrera medicinering enligt ordination och dokumentera noggrant",no:"Administrer medisinering i henhold til resept og dokumenter nøye",da:"Administrer medicin ifølge recept og dokumenter omhyggeligt",de:"Verabreichen Sie Medikamente gemäß Verschreibung und dokumentieren Sie sorgfältig",nl:"Dien medicatie toe volgens voorschrift en documenteer zorgvuldig",en:"Administer medication according to prescription and document carefully",sk:"Podávaj lieky podľa predpisu a dokumentuj starostlivo",cs:"Podávej léky podle předpisu a dokumentuj pečlivě",uk:"Вводь ліки за призначенням та ретельно документуй",ru:"Давай лекарства по назначению и тщательно документируй",pl:"Podawaj leki zgodnie z zaleceniem i dokładnie dokumentuj",bg:"Прилагай лекарства според предписанието и документирай внимателно",sr:"Примењуј лекове према рецепту и пажљиво документуј",ro:"Administrează medicația conform prescripției și documentează cu atenție",lt:"Duok vaistus pagal paskyrimą ir kruopščiai dokumentuok"},
+        ],
     },
     construction: {
-        novice: [{se:"Hammare",sk:"Kladivo",cs:"Kladivo",uk:"Молоток",ru:"Молоток",pl:"Młotek",bg:"Чук",sr:"Чекић",ro:"Ciocan",lt:"Plaktukas"}],
-        beginner: [{se:"Säkerhet först alltid",sk:"Bezpečnosť najprv vždy",cs:"Bezpečnost nejprve vždy",uk:"Безпека спочатку завжди",ru:"Безопасность сначала всегда",pl:"Bezpieczeństwo najpierw zawsze",bg:"Безопасност първо винаги",sr:"Безбедност прво увек",ro:"Siguranță mai întâi întotdeauna",lt:"Saugumas pirmiausia visada"}],
-        intermediate: [{se:"Kontrollera nivån noggrant",sk:"Skontroluj úroveň starostlivo",cs:"Zkontroluj úroveň pečlivě",uk:"Перевір рівень ретельно",ru:"Проверь уровень тщательно",pl:"Sprawdź poziom dokładnie",bg:"Провери нивото внимателно",sr:"Провери ниво пажљиво",ro:"Verifică nivelul cu atenție",lt:"Patikrink lygį kruopščiai"}],
-        advanced: [{se:"Projektledningen kräver omfattande samordning dagligen",sk:"Projektové riadenie vyžaduje rozsiahlu koordináciu denne",cs:"Projektové řízení vyžaduje rozsáhlou koordinaci denně",uk:"Управління проектом вимагає всебічної координації щодня",ru:"Управление проектом требует всесторонней координации ежедневно",pl:"Zarządzanie projektem wymaga szerokiej koordynacji codziennie",bg:"Управлението на проекта изисква обширна координация ежедневно",sr:"Управљање пројектом захтева свеобухватну координацију дневно",ro:"Managementul proiectului necesită coordonare extinsă zilnic",lt:"Projekto valdymas reikalauja išsamios koordinacijos kasdien"}]
+        novice: [
+            {se:"Hammare",no:"Hammer",da:"Hammer",de:"Hammer",nl:"Hamer",en:"Hammer",sk:"Kladivo",cs:"Kladivo",uk:"Молоток",ru:"Молоток",pl:"Młotek",bg:"Чук",sr:"Чекић",ro:"Ciocan",lt:"Plaktukas"},
+        ],
+        beginner: [
+            {se:"Säkerhet först alltid",no:"Sikkerhet først alltid",da:"Sikkerhed først altid",de:"Sicherheit immer zuerst",nl:"Veiligheid eerst altijd",en:"Safety first always",sk:"Bezpečnosť najprv vždy",cs:"Bezpečnost nejprve vždy",uk:"Безпека спочатку завжди",ru:"Безопасность сначала всегда",pl:"Bezpieczeństwo najpierw zawsze",bg:"Безопасност първо винаги",sr:"Безбедност прво увек",ro:"Siguranță mai întâi întotdeauna",lt:"Saugumas pirmiausia visada"},
+        ],
+        intermediate: [
+            {se:"Kontrollera nivån noggrant",no:"Kontroller nivået nøye",da:"Kontroller niveauet omhyggeligt",de:"Überprüfen Sie die Ebene sorgfältig",nl:"Controleer het niveau zorgvuldig",en:"Check the level carefully",sk:"Skontroluj úroveň starostlivo",cs:"Zkontroluj úroveň pečlivě",uk:"Перевір рівень ретельно",ru:"Проверь уровень тщательно",pl:"Sprawdź poziom dokładnie",bg:"Провери нивото внимателно",sr:"Провери ниво пажљиво",ro:"Verifică nivelul cu atenție",lt:"Patikrink lygį kruopščiai"},
+        ],
+        advanced: [
+            {se:"Projektledningen kräver omfattande samordning dagligen",no:"Prosjektledelsen krever omfattende koordinering daglig",da:"Projektledelsen kræver omfattende koordinering dagligt",de:"Das Projektmanagement erfordert täglich umfassende Koordination",nl:"Projectmanagement vereist dagelijks uitgebreide coördinatie",en:"Project management requires extensive coordination daily",sk:"Projektové riadenie vyžaduje rozsiahlu koordináciu denne",cs:"Projektové řízení vyžaduje rozsáhlou koordinaci denně",uk:"Управління проектом вимагає всебічної координації щодня",ru:"Управление проектом требует всесторонней координации ежедневно",pl:"Zarządzanie projektem wymaga szerokiej koordynacji codziennie",bg:"Управлението на проекта изисква обширна координация ежедневно",sr:"Управљање пројектом захтева свеобухватну координацију дневно",ro:"Managementul proiectului necesită coordonare extinsă zilnic",lt:"Projekto valdymas reikalauja išsamios koordinacijos kasdien"},
+        ],
     }
+};
+
 };
 
 let s = {ui:'',tgt:'',ind:'',lvl:'',ph:[],sl:null,sr:null,currentEx:0};
